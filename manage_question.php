@@ -152,7 +152,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
 
 
 $label["client_id"]             = "Cliente";
-$clients                        = $backend->getClientList();
+$clients                        = $backend->getClientList(array(), "1");
 ?>
 
 <!DOCTYPE html>

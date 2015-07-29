@@ -14,6 +14,8 @@ if (isset($_POST["login"])){
         $message = "<div class='error'>{$label["Datos incorrectos"]}</div>";
     }else{
         $_SESSION["logged"] = 1;
+        unset($user["user"]["1"]["password"]);
+        unset($user["user"]["1"]["email"]);
         $_SESSION["app-user"] = $user;
         header("Location: ./index.php");
         exit();

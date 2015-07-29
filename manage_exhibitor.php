@@ -155,7 +155,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $action = "add";    
 }
 
-$category   = $backend->getCategoryList($eventId, array(), 1);
+$category   = $backend->getCategoryList();
 $types       = array();
 foreach ($category as $k=>$v){
     $types[$v["category_id"]] = $v["type"];

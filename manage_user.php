@@ -14,13 +14,14 @@ $columns = $backend->getColumnsTable("user");
 
 //Obtener los clientes actuales
 $clients    = $backend->getClientList(array(), "1");
-$sections   = $backend->getMenu();
+$sections   = $backend->getMenu("cliente", "menu");
 
 $label["client_id"] = "Cliente";
 $id         = $message  = $error    = "";
 $user       = "";
 $section    = "user";
 
+print_r($_SESSION);
 
 //Agregar nuevo usuario
 if (isset($_POST["add"]) || isset($_POST["edit"])){
@@ -126,6 +127,7 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
             $id             = $backend->clean($_POST["id"]);
             if ($en["client_id"] == "") unset($en["client_id"]);
             $rid            = @$backend->updateRow($section, $en, " user_id = '$id' ");
+            
             if ($rid > 0) { 
                 /* Permisologia */
                 //3 casos posibles.. Si se esta editando a administrador borrar posibles permisos anteriores
@@ -143,6 +145,14 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
                         }
                     }
                 }
+                if ($_SESSION["app-user"]["user"]["1"]["user_id"] == $id){
+                     //Verificar si el usuario se está editando a sí mismo
+                    $_SESSION["app-user"]["user"]["1"]                  = $backend->getUserInfo($id);
+                    $_SESSION["app-user"]["user"]["1"]["client_name"]   = $backend->getClient($id)["name"];
+                    
+                    if ($_POST["type"] == "cliente")     $_SESSION["app-user"]["permission"]  = $backend->getPermission($id);
+                }
+          
                $_SESSION["message"] = "<div class='succ'>".$label["Usuario editado exitosamente"] ."</div>";
                header("Location: ./users.php");
                exit();
@@ -314,10 +324,10 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                         <td>
                             <?= (isset($label[$v["name"]])) ? $label[$v["name"]]: ucfirst($v["name"]) ?>
                         </td>
-                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_create" <?= (@$permissions["section"][$v["section_id"]]["create"] == "1")? "checked": ""?>/></td>
-                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_read" <?= (@$permissions["section"][$v["section_id"]]["read"] == "1")? "checked": ""?>/></td>
-                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_update" <?= (@$permissions["section"][$v["section_id"]]["update"] == "1")? "checked": ""?>/></td>
-                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_delete" <?= (@$permissions["section"][$v["section_id"]]["delete"] == "1")? "checked": ""?>/></td>
+                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_create" <?= (isset($permissions["section"]) && $permissions["section"][$v["section_id"]]["create"] == "1")? "checked": ""?>/></td>
+                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_read" <?=   (isset($permissions["section"]) && $permissions["section"][$v["section_id"]]["read"] == "1")? "checked": ""?>/></td>
+                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_update" <?= (isset($permissions["section"]) && $permissions["section"][$v["section_id"]]["update"] == "1")? "checked": ""?>/></td>
+                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_delete" <?= (isset($permissions["section"]) &&  $permissions["section"][$v["section_id"]]["delete"] == "1")? "checked": ""?>/></td>
                     </tr>
                 <?php } ?>
             
@@ -336,7 +346,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
             
         </form>
     </div>
-    <?php if (isset($user["type"]) && $user["type"] == "administrador" || !isset($user["type"])){ ?>
+    <?php if ($user["type"] == "administrador"){ ?>
         <style>
         tr.client_id {
           display: none;

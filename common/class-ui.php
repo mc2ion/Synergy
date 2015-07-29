@@ -188,6 +188,7 @@ class ui  {
     
    function buildPagination($currentPage, $total_pages, $includeCss=1, $adjacents=3) {
         $total_pages = ceil($total_pages);
+        $out = "";
         if ($total_pages > 1){
             if ($currentPage == "") $currentPage = 1;
             $labels = array("first" => "&lsaquo;&lsaquo;", "prev"=> "&lsaquo;", "next"=>"&rsaquo;", "last"=>"&rsaquo;&rsaquo;" );
@@ -215,7 +216,7 @@ class ui  {
     
     private function buildUrl($page){
         $params = $_GET;
-        $params[fireUI][currentPage] = $page;
+        $params["fireUI"]["currentPage"] = $page;
         $paramString = http_build_query($params);
         return $paramString;
     }  

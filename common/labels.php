@@ -84,6 +84,7 @@ $label["last_name"]                     = "Apellido";
 $label["email"]                         = "Correo Electrónico";
 $label["password"]                      = "Contraseña";
 $label["type"]                          = "Tipo";
+$label["client"]                        = "Cliente";
 $label["photo_path"]                    = "Imagen";
 $label["Editar Usuario"]                = "Editar Usuario";
 $label["Crear Usuario"]                 = "Crear Usuario";

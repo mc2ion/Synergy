@@ -14,7 +14,7 @@ if ($_SESSION["app-user"]["user"][1]["type"] == "client" && $_SESSION["app-user"
 //Obtener las columnas a editar/crear
 $section    = "session"; 
 $columns    = $backend->getColumnsTable($section);
-$rooms      = $backend->getRoomList($_SESSION["data"]["evento"]);
+$rooms      = $backend->getRoomList($_SESSION["data"]["evento"], array(), "1");
 $id         = $message  = $error    = "";
 
 

@@ -17,7 +17,7 @@ $clientId   = $_SESSION["data"]["cliente"];
 //Obtener las columnas a editar/crear
 $section    = "speaker"; 
 $columns    = $backend->getColumnsTable($section);
-$sessions   = $backend->getSessionList($eventId, array(), 1);
+$sessions   = $backend->getSessionList($eventId, array(), "1", "1");
 $id         = $message  = $error    = "";
 
 //Agregar nuevo speaker
@@ -238,7 +238,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                     <?php if ($action == "edit" && ($_SESSION["app-user"]["user"][1]["type"] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
                     <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
-                    <a href="./sessions.php"><?= $label["Volver"]?></a>
+                    <a href="./speakers.php"><?= $label["Volver"]?></a>
                 </td>
             </tr>
             

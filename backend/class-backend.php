@@ -12,7 +12,7 @@ class backend extends db{
     function __construct($label){
         $this->label = $label;
         parent::__construct();
-        $this->app["perPage"] = 100;
+        $this->app["perPage"] = 1;
     }
     
     function login($params){
@@ -97,8 +97,12 @@ class backend extends db{
     }
     
     function getClientList($noShow=array(), $menu=1){
-        $q      = @$this->select("client","*", "active='1'", "client_id", 0, $this->app["perPage"], "", $_GET["fireUI"]);
-        $out    = "";
+        if ($menu == 1){
+            $query = "SELECT * from $this->schema.client WHERE active = '1' order by client_id asc";
+            $q      = $this->dbQuery($query);
+        }else{ 
+            $q      = @$this->select("client","*", "active='1'", "client_id", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+        }$out    = "";
         if ($menu) return $q;
         if ($menu == "0" && $q){
             foreach($q as $k=>$v){
@@ -191,8 +195,14 @@ class backend extends db{
     }
     
     /** Seccion rooms **/
-    function getRoomList($eventId, $noshow=array()){
-        $q      = @$this->select("room", "*", "active='1' AND event_id ='$eventId'", "room_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+    function getRoomList($eventId, $noshow=array(), $all="0"){
+        if ($all == "1"){
+            $query  = "SELECT * from $this->schema.room WHERE event_id ='$eventId' order by room_id asc";
+            $q     = $this->dbQuery($query);
+        }
+        else{
+            $q      = @$this->select("room", "*", "active='1' AND event_id ='$eventId'", "room_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+        }
         $out    = "";
         if ($q){
             foreach($q as $k=>$v){
@@ -201,7 +211,7 @@ class backend extends db{
                         $out[$k][$sk] = $sv;
                     } 
                 }
-                if ($_SESSION["app-user"]["user"][1]["type"] == "administrador" || $_SESSION["app-user"]["permission"]["5"]["update"] == "1"){
+                if ($_SESSION["app-user"]["user"][1]["type"] == "administrador" || $_SESSION["app-user"]["permission"]["4"]["update"] == "1"){
                     $out[$k]["action"] = "<a href='./manage_room.php?id={$v["room_id"]}'>{$this->label["Editar"]}</a>";
                 }
             }
@@ -212,7 +222,7 @@ class backend extends db{
     function existsRoom($name, $id=""){
         $cond = "";
         if ($id != "") $cond = "AND room_id != '$id'";
-        $query = "SELECT name from $this->schema.room WHERE name='$name' AND active='1' $cond ";
+        $query = "SELECT name from $this->schema.room WHERE name='$name' AND active='1' AND event_id = '{$_SESSION["data"]["evento"]}' $cond ";
         $q     = $this->dbQuery($query);
         if ($q) return true;
         return false;
@@ -225,8 +235,14 @@ class backend extends db{
     }
     
     /** Seccion Sessiones **/
-     function getSessionList($eventId, $noShow=array(), $simple="0"){
-        $q      = @$this->select("session t1 left join room t2 on t1.room_id = t2.room_id", "t1.*, t2.name", "t1.active='1' AND t1.event_id ='$eventId'", "t1.session_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+     function getSessionList($eventId, $noShow=array(), $simple="0", $all="0"){
+        if ($all == "1"){
+            $query = "SELECT t1.*, t2.name from $this->schema.session t1 left join $this->schema.room t2 on t1.room_id = t2.room_id WHERE t1.active='1' AND t1.event_id ='$eventId'";
+            $q     = $this->dbQuery($query);
+        }
+        else{
+            $q      = @$this->select("session t1 left join room t2 on t1.room_id = t2.room_id", "t1.*, t2.name", "t1.active='1' AND t1.event_id ='$eventId'", "t1.session_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+        }
         $out    = "";
         if ($simple == "0"){
             if ($q){
@@ -277,7 +293,7 @@ class backend extends db{
                 unset( $out[$k]["client_id"]);
                 unset( $out[$k]["name"]);
                 //Verificar que el usuario puede ver la seccion
-                if ($_SESSION["app-user"]["user"][1]["type"] == "administrador" || $_SESSION["app-user"]["permission"]["1"]["update"] == "1"){
+                if ($_SESSION["app-user"]["user"]["1"]["type"] == "administrador" || @$_SESSION["app-user"]["permission"]["1"]["update"] == "1"){
                     $out[$k]["action"] = "<a href='./manage_user.php?id={$v["user_id"]}'>{$this->label["Editar"]}</a>";
                 }
             }
@@ -348,8 +364,9 @@ class backend extends db{
         return $out;
     }
     
-    function getCategoryList($noShow){
-        $q      = @$this->select("category", "*", "active = '1'", "category_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+    function getCategoryList(){
+        $query  = "SELECT * from $this->schema.category where active = '1' order by category_id asc" ; 
+        $q      = $this->dbQuery($query);
         return $q;
     }
     
@@ -444,9 +461,9 @@ class backend extends db{
         //Obtener detalles de la sesion
         $query = "SELECT R.name , S.TITLE AS session_title, S.DATE AS date, S.SPEAKER AS speaker, 
                 S.TIME AS time,
-                COUNT(RE.REVIEW_ID) AS reviewers, SUM(RE.RANKING)/COUNT(RE.REVIEW_ID) AS ranking
-                FROM SESSION S, ROOM R, REVIEW RE
-                WHERE S.SESSION_ID = '$sessionId' AND S.ACTIVE = 1 AND S.ROOM_ID = R.ROOM_ID AND S.SESSION_ID = RE.SESSION_ID";
+                COUNT(RE.review_id) AS reviewers, SUM(RE.ranking)/COUNT(RE.review_id) AS ranking
+                FROM session S, room R, review RE
+                WHERE S.session_id = '$sessionId' AND S.active = 1 AND S.room_id = R.room_id AND S.session_id = RE.session_id";
         $q["details"]      = $this->dbQuery($query);
         if ($q["details"]){
             foreach($q["details"] as $k=>$v){
@@ -456,10 +473,10 @@ class backend extends db{
         }
         
         //Obtener detalles de las votacion
-        $query =    "SELECT R.ranking, COUNT(R.REVIEW_ID) AS reviewers
-                    FROM REVIEW R
-                    WHERE R.SESSION_ID = '$sessionId'
-                    GROUP BY R.RANKING ASC";
+        $query =    "SELECT R.ranking, COUNT(R.review_id) AS reviewers
+                    FROM review R
+                    WHERE R.session_id = '$sessionId'
+                    GROUP BY R.ranking ASC";
         $r     =    $this->dbQuery($query);
         foreach($r as $k=>$v){
             $q["reviews"][$v["ranking"]] = $v;
@@ -467,18 +484,25 @@ class backend extends db{
         
         //Obtener comentarios
         $query              =  "SELECT R.ranking, R.comment
-                                FROM REVIEW R
-                                WHERE R.SESSION_ID = '$sessionId' AND R.COMMENT IS NOT NULL";       
+                                FROM review R
+                                WHERE R.session_id = '$sessionId' AND R.comment IS NOT NULL";       
         $q["comments"]      = $this->dbQuery($query);
         return $q;
     }
     
     /*Evaluaciones*/
     function getReviewList($noShow=array()){
-         $q      = @$this->select("review t1 left join session t2 on t1.session_id = t2.session_id ", 
+        $eventId = $_SESSION["data"]["evento"];
+        $query   = "SELECT t1.session_id, t2.title, t2.speaker, t2.time 
+                    FROM review t1 left join session t2 on t1.session_id = t2.session_id 
+                    WHERE t2.active = '1' AND t2.event_id = '$eventId' ORDER BY t1.session_id asc";
+        $q       = $this->dbQuery($query);         
+                    
+        /*$q      = @$this->select("review t1 left join session t2 on t1.session_id = t2.session_id ", 
                                 "t1.session_id, t2.title, t2.speaker, t2.time", 
                                 "t2.active = '1'", 
-                                "session_id asc", 0, $this->app["perPage"], "GROUP BY session_id", $_GET["fireUI"]);
+                                "t1.session_id asc", 0, $this->app["perPage"], "GROUP BY t1.session_id", $_GET["fireUI"]);
+        */
         $out     = "";
         if ($q){
             foreach($q as $k=>$v){
@@ -492,7 +516,7 @@ class backend extends db{
                 $out[$k]["action"]  = "<a href='./review_report.php?id={$v["session_id"]}'>{$this->label["Ver Resultados"]}</a>";
             }
         }   
-        
+        //$this->app["count"] = count($q);
         return $out;
         
     }
@@ -507,7 +531,11 @@ class backend extends db{
         
         $where = trim($where)==""? "1=1":$where;
         $query = "select $fields from $table where $where $filter $group order by $order limit $from, $size";
-        return $this->dbQuery($query);
+        $count = "select count(*) as count from $table where $where $filter $group order by $order";
+        $q  = $this->dbQuery($query);
+        $r  = $this->dbQuery($count);
+        $this->app["count"] = $r["1"]["count"];
+        return $q;
     }
 
     function insertRow($table, $data){
