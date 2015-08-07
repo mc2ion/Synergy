@@ -110,7 +110,8 @@ class backend extends db{
         $id     = $this->clean($id);
         $query  = "SELECT * from $this->schema.client WHERE client_id='$id'";
         $q      = $this->dbQuery($query);
-        return $q[1];
+        if ($q)   return $q[1];
+        else return $q;
     }
     
     function getClientList($noShow=array(), $menu=1){

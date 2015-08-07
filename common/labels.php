@@ -217,4 +217,5 @@ $label["Contraseña nueva"]                                      = "Nueva contra
 $label["Ingrese su contraseña actual"]                          = "Ingrese su contraseña actual";
 $label["Ingrese su nueva contraseña"]                           = "Ingrese su nueva contraseña";
 $label["La nueva contraseña debe tener al menos 4 caracteres"]  = "La nueva contraseña debe tener al menos 4 caracteres";
+$label["Editar perfil de usuario"]                              = "Editar perfil de usuario";
 ?>

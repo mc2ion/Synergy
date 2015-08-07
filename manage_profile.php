@@ -5,17 +5,15 @@
 */
 include ("./common/common-include.php");
 
-if (!isset($_GET["id"])) {header("Location: ./index.php"); exit();}
-
 //Obtener las columnas a editar/crear
 $columns = $backend->getColumnsTable("user");
-unset($columns["8"]);
 
-$label["client_id"] = "Cliente";
+
 $id         = $message  = $error    =  $cond = "";
 $user       = "";
 $en         = array();
-$section    = "user";
+$section    = "profile";
+
 
 
 //Agregar nuevo usuario
@@ -44,12 +42,6 @@ if (isset($_POST["edit"])){
         }
     }
 
-    //Eliminar contraseña ya que ese valor no va si se esta editando
-    if (isset($_POST["edit"])){
-        unset($columns[5]);
-    }
-
-
     //Guardar en bd el usuario
     foreach ($columns as $k=>$v) {
         if (isset($input[$section]["manage"]["mandatory"])){
@@ -67,7 +59,7 @@ if (isset($_POST["edit"])){
                             $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
                         }
                     }
-                }else if ($v["COLUMN_NAME"] != "photo_path" ){
+                }else if ($v["COLUMN_NAME"] != "photo_path" && $v["COLUMN_NAME"] != "email" && $v["COLUMN_NAME"] != "password" ){
                     $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
                 }
             }
@@ -75,7 +67,7 @@ if (isset($_POST["edit"])){
     }
 
     //Verificar que el correo no exista ya.
-    if (isset($_POST["add"]) && isset($en["email"])){
+    /*if (isset($_POST["add"]) && isset($en["email"])){
         $cond = "email = '{$en["email"]}'";
     }else if (isset($_POST["edit"]) && isset($en["email"])){
         $cond = "email = '{$en["email"]}' AND user_id != '{$_POST["id"]}'";
@@ -85,68 +77,44 @@ if (isset($_POST["edit"])){
             $message    .= "<div class='error'>".$label["El correo ingresado ya existe"]. "</div>";
             $error = 1;
         }
-    }
+    }*/
 
     if (!$error){
-
         $id             = $backend->clean($_POST["id"]);
-        if ($en["client_id"] == "") unset($en["client_id"]);
-        //Si estoy cambiando de "cliente" a "administrador" debo borrar los permisos
-        if ($typeUser[$en["type"]] == "administrador") { $en["client_id"] = null;}
-        $rid            = @$backend->updateRow($section, $en, " user_id = '$id' ");
-
+        $rid            = @$backend->updateRow("user", $en, " user_id = '$id' ");
         if ($rid > 0) {
-            /* Permisologia */
-            //2 casos posibles. Si se esta editando a administrador borrar posibles permisos anteriores
-            if ($typeUser[$en["type"]] == "administrador"){
-                //Si estoy cambiando de "cliente" a "administrador" debo borrar los permisos
-                $backend->deleteRow("permission", "user_id = '$id' ");
-            }else{
-                $permissions = $backend->getPermission($id);
-                foreach ($p["section"] as $k=>$v){
-                    $v["user_id"] = $id;
-                    //Si es cliente hay que editar permisos anteriormente (si los tiene)
-                    if ($permissions != ""){
-                        $backend->updateRow("permission", $v, " section_id = '{$v["section_id"]}' AND user_id='$id'");
-                    }
-                    //Sino tiene permisos asociados, crearlos
-                    else{
-                        $backend->insertRow("permission", $v);
-                    }
-                }
-            }
-            if ($_SESSION["app-user"]["user"]["1"]["user_id"] == $id){
-                //Verificar si el usuario se está editando a sí mismo
-                $_SESSION["app-user"]["user"]["1"]                  = $backend->getUserInfo($id);
-                $_SESSION["app-user"]["user"]["1"]["client_name"]   = $backend->getClient($id)["name"];
-                if ($_POST["type"] == "cliente")     $_SESSION["app-user"]["permission"]  = $backend->getPermission($id);
-            }
+            $_SESSION["app-user"]["user"]["1"]                  = $backend->getUserInfo($id);
+            $_SESSION["app-user"]["user"]["1"]["client_name"]   = @$backend->getClient($id)["name"];
+            $_SESSION["app-user"]["user"]["1"]["logo_path"]     = @$backend->getClient($id)["logo_path"];
 
-            $_SESSION["message"] = "<div class='succ'>".$label["Usuario editado exitosamente"] ."</div>";
-            header("Location: ./users.php");
-            exit();
+
+            /*if ($_SESSION["app-user"]["user"]["1"]["user_id"] == $id){
+                //Verificar si el usuario se está editando a sí mismo
+                if ($_POST["type"] == "cliente")     $_SESSION["app-user"]["permission"]  = $backend->getPermission($id);
+            }*/
+
+            $message = "<div class='succ'>".$label["Usuario editado exitosamente"] ."</div>";
+
         }else{
             $message = "<div class='error'>".$label["Hubo un problema con la edición"]. "</div>";
         }
     }else{
         if (isset($missing)) $message    .= "<div class='error'>".$label["Por favor ingrese todos los datos requeridos"]. "</div>";
         $user                             = $en;
-        $permissions                      = $p;
     }
-
 }
 
 
 //Si el parametro id esta definido, estamos editando la entrada
-if (isset($_GET["id"]) && $_GET["id"] > 0 ){
-    $id             = $backend->clean($_GET["id"]);
-    $title          = $label["Editar Usuario"];
+if (isset($_SESSION["app-user"]["user"][1])){
+    $id             = $backend->clean($_SESSION["app-user"]["user"]["1"]["user_id"]);
+    $title          = $label["Editar perfil de usuario"];
     $action         = "edit";
     if (!$error)  {
-        $user         = $backend->getUserInfo($_GET["id"]);
+        $user         = $backend->getUserInfo($id);
         if (!$user){
-            $_SESSION["message"] = "<div class='error'>".$label["Usuario no encontrado"] ."</div>";
-            header("Location: ./users.php");
+            //$_SESSION["message"] = "<div class='error'>".$label["Usuario no encontrado"] ."</div>";
+            header("Location: ./index.php");
             exit();
         }
     }
@@ -170,14 +138,15 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
     <?= my_header()?>
 </head>
 <body>
-<?= menu("usuarios"); ?>
+<?= menu(); ?>
 <div class="content">
     <div class="title-manage"><?= $title?></div>
     <?= $message ?>
+    <div style="clear: both;"></div>
     <form id="form" method="post" enctype="multipart/form-data">
         <?php if ($action == "edit") {?>
             <input type="hidden" name="img" value="<?=  $client["logo_path"]?>" />
-            <input type="hidden" name="id"  value="<?=  $_GET["id"]?>" />
+            <input type="hidden" name="id"  value="<?= $id ?>" />
         <?php } ?>
         <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
@@ -187,6 +156,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                     $value = (isset($user[$v["COLUMN_NAME"]])) ? $user[$v["COLUMN_NAME"]] : "";
                     if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
                     else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}
+                    $disabled = ""; if ($v["COLUMN_NAME"] == "email" || $v["COLUMN_NAME"] == "password" ) $disabled = "disabled";
                     ?>
 
                     <?php // Se hace la verificacion del tipo del input para cada columna ?>
@@ -197,7 +167,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                             <?php
                             if ($type == ""){
                                 ?>
-                                <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?=$classMand?> />
+                                <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?=$classMand?> <?= $disabled?> />
                                 <?php // Tipo File. Se muestra un input file ?>
                             <?php } else if ($type == "file") {
                                 ?>
@@ -213,7 +183,8 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                                 <textarea name="<?= $v["COLUMN_NAME"]?>" <?=$classMand?>><?= $value?></textarea>
                                 <?php // Tipo password. ?>
                             <?php } else if ($type== "password") { ?>
-                                <input type="password" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value?>" autocomplete="off" <?=$classMand?>/>
+                                <input type="password" name="<?= $v["COLUMN_NAME"]?>" value="**********" autocomplete="off" <?=$classMand?> <?= $disabled?>/>
+                                <a class="pass add" href="./manage_password.php"><?= $label["Cambiar contraseña"]?></a>
                                 <?php // Tipo select. Se muestra un select con sus opciones ?>
                             <?php } else if ($type == "select") { ?>
                                 <?php if ($v["COLUMN_NAME"] == "client_id"){?>
@@ -252,15 +223,9 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td></td>
                 <td class="action" colspan="4">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
-                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
-                        <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
-                    <?php } ?>
-                    <a href="./users.php"><?= $label["Cancelar"]?></a>
                 </td>
             </tr>
-
         </table>
-
     </form>
 </div>
 </body>

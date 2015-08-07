@@ -38,7 +38,7 @@ function top_bar($user){
     $out .= '   <div class="subm">
                     <div class="arrow-up"></div>
                     <ul class="sbm ">
-                        <li class="sbm"><a class="w" rel="nofollow" href="./manage_profile.php?id='.$user["user_id"].'">'.$label["Perfil de Usuario"].'</a></li>
+                        <li class="sbm"><a class="w" rel="nofollow" href="./manage_profile.php">'.$label["Perfil de Usuario"].'</a></li>
                     </ul>
                 </div>
             </div>';

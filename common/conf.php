@@ -34,7 +34,13 @@ $general["user"]["image_folder"]                        = "files/user/";
 $general["user"]["image_format"]                        = array("png");
 $general["user"]["image_size"]                          = "50000"; //Bytes
 $general["user"]["image_width"]                         = "300";  //px
-$general["user"]["image_height"]                        = "300"; 
+$general["user"]["image_height"]                        = "300";
+
+$general["profile"]["image_folder"]                        = "files/user/";
+$general["profile"]["image_format"]                        = array("png");
+$general["profile"]["image_size"]                          = "50000"; //Bytes
+$general["profile"]["image_width"]                         = "300";  //px
+$general["profile"]["image_height"]                        = "300";
 
 $general["speaker"]["image_folder"]                     = "files/speaker/";
 $general["speaker"]["image_format"]                     = array("png");
@@ -73,6 +79,13 @@ $input["user"]["manage"]["password"]["type"]            = "password"; //Aqui def
 $input["user"]["manage"]["type"]["options"]             = array("Super Usuario"=>"Super Usuario", "Supervisor"=>"Supervisor" ); // Al ser "type" un input select tenemos que definir las opciones a mostrar
 $input["user"]["manage"]["client_id"]["type"]           = "select";
 $input["user"]["list"]["no-show"]                       = array("user_id", "password", "photo_path"); // Aqui van aquellos campos que no queremos que se muestren en el listado.
+
+/** Perfil de Usuario **/
+$input["profile"]["manage"]["mandatory"]                   = array("first_name", "last_name"); // Aqui van todos los campos obligatorios.
+$input["profile"]["manage"]["no-show"]                     = array("user_id", "client_id", "type"); // Aqui van aquellos campos que no queremos que se muestren a la hora de editar/crear porque no son editables y no se requiere que el usuario los maneje.
+$input["profile"]["manage"]["password"]["type"]            = "password";
+$input["profile"]["manage"]["photo_path"]["type"]          = "file"; //Aqui definimos los campos que van a tener un input diferente a "text" que es el usado por defecto
+
 
 /** Cliente **/
 $input["client"]["manage"]["mandatory"]                 = "*";

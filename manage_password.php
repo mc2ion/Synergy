@@ -55,6 +55,7 @@ if(isset($_POST["edit"])){
                 <td></td>
                 <td class="action">
                     <input type="submit" name="edit" value="<?= $label["Guardar"]?>" />
+                    <a href="./manage_profile.php"><?= $label["Volver"]?></a>
                 </td>
             </tr>
             </table>
