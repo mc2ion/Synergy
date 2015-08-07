@@ -5,7 +5,7 @@
 */
 include ("./common/common-include.php");
 //Verificar que el usuario tiene  permisos
-$sectionId = 2;
+$sectionId = "1";
 if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente"){ header("Location: ./index.php"); exit();}
 
 
@@ -13,7 +13,6 @@ if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente"){ header("L
 $columns = $backend->getColumnsTable("client");
 $id      =  $message =  $error = $client =  $en = "";
 $section = "client";
-
 
 //Agregar nuevo cliente
 if (isset($_POST["add"]) || isset($_POST["edit"])){
@@ -67,7 +66,12 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
             }
        }
    }
-   
+
+
+    //Calcular color secundario
+    //$en["secondary_color"]  ''
+
+
    
    if (!$error){
        if (isset($_POST["add"])){
@@ -156,6 +160,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
 <html lang="en">
   <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
      <?= my_header()?>
+      <script type="text/javascript" src="./js/colorPicker/jscolor.js"></script>
       <script>
           $(function() {
             $( "#dialog-confirm" ).dialog({
@@ -204,7 +209,9 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                         $value = (isset($client[$v["COLUMN_NAME"]])) ? $client[$v["COLUMN_NAME"]] : "";
                         if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
                         else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}        
-          
+                        $class = $classMand;
+                        if ($v["COLUMN_NAME"] == "primary_color1" || $v["COLUMN_NAME"] == "primary_color2") $class="class= 'color {hash:true} ".substr($classMand,7, 9)."'";
+
             ?>
                     
                 <?php // Se hace la verificacion del tipo del input para cada columna ?>
@@ -215,14 +222,14 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?= $classMand?> />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?= $class?>  />
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ($type == "file") { 
                     ?>
                         <?php if ($value != "") {?>
                             <img class='manage-image' src='./<?=$value?>'/>
                         <?php } ?>
-                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>/>
+                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?> />
                         <img src="./images/info.png" class="information" alt="Información" />
                         <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
                  <?php // Tipo textarea. Se muestra un textarea ?>
@@ -237,7 +244,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                                 <?php foreach ($options as $sk=>$sv){
                                     $selected=""; if($value == $sk) $selected = "selected";
                                     ?>
-                                    <option value="<?=$sk?>"><?= $sv?></option>
+                                    <option value="<?=$sk?>" <?= $selected ?>><?= $sv?></option>
                                 <?php }?>
                             </select>
                     <?php } ?>

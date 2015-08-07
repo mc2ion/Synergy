@@ -12,44 +12,44 @@ a almacenar las imagenes entre otros.
 */
 
 $general["client"]["image_folder"]                      = "files/client/";
-$general["client"]["image_format"]                      = array("png"); //Aqui van definidos todos los tipo de imagenes permitidos para la sección correspondiente
+$general["client"]["image_format"]                      = array("png", "jpg"); //Aqui van definidos todos los tipo de imagenes permitidos para la sección correspondiente
 $general["client"]["image_size"]                        = "50000"; //Aqui van definido el tamaño maximo permitido para la imagen en Bytes
 $general["client"]["image_width"]                       = "300";   //Aqui van definido el ancho maximo permitido para la imagen en px
 $general["client"]["image_height"]                      = "300";   //Aqui van definido la altura maxima permitido para la imagen en px
 
 $general["event"]["image_folder"]                       = "files/event/";
-$general["event"]["image_format"]                       = array("png");
+$general["event"]["image_format"]                       = array("png", "jpg");
 $general["event"]["image_size"]                         = "400000"; //Bytes
 $general["event"]["image_width"]                        = "2560";  //px
 $general["event"]["image_height"]                       = "1440"; 
 $general["event"]["image_type"]                         = "rectangle"; // Si es cuadrada no hace falta indicarlo 
 
 $general["session"]["image_folder"]                     = "files/session/";
-$general["session"]["image_format"]                     = array("png");
+$general["session"]["image_format"]                     = array("png", "jpg");
 $general["session"]["image_size"]                       = "50000"; //Bytes
 $general["session"]["image_width"]                      = "300";  //px
 $general["session"]["image_height"]                     = "300"; 
 
 $general["user"]["image_folder"]                        = "files/user/";
-$general["user"]["image_format"]                        = array("png");
+$general["user"]["image_format"]                        = array("png", "jpg");
 $general["user"]["image_size"]                          = "50000"; //Bytes
 $general["user"]["image_width"]                         = "300";  //px
 $general["user"]["image_height"]                        = "300";
 
-$general["profile"]["image_folder"]                        = "files/user/";
-$general["profile"]["image_format"]                        = array("png");
-$general["profile"]["image_size"]                          = "50000"; //Bytes
-$general["profile"]["image_width"]                         = "300";  //px
-$general["profile"]["image_height"]                        = "300";
+$general["profile"]["image_folder"]                     = "files/user/";
+$general["profile"]["image_format"]                     = array("png", "jpg");
+$general["profile"]["image_size"]                       = "50000"; //Bytes
+$general["profile"]["image_width"]                      = "300";  //px
+$general["profile"]["image_height"]                     = "300";
 
 $general["speaker"]["image_folder"]                     = "files/speaker/";
-$general["speaker"]["image_format"]                     = array("png");
+$general["speaker"]["image_format"]                     = array("png", "jpg");
 $general["speaker"]["image_size"]                       = "50000"; //Bytes
 $general["speaker"]["image_width"]                      = "300";  //px
 $general["speaker"]["image_height"]                     = "300"; 
 
 $general["exhibitor"]["image_folder"]                   = "files/exhibitor/";
-$general["exhibitor"]["image_format"]                   = array("png");
+$general["exhibitor"]["image_format"]                   = array("png", "jpg");
 $general["exhibitor"]["image_size"]                     = "50000"; //Bytes
 $general["exhibitor"]["image_width"]                    = "300";  //px
 $general["exhibitor"]["image_height"]                   = "300"; 
@@ -65,11 +65,7 @@ $general["exhibitor"]["image_height"]                   = "300";
    $input["user"]["manage"]["type"]["options"]          = array("1"=>"Opcion 1", "2"=>"Opción 2")
    
    Así definimos que en la sección "user", el campo "type"  que es de tipo select, muestre las opciones "Opcion 1", "Opción 2", con value 1, 2 respectivamente.
-   
-   
-
 */
-
 /** Usuarios **/
 $input["user"]["manage"]["mandatory"]                   = array("first_name", "last_name", "email", "password", "type", "client_id"); // Aqui van todos los campos obligatorios.
 $input["user"]["manage"]["no-show"]                     = array("user_id"); // Aqui van aquellos campos que no queremos que se muestren a la hora de editar/crear porque no son editables y no se requiere que el usuario los maneje.
@@ -81,19 +77,19 @@ $input["user"]["manage"]["client_id"]["type"]           = "select";
 $input["user"]["list"]["no-show"]                       = array("user_id", "password", "photo_path"); // Aqui van aquellos campos que no queremos que se muestren en el listado.
 
 /** Perfil de Usuario **/
-$input["profile"]["manage"]["mandatory"]                   = array("first_name", "last_name"); // Aqui van todos los campos obligatorios.
-$input["profile"]["manage"]["no-show"]                     = array("user_id", "client_id", "type"); // Aqui van aquellos campos que no queremos que se muestren a la hora de editar/crear porque no son editables y no se requiere que el usuario los maneje.
-$input["profile"]["manage"]["password"]["type"]            = "password";
-$input["profile"]["manage"]["photo_path"]["type"]          = "file"; //Aqui definimos los campos que van a tener un input diferente a "text" que es el usado por defecto
+$input["profile"]["manage"]["mandatory"]                = array("first_name", "last_name"); // Aqui van todos los campos obligatorios.
+$input["profile"]["manage"]["no-show"]                  = array("user_id", "client_id", "type"); // Aqui van aquellos campos que no queremos que se muestren a la hora de editar/crear porque no son editables y no se requiere que el usuario los maneje.
+$input["profile"]["manage"]["password"]["type"]         = "password";
+$input["profile"]["manage"]["photo_path"]["type"]       = "file"; //Aqui definimos los campos que van a tener un input diferente a "text" que es el usado por defecto
 
 
 /** Cliente **/
 $input["client"]["manage"]["mandatory"]                 = "*";
-$input["client"]["manage"]["no-show"]                   = array("client_id", "active");
+$input["client"]["manage"]["no-show"]                   = array("client_id", "active", "secondary_color");
 $input["client"]["manage"]["logo_path"]["type"]         = "file";
 $input["client"]["list"]["no-show"]                     = array("client_id", "contact_phone","active", "primary_color1", "primary_color2", "secondary_color");
-$input["client"]["manage"]["country"]["type"]                     = "select";
-$input["client"]["manage"]["country"]["options"]                  = array(
+$input["client"]["manage"]["country"]["type"]           = "select";
+$input["client"]["manage"]["country"]["options"]        = array(
     'Afganistán'=>'Afganistán',
     'Albania'=>'Albania',
     'Alemania'=>'Alemania',
@@ -145,7 +141,7 @@ $input["client"]["manage"]["country"]["options"]                  = array(
     'Corea del Sur'=>'Corea del Sur',
     'Costa de Marfil'=>'Costa de Marfil',
     'Costa Rica'=>'Costa Rica',
-    'Croacia'=>'Croacia',
+    'Croacia'=>'Croacia' ,
     'Cuba'=>'Cuba',
     'Dinamarca'=>'Dinamarca',
     'Djibuti'=>'Djibuti',

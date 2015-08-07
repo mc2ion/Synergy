@@ -6,7 +6,7 @@
 include ("./common/common-include.php");
 
 //Verificar que el usuario tiene  permisos
-$sectionId = "1";
+$sectionId = "2";
 if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente"){ header("Location: ./index.php"); exit();}
 
 //Obtener las columnas a editar/crear

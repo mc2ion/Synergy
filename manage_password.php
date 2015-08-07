@@ -15,6 +15,7 @@ if(isset($_POST["edit"])){
     $newPass = $_POST["newPass"];
     if ($oldPass == "")                   { $message = "<div class='error'>{$label["Ingrese su contraseña actual"]}</div>";}
     else if ($newPass == "")              { $message = "<div class='error'>{$label["Ingrese su nueva contraseña"]}</div>";}
+    else if (strlen($newPass) < 4)        { $message = "<div class='error'>{$label["La nueva contraseña debe tener al menos 4 caracteres"]}</div>";}
     else {
         $correct = $backend->verifyPassword($userId, md5($oldPass));
         if ($correct) {

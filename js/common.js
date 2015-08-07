@@ -192,22 +192,32 @@ $(function() {
 });
 
 $.validator.messages.required   = 'Este campo es obligatorio';
-$.validator.messages.email      = "Por favor ingrese un correo electrónico válido.";
-$.validator.messages.number     = "Por favor ingrese un número válido";
-$.validator.messages.url        = "Por favor ingrese una dirección url válida";
+$.validator.messages.email      = "Ingrese una dirección de correo electrónico válido.";
+$.validator.messages.number     = "Ingrese un número telefónico válido";
+$.validator.messages.url        = "Ingrese una dirección de url válida";
     
 
 jQuery(function($) {
+    $.validator.addMethod("phoneNumber", function(value, element) {
+        return this.optional(element) || /^[0-9\-\s]+$/i.test(value);
+    }, "Ingrese un número de teléfono válido. Los símbolos permitidos son: -, espacio y +.");
+
+    $.validator.addMethod("phone", function(value, element) {
+        return this.optional(element) || /^[0-9\-\s]+$/i.test(value);
+    }, "Ingrese un número de teléfono válido. Los símbolos permitidos son: +, - y espacio.");
+
     validator = $("#form").validate(
         {
             rules: {
                 "email"         : {email: true},
                 "contact_email" : {email: true},
-                "contact_phone" : {number: true},
-                "phone"         : {number:true},
+                "contact_phone" : {phoneNumber: true},
+                "phone"         : {phoneNumber:true},
                 "website"       : {url: true},
                 "link"          : {url: true},
             }
         } 
     );
+
 })
+

@@ -31,10 +31,7 @@ if (isset($_POST["login"])){
                 $_SESSION["logged"] = 1;
                 unset($user["user"]["1"]["password"]);
                 unset($user["user"]["1"]["email"]);
-                $_SESSION["app-user"] = $user;
-                $_SESSION["primary_color1"] = $user["primary_color1"];
-                $_SESSION["primary_color2"] = $user["primary_color2"];
-                $_SESSION["primary_colorAux"] = colourBrightness($user["primary_color2"], "-0.5");
+                $_SESSION["app-user"]       = $user;
                 header("Location: ./index.php");
                 exit();
             }

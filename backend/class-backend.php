@@ -408,54 +408,59 @@ class backend extends db{
     
     function uploadImage($path, $input,$format_accepted, $size, $width, $height, $square=""){
         $uploadOk["result"] = 1;
-        $target_file = $path;
-        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-        // Verificar si el archivo ya existe
-        if (file_exists($target_file)) { 
-            $uploadOk["message"] =  $this->label["Archivo duplicado"]; 
-            $uploadOk["result"] = 0;
-        }
-        //  Verificar el peso
-        if ($_FILES[$input]["size"] > $size) {
-            $uploadOk["message"] = $this->label["El tamaño de la imagen es muy grande. Tamaño máximo permitido:"].$size/1000 . "KB";
-            $uploadOk["result"]= 0;    
-        }
+        $target_file        = $path;
+        $imageFileType      = pathinfo($target_file,PATHINFO_EXTENSION);
         //Verificar el tamaño
-        $size = getimagesize($_FILES[$input]["tmp_name"]);
-        $w = $size[0];
-        $h = $size[1];
-        if ($square=="" && $w != $h){
-            $uploadOk["result"] = 0;
-            $uploadOk["message"] = $this->label["La imagen proporcionada debe ser cuadrada"];
-            return $uploadOk;
-        }
-        if ($square != "" && ($w < $h || $w == $h)){
-            $uploadOk["result"] = 0;
-            $uploadOk["message"] = $this->label["La imagen proporcionada debe ser rectangular. Más ancha que alta"];
-            return $uploadOk;
-        }
-        
-        if ($w > $width || $h > $height){
-            $uploadOk["result"] = 0;
-            $uploadOk["message"] = $this->label["La imagen proporcionada excede con el tamaño máximo permitido"] . ": {$width}x{$height}" ;
-            return $uploadOk;
-        }
-        // Verificar el formato
-        if(!in_array($imageFileType, $format_accepted)) 
-        {
-            $uploadOk["result"] = 0;
-            $uploadOk["message"] = $this->label["Formato de la imagen no válido."];
-        }
-        // Varificar algun error
-        if ($uploadOk["result"] != 0) {
-            if (move_uploaded_file($_FILES[$input]["tmp_name"], $target_file)) {
-                $uploadOk["result"] = 1;
-            } else {
-                $uploadOk["result"]  = 0;
+        if ($_FILES[$input]["tmp_name"] != ""){
+            $size = getimagesize($_FILES[$input]["tmp_name"]);
+            $w = $size[0];
+            $h = $size[1];
+
+            // Verificar si el archivo ya existe
+            if (file_exists($target_file)) {
+                $uploadOk["message"] =  $this->label["Archivo duplicado"];
+                $uploadOk["result"] = 0;
             }
+            else if ($_FILES[$input]["size"] > $size) {
+                $uploadOk["message"] = $this->label["El peso de la imagen no es válido"];
+                $uploadOk["result"]= 0;
+            }
+            // Verificar el formato
+            else if(!in_array($imageFileType, $format_accepted))
+            {
+                $uploadOk["result"] = 0;
+                $uploadOk["message"] = $this->label["Formato de la imagen no válido."];
+            }
+            //  Verificar las dimensiones
+            else if ($w > $width || $h > $height){
+                $uploadOk["result"] = 0;
+                $uploadOk["message"] = $this->label["La imagen proporcionada excede con el tamaño máximo permitido"] ;
+                return $uploadOk;
+            }
+            else if ($square=="" && $w != $h){
+                $uploadOk["result"] = 0;
+                $uploadOk["message"] = $this->label["La imagen proporcionada debe ser cuadrada"];
+                return $uploadOk;
+            }
+            else if ($square != "" && ($w < $h || $w == $h)){
+                $uploadOk["result"] = 0;
+                $uploadOk["message"] = $this->label["La imagen proporcionada debe ser rectangular. Más ancha que alta"];
+                return $uploadOk;
+            }
+            // Varificar algun error
+            if ($uploadOk["result"] != 0) {
+                if (move_uploaded_file($_FILES[$input]["tmp_name"], $target_file)) {
+                    $uploadOk["result"] = 1;
+                } else {
+                    $uploadOk["result"]  = 0;
+                }
+            }
+        }else{
+                $uploadOk["message"] = $this->label["La imagen proporcionada excede con el tamaño máximo permitido"] ;
+                $uploadOk["result"]  = 0;
+
         }
         return $uploadOk;    
-        
     }
 
     function getSurveyReport($eventId){
