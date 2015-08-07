@@ -108,7 +108,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
 //Borrar speaker
 if (isset($_POST["delete"])){
    $id              = $backend->clean($_POST["id"]);
-   $en["active"]    = 0;
+   $en["active"]    = "0";
    //1. Eliminar entrada
    $id = $backend->updateRow($section, $en, " speaker_id = '$id' ");
    //2. Eliminar imagen asociada
@@ -129,7 +129,14 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $id             = $backend->clean($_GET["id"]);
     $title          = $label["Editar Presentador"];
     $action         = "edit";
-    if (!$error)    $speaker        = $backend->getSpeaker($_GET["id"]);
+    if (!$error)   { 
+        $speaker        = $backend->getSpeaker($_GET["id"]);
+        if (!$speaker){
+            $_SESSION["message"] = "<div class='error'>".$label["Presentador no encontrado"]  ."</div>";
+            header("Location: ./speakers.php");
+            exit();
+        }
+    }
 }else{
     $title = $label["Crear Presentador"];
     $action = "add";    
@@ -160,19 +167,19 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
     <div class="content">
         <div class="title-manage"><?= $title?></div>
         <?=$message ?>
-        <form  method="post" enctype="multipart/form-data">
+        <form id="form" method="post" enctype="multipart/form-data">
             <?php if ($action == "edit") {?>
                 <input type="hidden" name="img" value="<?=  $speaker["image_path"]?>" />
                 <input type="hidden" name="id"  value="<?=  $_GET["id"]?>" />
             <?php } ?>
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
-                    $mandatory = "";
+                    $mandatory = $classMand = "";
                     if (!in_array($v["COLUMN_NAME"],$input[$section]["manage"]["no-show"])){
                         $type  = (isset($input[$section]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input[$section]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
                         $value = (isset($speaker[$v["COLUMN_NAME"]])) ? $speaker[$v["COLUMN_NAME"]] : "";
-                        if ($input[$section]["manage"]["mandatory"] == "*") $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";
-                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";
+                        if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
+                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}        
                 ?>
                 <?php // Se hace la verificacion del tipo del input para cada columna ?>
                     <tr class="tr_<?=$v["COLUMN_NAME"]?>">
@@ -182,28 +189,29 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" <?= $classMand ?> />
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ( $type == "file") { ?>
                         <?php if ($value != "") {?>
                             <img class='manage-image' src='./<?=$value?>'/>
                         <?php } ?>
-                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" />
+                        <input type="file" name="<?= $v["COLUMN_NAME"]?>"  />
+                        <img src="./images/info.png" class="information" alt="Información" />
                         <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
                  <?php // Tipo textarea. Se muestra un textarea ?>
                  <?php } else if ($type == "textarea") { ?>
-                        <textarea name="<?= $v["COLUMN_NAME"]?>"><?=$value?></textarea>
+                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?>><?=$value?></textarea>
                  <?php // Tipo date. Se muestra un text pero especial para tener el date picker ?>
                  <?php } else if ($type == "time") { ?>
-                       <input type="text" class="timepicker" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                       <input type="text" class="timepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  
                  <?php } else if ($type == "date") { ?>
-                        <input type="text" class="datepicker" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                        <input type="text" class="datepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  <?php } else if ($type == "select") { ?>
                             <?php if ($v["COLUMN_NAME"] == "session_title"){?>
-                                <select name="<?= $v["COLUMN_NAME"]?>">
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?>>
                                 <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($sessions as $sk=>$sv){
                                      $sel = ""; if ($sv["title"] == $value) $sel = "selected";
@@ -212,7 +220,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                                 <?php }?>
                                 </select>
                             <?php }else{ ?>
-                                <select name="<?= $v["COLUMN_NAME"]?>">
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?>>
                                     <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($input[$section]["manage"][$v["COLUMN_NAME"]]["options"] as $sk=>$sv){?>
                                     <option value="<?=$sk?>"><?= $sv?></option>
@@ -235,7 +243,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td></td>
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
-                    <?php if ($action == "edit" && ($_SESSION["app-user"]["user"][1]["type"] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
+                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
                     <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./speakers.php"><?= $label["Volver"]?></a>
@@ -246,5 +254,6 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
             
         </form>
     </div>
+     <?= my_footer() ?>
   </body>
 </html>

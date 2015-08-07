@@ -8,7 +8,7 @@ include ("./common/common-include.php");
 $sectionId = "4";
 $event     = $_SESSION["data"]["evento"];
 $client    = $_SESSION["data"]["cliente"];
-if ($_SESSION["app-user"]["user"][1]["type"] == "client" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
+if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
 
 
 //Obtener las columnas a editar/crear
@@ -114,7 +114,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
 //Borrar Evento
 if (isset($_POST["delete"])){
    $id              = $backend->clean($_POST["id"]);
-   $en["active"]    = 0;
+   $en["active"]    = "0";
    //1. Borrar entrada
    $id = $backend->updateRow($section, $en, " session_id = '$id' ");
    
@@ -137,7 +137,14 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $id             = $backend->clean($_GET["id"]);
     $title          = $label["Editar Sesión"];
     $action         = "edit";
-    if (!$error)    $session        = $backend->getSession($_GET["id"]);
+    if (!$error)    {
+        $session        = $backend->getSession($_GET["id"]);
+        if (!$session){
+            $_SESSION["message"] = "<div class='error'>".$label["Sesión no encontrada"]  ."</div>";
+            header("Location: ./sessions.php");
+            exit();
+        }
+    }
 }else{
     $title = $label["Crear Sesión"];
     $action = "add";    
@@ -153,12 +160,20 @@ $imageSize = "Tamaño máximo permitido: <b> ".$general[$section]["image_width"]
 $s = $general[$section]["image_size"] / 1000;
 $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
 
+//Evento asociado
+$eventInfo =  $backend->getEvent($event);
+$startDate = $eventInfo["date_ini"];
+$endDate   = $eventInfo["date_end"];
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
+      <script>
+          startDate = '<?= $startDate?>';
+          endDate   = '<?= $endDate?>';
+      </script>
      <?= my_header()?>
   </head>
   <body>
@@ -166,21 +181,20 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
     <div class="content">
         <div class="title-manage"><?= $title?></div>
         <?=$message ?>
-        <form method="post" enctype="multipart/form-data">
+        <form id="form" method="post" enctype="multipart/form-data">
             <?php if ($action == "edit") { ?>
                 <input type="hidden" name="id"  value="<?=$_GET["id"]?>" />
                 <input type="hidden" name="img" value="<?=$session["image_path"]?>" />
-                
             <?php } ?>
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
-                    $mandatory = "";
+                    $mandatory = $classMand = "" ;
                     if (!in_array($v["COLUMN_NAME"],$input["session"]["manage"]["no-show"])){
                         $type  = (isset($input["session"]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input["session"]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
                         $value = (isset($session[$v["COLUMN_NAME"]])) ? $session[$v["COLUMN_NAME"]] : "";
-                        if ($input[$section]["manage"]["mandatory"] == "*") $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";
-                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";
-                ?>
+                        if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
+                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}        
+                 ?>
                 <?php // Se hace la verificacion del tipo del input para cada columna ?>
                     <tr class="tr_<?=$v["COLUMN_NAME"]?>">
                         <td class="tdf"><?=(isset($label[$v["COLUMN_NAME"]])) ? $label[$v["COLUMN_NAME"]]: $v["COLUMN_NAME"]?> <?= $mandatory?>:</td>
@@ -189,28 +203,29 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" <?= $classMand ?>/>
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ( $type == "file") { ?>
                         <?php if ($value != "") {?>
                             <img class='manage-image' src='./<?=$value?>'/>
                         <?php } ?>
+                        <img src="./images/info.png" class="information" alt="Información" />
                         <input type="file" name="<?= $v["COLUMN_NAME"]?>" />
                         <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
                  <?php // Tipo textarea. Se muestra un textarea ?>
                  <?php } else if ($type == "textarea") { ?>
-                        <textarea name="<?= $v["COLUMN_NAME"]?>"><?=$value?></textarea>
+                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?>><?=$value?></textarea>
                  <?php // Tipo date. Se muestra un text pero especial para tener el date picker ?>
                  <?php } else if ($type == "time") { ?>
-                       <input type="text" class="timepicker" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                       <input type="text" class="timepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  
                  <?php } else if ($type == "date") { ?>
-                        <input type="text" class="datepicker" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                        <input type="text" class="datepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  <?php } else if ($type == "select") { ?>
                             <?php if ($v["COLUMN_NAME"] == "room_id"){?>
-                                <select name="<?= $v["COLUMN_NAME"]?>">
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?>>
                                 <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($rooms as $sk=>$sv){
                                      $sel = ""; if ($sv["room_id"] == $value) $sel = "selected";
@@ -219,7 +234,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                                 <?php }?>
                                 </select>
                             <?php }else{ ?>
-                                <select name="<?= $v["COLUMN_NAME"]?>">
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?>>
                                     <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($input["session"]["manage"][$v["COLUMN_NAME"]]["options"] as $sk=>$sv){?>
                                     <option value="<?=$sk?>"><?= $sv?></option>
@@ -242,7 +257,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td></td>
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
-                    <?php if ($action == "edit" && ($_SESSION["app-user"]["user"][1]["type"] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
+                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
                     <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./sessions.php"><?= $label["Volver"]?></a>
@@ -253,5 +268,6 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
             
         </form>
     </div>
+     <?= my_footer() ?>
   </body>
 </html>

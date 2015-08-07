@@ -1,57 +1,71 @@
 <?php
-
-function my_header($upload=""){
+/* Función para incluir el header */
+function my_header(){
 $out = 
 <<<EOT
     <meta charset="utf-8"/>
     <title>Synergy - Administrador Web</title>
-    <link rel="stylesheet" href="./css/style.css"/>
+    <link rel="stylesheet" type='text/css' href='css/style.php' />
+    <script src="./js/jquery.js"></script>
+    <script type='text/javascript'src='./js/jquery.validate.min.js'></script>
     <link href="./js/jquery-ui.css" rel="stylesheet">
-   <script src="./js/jquery.js"></script>
     <script src="./js/jquery-ui.js"></script>
     <script src="./js/common.js"></script>
+EOT;
+    return $out;
+}
+
+/* Función para incluir en el footer */
+function my_footer(){
+    $out = 
+<<<EOT
     <link rel='stylesheet' type='text/css'href='./js/timepicker/css/timepicki.css'/>
     <script type='text/javascript'src='./js/timepicker/js/timepicki.js'></script>
 EOT;
     return $out;
 }
 
+/* Función para crear el top bar del administrador */
 function top_bar($user){
-    global $backend;
+    global $backend; global $label;
     $out = '<div class="top-bar">
         <div class="user-info-div">';
     if ($user["photo_path"] != ""){
         $out .= "<div class='img'><img src='./{$user["photo_path"] }' class='image-photo' alt='{$user["first_name"]}'></div>";
     }
-   // $out .= "<div class='user-info'>";
     $out .= '<div class="top-sb submenu-holder">';
     $out .= '<a rel="nofollow" href="#">'.$user["first_name"]. ' ' . $user["last_name"]. '<span class="darrow">▼</span></a>';
     $out .= '   <div class="subm">
                     <div class="arrow-up"></div>
                     <ul class="sbm ">
-                        <li class="sbm"><a class="w" rel="nofollow" href="./manage_password.php">Cambiar Contraseña</a></li>
+                        <li class="sbm"><a class="w" rel="nofollow" href="./manage_profile.php?id='.$user["user_id"].'">'.$label["Perfil de Usuario"].'</a></li>
                     </ul>
                 </div>
             </div>';
     $out .= '<div class="img"><a href="?logout" class="logout">(Salir)</a></div>';
     $out .= '</div>
         </div>';
-    //</div>';
     return $out;
-  
 }
 
+/* Función para crear el menu lateral del administrador */
 function menu($selected=""){
-    global $backend; global $label; 
+    global $backend; global $label; global $typeUser;
     $id = "";
         
     //Verificar si el usuario tiene imagen
     $user   = $_SESSION["app-user"]["user"][1];    
     $client = @$_SESSION["data"]["cliente"] ;
     $event  = @$_SESSION["data"]["evento"] ;
+    $clients= array();
     
     $out  = top_bar($user);
     $out .= '<div class="menu">';
+    if ($typeUser[$user["type"]] == "administrador"){
+        $out .= "<a href='./index.php'><img src='./images/logo.png' alt='Logo' class='logo'></a>";
+    }else{
+        $out .= "<a href='./index.php'><img src='{$user["logo_path"]}' alt='Logo' class='logo'></a>";
+    }
     //Menu exclusivo de administradores
     $out .= menuAdministrator($user, $selected, $label);
     $out .= "<form action='./index.php' method='post'>";
@@ -59,7 +73,7 @@ function menu($selected=""){
     
     //Si el usuario es tipo administrador se muestra la lista de clientes,
     // si es tipo client, se mostrará únicamente la lista de eventos
-    if ($user["type"] == "administrador"){
+    if ($typeUser[$user["type"]] == "administrador"){
         $clients = $backend->getClientList();
         if ($clients){
             $showEventList = 1;
@@ -73,19 +87,20 @@ function menu($selected=""){
             }
             $out .= '</select>
                 </div>';
+        }else{
+            $showEventList = 0;
         }
     }else{
         $showEventList = 1;
         $out .= "<div class='mng-text'><input type='hidden' name='c' value='".$user["client_id"]."'>{$user["client_name"]}</div>";
         $_SESSION["data"]["cliente"] = $user["client_id"];
     }
-    
-    if ($showEventList){
+    if ($showEventList == "1"){
         $out .= '<div class="mng">';
         $out .= "<select name='e' class='events'>";
         $aux  = "<option value=''>{$label["Seleccionar evento"]}</option>";
         if (isset($_SESSION["data"]["cliente"])){
-            $events = $backend->getEventList($_SESSION["data"]["cliente"]);
+            $events = $backend->getEventList($_SESSION["data"]["cliente"], array(), "1");
             if($events){
                 foreach ($events as $k => $v){
                     $id  = $v["event_id"];
@@ -101,17 +116,17 @@ function menu($selected=""){
         $out .= "<input type='submit' value='{$label["Seleccionar"]}'/></div>";
     }
     $out .= '</form><div style="clear:both"></div>';
-    $out .= menuCLiente($user, $selected,$label);
+    $out .= menuCLiente($user, $selected,$label,$clients);
     $out .="</div>";
     return $out;      
 }
 
 function menuAdministrator($user, $selected="", $label){
-    global $backend;
+    global $backend; global $typeUser;
    
     $out = "";
      /* Menu superior, sera visible únicamente si el usuario es de tipo administrador*/
-    if ($user["type"] == "administrador"){
+    if ($typeUser[$user["type"]] == "administrador"){
         $menuTop   =  $backend->getMenu("administrador", "menu");
         $out = '<div class="topu">
                     <ul>';
@@ -126,29 +141,31 @@ function menuAdministrator($user, $selected="", $label){
    return $out;
 }
 
-function menuCLiente($user, $selected="", $label){
-    global $backend;
+function menuCLiente($user, $selected="", $label, $clientList){
+    global $backend; global $typeUser;
     /* Menu inferior, sera visible para todos los usuarios */
     $menu           =  $backend->getMenu("cliente", "menu");
     $submenu        =  $backend->getMenu("cliente", "submenu");
     $event          =  @$_SESSION["data"]["evento"];
-    $client          =  @$_SESSION["data"]["cliente"];
-    
-    if ($user["type"] != "administrador")  $permission     =  $_SESSION["app-user"]["permission"];
-    $out = '<div class="infu">
+    $client         =  @$_SESSION["data"]["cliente"];
+    $out            = "";
+
+    if ($typeUser[$user["type"]] != "administrador")  $permission     =  $_SESSION["app-user"]["permission"];
+    if (($typeUser[$user["type"]] == "administrador" && $clientList!= "" && !empty($clientList) && $client != "") || ($typeUser[$user["type"]] == "cliente" && $client != "")){
+        $out = '<div class="infu">
                     <ul>';
                     foreach($menu as $k=>$v){
                          $t  = isset($label[$v["name"]]) ? $label[$v["name"]]: $v["name"];
    
                         // Verifico si el usuario es tipo administrador
                         // o si es cliente, que tenga permiso para ver la seccion
-                        if ($user["type"] == "administrador" || ($user["type"] == "cliente" && isset($permission[$v["section_id"]]) && $permission[$v["section_id"]]["read"] == "1")){
+                        if ($typeUser[$user["type"]] == "administrador" || ($typeUser[$user["type"]] == "cliente" && isset($permission[$v["section_id"]]) && $permission[$v["section_id"]]["read"] == "1")){
                             $extra = ""; $class=""; 
                             $sel  = ''; if ($selected == $v["name"]) $sel = "class='selected'";
                             if (isset($submenu[$v["section_id"]])){ 
-                                 if ($client != "" && $event != ""){
+                                 if ($event != ""){
                                       $out .= "<li class='{$v["name"]}'>
-                                            <a href='{$v["file"]}' $sel>".ucfirst($t)."</a>";
+                                            <a href='{$v["file"]}' $sel>".ucfirst($t). "<span class=\"darrow-menu\">▼</span></a>";
                                      $out .= "<ul class='submenu'>";
                                        foreach($submenu[$v["section_id"]] as $sk =>$sv){
                                             $ts  = isset($label[$sv["name"]]) ? $label[$sv["name"]]: $sv["name"];
@@ -163,7 +180,7 @@ function menuCLiente($user, $selected="", $label){
                                 if ($v["name"] == "eventos" && $client != ""){ 
                                         $out .= '<li class="'.$v["name"].'"><a href="./'.$v["file"].'" '.$sel.'>'.ucfirst($t). " $extra ".'</a></li>';
                                 }else{
-                                    if ($client != "" && $event != ""){
+                                    if ($event != ""){
                                         $out .= '<li class="'.$v["name"].'"><a href="./'.$v["file"].'" '.$sel.'>'.ucfirst($t). " $extra ".'</a></li>';
                                     }
                                 }
@@ -171,8 +188,9 @@ function menuCLiente($user, $selected="", $label){
                             }
                         }
                      }
-    $out .=   ' </ul>
+        $out .=   ' </ul>
             </div>';
+    }
    return $out;
 }
 
@@ -187,3 +205,42 @@ function randomNumber($length) {
 }
 
 
+function colourBrightness($hex, $percent) {
+    // Work out if hash given
+    $hash = '';
+    if (stristr($hex,'#')) {
+        $hex = str_replace('#','',$hex);
+        $hash = '#';
+    }
+    /// HEX TO RGB
+    $rgb = array(hexdec(substr($hex,0,2)), hexdec(substr($hex,2,2)), hexdec(substr($hex,4,2)));
+    //// CALCULATE
+    for ($i=0; $i<3; $i++) {
+        // See if brighter or darker
+        if ($percent > 0) {
+            // Lighter
+            $rgb[$i] = round($rgb[$i] * $percent) + round(255 * (1-$percent));
+        } else {
+            // Darker
+            $positivePercent = $percent - ($percent*2);
+            $rgb[$i] = round($rgb[$i] * $positivePercent) + round(0 * (1-$positivePercent));
+        }
+        // In case rounding up causes us to go to 256
+        if ($rgb[$i] > 255) {
+            $rgb[$i] = 255;
+        }
+    }
+    //// RBG to Hex
+    $hex = '';
+    for($i=0; $i < 3; $i++) {
+        // Convert the decimal digit to hex
+        $hexDigit = dechex($rgb[$i]);
+        // Add a leading zero if necessary
+        if(strlen($hexDigit) == 1) {
+            $hexDigit = "0" . $hexDigit;
+        }
+        // Append to the hex string
+        $hex .= $hexDigit;
+    }
+    return $hash.$hex;
+}

@@ -5,11 +5,17 @@
 */
 include ("./common/common-include.php");
 //Verificar que el usuario tiene  permisos
-if ($_SESSION["app-user"]["user"][1]["type"] == "client" && $_SESSION["app-user"]["permission"]["9"]["read"] == "0"){ header("Location: ./index.php"); exit();}
+if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"]["9"]["read"] == "0"){ header("Location: ./index.php"); exit();}
 
+if (!isset($_GET["id"]) ||  $_GET["id"] < 0) {
+     $_SESSION["message"] = "<div class='error'>".$label["Evaluación no encontrada"]  ."</div>";
+    header("Location: ./reviews.php");
+    exit();
+}
 
 $out        = "";
 $review     = $backend->getReviewReport($_GET["id"]);
+echo (empty($review));
 $title      = $review["details"]["1"]["session_title"];
 
 
@@ -19,6 +25,8 @@ if (isset($_POST["pdf"])&& $review){
         $htmlString = utf8_decode(getReport($title));
         $dompdf = new DOMPDF();
         $dompdf->set_paper("letter", "portrait");
+        //echo $htmlString;
+        //exit();
         $dompdf->load_html($htmlString);
         $dompdf->render();
         $dompdf->stream($title.".pdf");
@@ -26,30 +34,52 @@ if (isset($_POST["pdf"])&& $review){
 }
 
 if (isset($_POST["cvs"])&& $review){
-    include_once('./backend/csv/simple_html_dom.php');
-    $out  = getReport($title, "1");
-    $html = str_get_html(utf8_decode($out));
-    header('Content-type: application/ms-excel');
-    header("Content-Disposition: attachment; filename={$title}.csv");
-    $fp = fopen("php://output", "w");
-    foreach($html->find('tr') as $element)
-    {
-        $td = array();
-        foreach( $element->find('th') as $row)  
-        {
-            $td [] = $row->plaintext;
+    $out = "";
+    if ($review) {
+        foreach ($review["details"][1] as $k => $v) {
+            if ($k != "reviewers" && $k != "ranking") {
+                $out .= $label[$k] . ", " . $v . "\n";
+            }
         }
-        fputcsv($fp, $td);
-    
-        $td = array();
-        foreach( $element->find('td') as $row)  
-        {
-            $td [] = $row->plaintext;
+        $out .= "\n";
+
+        $ranking = $review["details"][1]["ranking"] + 0;
+        $out .= $label["Cantidad de votaciones"] . ": " . $review["details"][1]["reviewers"] . "," . $label["Valoracion Total"] . ": " . $ranking . "\n";
+
+        // Raking
+        $out .= $label["Ranking"] . " , " . $label["Cantidad"] . "\n";
+        for ($i = 1; $i < 6; $i++) {
+            $st = $i;
+            $r = 0;
+            if (isset($review["reviews"]["$i"])) $r = $review["reviews"]["$i"]["reviewers"];
+            $v = $label["Votaciones"];
+            if ($r <= 1) $v = $label["Votacion"];
+            $out .= $st . ', ' . $r . ' ' . $v . "\n";
         }
-        fputcsv($fp, $td);
+
+        //Comentarios
+        $out .= "\n";
+        if ($review["comments"]){
+            $out .= $label["Comentarios"]."\n";
+            foreach($review["comments"] as $k=>$v){
+                $st = $label["Valoracion"] . ": ". $v["ranking"] . "/5";
+                $out .= $v["comment"]. ', '  . $st ."\n";
+            }
+
+        }
     }
-    fclose($fp);
-    exit();
+    //Generate the CSV file header
+    header("Content-type: application/vnd.ms-excel");
+    header("Content-Encoding: UTF-8");
+    header("Content-type: text/csv; charset=UTF-8");
+    header("Content-disposition: csv" . date("Y-m-d") . ".csv");
+    header("Content-disposition: filename=".$title.".csv");
+    echo "\xEF\xBB\xBF"; // UTF-8 BOM
+    //Print the contents of out to the generated file.
+    print $out;
+
+    //Exit the script
+    exit;
 }
 
 function getReport($title, $excel="0"){
@@ -58,7 +88,7 @@ function getReport($title, $excel="0"){
                 <style>
                     h1{font-size:16px; font-weight:normal;}
                     .title{font-size:20xp;}
-                    .ttq td.title { background-color: #4CC554;    padding: 5px;    border: 1px solid;}
+                    .ttq td.title { background-color: #545454; color:white;    padding: 5px;    border: 1px solid black;}
                     table.ttq {width: 100%;border: 1px solid gray;  border-collapse: collapse;  text-align: center;  table-layout: fixed; margin-top:15px;}
                     .ttq td   {border: 1px solid;  padding: 4px 0px;}
                     .title    {margin-bottom:10px;}
@@ -69,26 +99,22 @@ function getReport($title, $excel="0"){
                     .comments td.cmments {background-color: #F7F7F7 ; padding: 10px; margin-top: 10px;}
                     .rnk {display: block;text-align: right;}
                     img.ssm {width: 12px; margin-left:1px;}
+                    .td_comment { border-bottom:1px solid #848484; padding-bottom:8px;}
                 </style>';
         if ($review){
             $out .= '<div class="title">'. $label["Resultado evaluacion"].' - '. $title.'</div>';
             $out .= '<table class="dtails">';
             foreach ($review["details"][1] as $k=>$v){
                 if ($k != "reviewers" && $k != "ranking" ){
-                    $out .= "<tr>";
-                    $out .= "<td><b>".$label[$k] ."</b>:</td><td>" .$v . "</td>";
-                    $out .= "</tr>";
+                    $out .= "<tr><td style='width:100px;'><b>".$label[$k] ."</b>:</td><td>" .$v . "</td></tr>";
                 }
             }
              $out .= '</table>';
-            
-            $out .= "<table class='ranking'>    
-                        <tr>
-                        <td><b>{$label["Cantidad de votaciones"]}</b>: {$review["details"][1]["reviewers"]}</td>
-                        <td><b>{$label["Valoracion Total"]}</b>: {$review["details"][1]["ranking"]} </td>
-                        </tr>
-                        </table>
-                        <div style='clear:both'></div>";
+           $ranking = $review["details"][1]["ranking"] + 0;
+           $out .= "<table class='ranking'>    
+                        <tr><td><b>{$label["Cantidad de votaciones"]}</b>: {$review["details"][1]["reviewers"]}</td><td><b>{$label["Valoracion Total"]}</b>: ". $ranking . "</td></tr>
+                    </table>
+                    <div style='clear:both'></div>";
            
             // Raking
             $out .= '<table class="ttq">';
@@ -112,17 +138,14 @@ function getReport($title, $excel="0"){
                 if (isset($review["reviews"]["$i"])) $r = $review["reviews"]["$i"]["reviewers"];
                 $v               = $label["Votaciones"];
                 if ($r <= 1 ) $v = $label["Votacion"];
-                $out .='<tr>
-                        <td>'.$st.'</td>
-                        <td>'. $r. ' ' . $v.'</td>
-                    </tr>';
+                $out .='<tr><td>'.$st.'</td><td>'. $r. ' ' . $v.'</td></tr>';
             }
             $out .= '</table>';
            
             //Comentarios
             if ($review["comments"]){
                 $out .= '<table class="comments">';
-                $out .= '<tr><td colspan="2"><h1>'. $label["Comentarios"].'</h1></td></tr>';
+                $out .= '<tr><td colspan="2" class="td_comment"><h1>'. $label["Comentarios"].'</h1></td></tr>';
                 foreach($review["comments"] as $k=>$v){
                         if ($excel == "0"){
                             $stars = array('<img src="./images/star_empty.png" class="ssm">', '<img src="./images/star_empty.png" class="ssm">',
@@ -179,5 +202,6 @@ function getReport($title, $excel="0"){
         <a href="./reviews.php"><?= $label["Volver"]?></a>
        </div>
     </div>
+     <?= my_footer() ?>
   </body>
 </html>                                                                                                                                                                

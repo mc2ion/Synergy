@@ -6,7 +6,7 @@
 include ("./common/common-include.php");
 //Verificar que el usuario tiene  permisos
 $sectionId = "9";
-if ($_SESSION["app-user"]["user"][1]["type"] == "client" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
+if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
 
 
 //Obtener las columnas a editar/crear
@@ -45,6 +45,7 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
    if (!$error){
        if (isset($_POST["add"])){
             //1. Agregar pregunta
+           if ($en["position"] == "")  $en["position"] = 1;
             $questionId = $backend->insertRow("survey_question", $en);
             if ($en["position"] == ""){
                 $count = @$backend->select("survey_question", "COUNT(*) as count", "event_id = '{$eventId}'","event_id");
@@ -121,7 +122,7 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
 //Borrar Pregunta
 if (isset($_POST["delete"])){
    $id              = $backend->clean($_POST["id"]);
-   $en["active"]    = 0;
+   $en["active"]    = "0";
    $id = $backend->updateRow("survey_question", $en, " question_id = '$id' ");
    if ($id > 0) { 
         $_SESSION["message"] = "<div class='succ'>".$label["Pregunta borrada exitosamente"] ."</div>";
@@ -258,7 +259,7 @@ $clients                        = $backend->getClientList(array(), "1");
                 <td></td>
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
-                    <?php if ($action == "edit" && ($_SESSION["app-user"]["user"][1]["type"] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
+                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
                     <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./surveys.php"><?= $label["Volver"]?></a>
@@ -269,5 +270,6 @@ $clients                        = $backend->getClientList(array(), "1");
             
         </form>
     </div>
+     <?= my_footer() ?>
   </body>
 </html>

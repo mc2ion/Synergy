@@ -7,13 +7,13 @@ include ("./common/common-include.php");
 
 //Verificar que el usuario tiene  permisos
 $sectionId = 3;
-if ($_SESSION["app-user"]["user"][1]["type"] == "client" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
+if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
 
 
 //Obtener las columnas a editar/crear
 $section    = "event";
 $columns    = $backend->getColumnsTable($section);
-$id         =  $message      =  $error  = "";
+$id         =  $message      =  $error   =  $alert    = "";
 //Creamos un array vacio para que aparezca un box inicial
 $socials    = array("0"=>array("type"=>"", "value"=>""));
 $organizers = array("0"=>array("name"=>"", "description"=>""));
@@ -42,7 +42,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
             $error   = 1;
             $message = "<div class='error'>{$resultUpload["message"]}</div>";
         }else{
-            $_SESSION["map_path"] =  $path;
+            $_SESSION["event"]["map_path"] =  $path;
             $en["map_path"]       =  $path ;
         }
    }else if ($event["map_path"] == "" && !isset($_SESSION["event"]["map_path"])){
@@ -159,13 +159,34 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
            }
        }else{
             $idE             = $backend->clean($_POST["id"]);
-            $id = $backend->updateRow($section, $en, " event_id = '$idE' ");
-            if ($id > 0) { 
-                unset($_SESSION["event"]["map_path"]);
-                $_SESSION["message"] = "<div class='succ'>".$label["Evento editado exitosamente"] ."</div>";
-                header("Location: ./events.php");
+            $id              = $backend->updateRow($section, $en, " event_id = '$idE' ");
+
+           //Verificar que las sesiones asociadas no queden por fuera de la fecha
+           $sessions = $backend->getSessionList($idE,array(), "1", "1");
+           foreach($sessions as $k=>$v){
+               if ($v["date"] < $en["date_ini"] || $v["date"] > $en["date_end"]) {
+                   if ($en["date_ini"] == $en["date_end"]) {
+                        //Modificar directamente
+                       $in["date"] = $en["date_ini"];
+                       $backend->updateRow("session", $in, "session_id = '{$v["session_id"]}'");
+                   }else{
+                       $alert .= "ID: {$v["session_id"]} -  Título: {$v["title"]} <br/>";
+                   }
+               }
+           }
+           if ($alert == ""){
+              if ($id > 0) {
+                    unset($_SESSION["event"]["map_path"]);
+                    $_SESSION["message"] = "<div class='succ'>".$label["Evento editado exitosamente"] ."</div>";
+                    header("Location: ./events.php");
+               }else{
+                    $message = "<div class='error'>".$label["Hubo un problema con la edición"]. "</div>";
+               }
            }else{
-                $message = "<div class='error'>".$label["Hubo un problema con la edición"]. "</div>";
+               if ($id > 0) {
+                   unset($_SESSION["event"]["map_path"]);
+                   $_SESSION["message"] = "<div class='succ'>".$label["Evento editado exitosamente"] ."</div>";
+               }
            }
        
        }
@@ -182,7 +203,7 @@ if (isset($_POST["delete"])){
     //Verificar si el evento a borrar es el que esta escogido actualmente
     //1. Borrar entrada
     $id              = $backend->clean($_POST["id"]);
-    $en["active"]    = 0;
+    $en["active"]    = "0";
     $id = $backend->updateRow($section, $en, " event_id = '$id' ");
    
     //2. Borrar imagen  asociada
@@ -208,6 +229,11 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $action         = "edit";
     if (!$error){
         $event          = $backend->getEvent($id);
+        if (!$event){
+            $_SESSION["message"] = "<div class='error'>".$label["Evento no encontrado"] ."</div>";
+            header("Location: ./events.php");
+            exit();
+        }
         //Redes sociales del evento
         $socials = json_decode($event["social_networks"], true);
         if (!$socials) $socials = array("0"=>array("type"=>"", "value"=>""));
@@ -239,6 +265,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
   <head>
      <?= my_header()?>
      <script>
+         alert = '<?= $alert?>';
           $(function() {
             $( "#dialog-confirm" ).dialog({
                   autoOpen: false,
@@ -259,11 +286,29 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 }
               }
             });
+
+              $( "#dialog" ).dialog({
+                  autoOpen: false,
+                  resizable: false,
+                  height:260,
+                  modal: true,
+                  buttons: {
+                      "Continuar": function() {
+                          $( this ).dialog( "close" );
+                          window.location.href = "./events.php";
+                      }
+                  }
+              });
             
             $(".dltP").on("click", function(e) {
                 e.preventDefault();
                 $("#dialog-confirm").dialog("open");
             });
+
+            if (alert){
+                $(".sessiones").html(alert);
+                $("#dialog").dialog("open");
+            }
           });
           
           
@@ -281,13 +326,13 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
             <?php } ?>
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
-                    $mandatory = "";
+                    $mandatory = ""; $classMand = "";
                     if (!in_array($v["COLUMN_NAME"],$input["event"]["manage"]["no-show"])){
                         $type       = (isset($input["event"]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input["event"]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
                         $value      = (isset($event[$v["COLUMN_NAME"]])) ? $event[$v["COLUMN_NAME"]] : "";
-                         if ($input[$section]["manage"]["mandatory"] == "*") $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";
-                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";
-                ?>
+                        if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
+                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}        
+              ?>
                 <?php // Se hace la verificacion del tipo del input para cada columna ?>
                     <tr class="tr_<?=$v["COLUMN_NAME"]?>">
                         <td class="tdf"><?=(isset($label[$v["COLUMN_NAME"]])) ? $label[$v["COLUMN_NAME"]]: $v["COLUMN_NAME"]?>  <?=$mandatory?>:</td>
@@ -297,25 +342,26 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" <?= $classMand?> />
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ( $type == "file") { ?>
                         <?php if ($value != "") {?>
                             <img class='manage-image' src='./<?=$value?>'/>
                         <?php } ?>
-                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" />
+                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>/>
+                        <img src="./images/info.png" class="information" alt="Información" />
                         <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
                  <?php // Tipo textarea. Se muestra un textarea ?>
                  <?php } else if ($type == "textarea") { ?>
-                        <textarea name="<?= $v["COLUMN_NAME"]?>"><?=$value?></textarea>
+                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>><?=$value?></textarea>
                  <?php // Tipo date. Se muestra un text pero especial para tener el date picker ?>
                  <?php } else if ($type == "date") { ?>
-                        <input type="text" class="datepicker" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                        <input type="text"  class="datepicker <?=substr($classMand,7, 9) ?> " name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  <?php } else if ($type == "select") { 
                         $options = $input["event"]["manage"][$v["COLUMN_NAME"]]["options"];
                     ?>
-                            <select name="<?= $v["COLUMN_NAME"]?>">
+                            <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>>
                                 <?php foreach ($options as $sk=>$sv){
                                     $selected=""; if($value == $sk) $selected = "selected";
                                     ?>
@@ -363,11 +409,11 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                             ?>
                                 <div class="organizer">
                                     <div class="org-name">
-                                        <div class="label"><?= $label["Nombre"]?>:</div>
+                                        <div class="label"><?= $label["Nombre"]?> (<img src='images/mandatory.png' class='mandatory'>):</div>
                                         <div class="value"><input type="text" name="name_organizer[]" value="<?= $name?>"/></div>
                                     </div>
                                     <div class="org-desc">
-                                        <div class="label"><?= $label["Descripción"]?>:</div>
+                                        <div class="label"><?= $label["Descripción"]?> (<img src='images/mandatory.png' class='mandatory'>):</div>
                                         <div class="value"><textarea name="desc_organizer[]"><?= $desc?></textarea></div>
                                     </div>
                                     <div class="delete-org i<?= $sk ?>"><a href="javascript:void(0)"><?= $label["Eliminar"]?></a></div>
@@ -388,7 +434,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td></td>
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
-                    <?php if ($action == "edit" && ($_SESSION["app-user"]["user"][1]["type"] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){ 
+                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){
                         if ($_SESSION["data"]["evento"] == $_GET["id"]) { ?> 
                             <input type="submit" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                         <?php }else{ ?>
@@ -404,7 +450,13 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
         </form>
     </div>
     <div id="dialog-confirm" title="Confirmación">
-      <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Está a punto de borrar el evento sobre el que está trabajando actualmente. ¿Desea continuar?</p>
-    </div>  
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Está a punto de borrar el evento sobre el que está trabajando actualmente. ¿Desea continuar?</p>
+    </div>
+    <div id="dialog" title="Confirmación">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Recuerde que debe modificar las fechas de las sesiones asociadas al evento para mantener consistencia en los datos.</p>
+        <p>Estas son las sesiones que debe modificar:</p>
+        <div class="sessiones"></div>
+    </div>
+    <?= my_footer() ?>
   </body>
 </html>

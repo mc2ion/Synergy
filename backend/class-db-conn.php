@@ -71,8 +71,12 @@ class db {
         $qr = "";
         foreach ($data as $k => $v) {
             $value = $v;
-            $value = addslashes($value);
-            $qr .= "`$k` = '$value' ,";
+            if ($value == null) {
+                 $qr .= "`$k` = NULL ,";  
+            }else{
+                $value = addslashes($value);
+                $qr .= "`$k` = '$value' ,";
+            }  
         }
 
         $qr = substr($qr, 0, -1);

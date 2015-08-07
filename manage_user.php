@@ -7,7 +7,7 @@ include ("./common/common-include.php");
 
 //Verificar que el usuario tiene  permisos
 $sectionId = "1";
-if ($_SESSION["app-user"]["user"][1]["type"] == "client" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
+if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente"){ header("Location: ./index.php"); exit();}
 
 //Obtener las columnas a editar/crear
 $columns = $backend->getColumnsTable("user");
@@ -17,11 +17,11 @@ $clients    = $backend->getClientList(array(), "1");
 $sections   = $backend->getMenu("cliente", "menu");
 
 $label["client_id"] = "Cliente";
-$id         = $message  = $error    = "";
+$id         = $message  = $error    =  $cond = "";
 $user       = "";
+$en         = array();
 $section    = "user";
 
-print_r($_SESSION);
 
 //Agregar nuevo usuario
 if (isset($_POST["add"]) || isset($_POST["edit"])){
@@ -49,10 +49,18 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
         }
    }
    
-   //Mejorar esto
-    if (isset($_POST["edit"])){
-         unset($columns[5]);
+    if ($typeUser[$_POST["type"]] == "administrador") {
+        //No colocar como obligatorio client_id, si el usuario es "super user"
+        if(($key = array_search("client_id", $input[$section]["manage"]["mandatory"])) !== false) {
+            unset($input[$section]["manage"]["mandatory"][$key]);
+        }  
     }
+   
+   //Eliminar contraseña ya que ese valor no va si se esta editando 
+   if (isset($_POST["edit"])){
+        unset($columns[5]);
+   }
+    
     
    //Guardar en bd el usuario
    foreach ($columns as $k=>$v) {
@@ -79,27 +87,27 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
    }
    
    //Verificar que el correo no exista ya.
-   if (isset($_POST["add"])){
+   if (isset($_POST["add"]) && isset($en["email"])){
         $cond = "email = '{$en["email"]}'";
-   }else{
+   }else if (isset($_POST["edit"]) && isset($en["email"])){
         $cond = "email = '{$en["email"]}' AND user_id != '{$_POST["id"]}'";
    }
+   if ($cond != ""){
+        if ($backend->selectRow("user", $cond)){
+            $message    .= "<div class='error'>".$label["El correo ingresado ya existe"]. "</div>";
+            $error = 1;
+        }
+   }
    
-  if ($backend->selectRow("user", $cond)){
-        $message    .= "<div class='error'>".$label["El correo ingresado ya existe"]. "</div>";
-        $error = 1;
-  }
-   
+
    
    /* Permisologia */
     foreach ($sections as $k=>$v){
-        $id             = $backend->clean($_POST["id"]);
         if (isset($_POST[$v["section_id"]."_create"])){ $create = 1;}
         if (isset($_POST[$v["section_id"]."_read"]))  { $create = 1;}
         if (isset($_POST[$v["section_id"]."_update"])){ $create = 1;}
         if (isset($_POST[$v["section_id"]."_delete"])){ $create = 1;}
         $in["section_id"] = $v["section_id"];
-        $in["user_id"]    = $id;
         $in["create"]     = isset($_POST[$v["section_id"]."_create"])? "1" : "0";
         $in["update"]     = isset($_POST[$v["section_id"]."_update"])? "1" : "0";
         $in["delete"]     = isset($_POST[$v["section_id"]."_delete"])? "1" : "0";
@@ -112,10 +120,15 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
             if ($en["client_id"] == "") unset($en["client_id"]);
             $en["password"] = md5($en["password"]);
             $id = @$backend->insertRow($section, $en);
-            if ($id > 0) { 
-                /* Permisologia */
-                foreach ($p["section"] as $k=>$v){
-                    @$backend->insertRow("permission", $v);
+            if ($id > 0) {
+                if ($en["type"] == "cliente"){
+                    echo "a";
+                    exit();
+                    /* Permisologia */
+                    foreach ($p["section"] as $k=>$v){
+                        $v["user_id"] = $backend->clean($id);
+                        @$backend->insertRow("permission", $v);
+                    }
                 }
                 $_SESSION["message"] = "<div class='succ'>".$label["Usuario creado exitosamente"]. "</div>";
                 header("Location: ./users.php");
@@ -126,21 +139,26 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
        }else{
             $id             = $backend->clean($_POST["id"]);
             if ($en["client_id"] == "") unset($en["client_id"]);
+            //Si estoy cambiando de "cliente" a "administrador" debo borrar los permisos
+            if ($typeUser[$en["type"]] == "administrador") { $en["client_id"] = null;}
             $rid            = @$backend->updateRow($section, $en, " user_id = '$id' ");
             
             if ($rid > 0) { 
                 /* Permisologia */
-                //3 casos posibles.. Si se esta editando a administrador borrar posibles permisos anteriores
-                if ($en["type"] == "administrador"){
+                //2 casos posibles. Si se esta editando a administrador borrar posibles permisos anteriores
+                if ($typeUser[$en["type"]] == "administrador"){
                     //Si estoy cambiando de "cliente" a "administrador" debo borrar los permisos
                     $backend->deleteRow("permission", "user_id = '$id' ");
                 }else{
-                    //Si es cliente hay que verificar si ya tenia permisos anteriormente
                     $permissions = $backend->getPermission($id);
                     foreach ($p["section"] as $k=>$v){
+                        $v["user_id"] = $id;
+                        //Si es cliente hay que editar permisos anteriormente (si los tiene)
                         if ($permissions != ""){
                             $backend->updateRow("permission", $v, " section_id = '{$v["section_id"]}' AND user_id='$id'");
-                        }else{
+                        }
+                        //Sino tiene permisos asociados, crearlos
+                        else{
                             $backend->insertRow("permission", $v);
                         }
                     }
@@ -149,7 +167,6 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
                      //Verificar si el usuario se está editando a sí mismo
                     $_SESSION["app-user"]["user"]["1"]                  = $backend->getUserInfo($id);
                     $_SESSION["app-user"]["user"]["1"]["client_name"]   = $backend->getClient($id)["name"];
-                    
                     if ($_POST["type"] == "cliente")     $_SESSION["app-user"]["permission"]  = $backend->getPermission($id);
                 }
           
@@ -172,7 +189,6 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
 //Borrar Usuario
 if (isset($_POST["delete"])){
    $id              = $backend->clean($_POST["id"]);
-   
    $image           = $backend->getUserInfo($_POST["id"]);
    //1. Borrar usuario
    $id = $backend->deleteRow("user", " user_id = '$id' ");
@@ -182,8 +198,6 @@ if (isset($_POST["delete"])){
    
    //3. Borrar permisos
    $backend->deleteRow("permission", "user_id = '$id' ");
- 
-   
    if ($id > 0) { 
         $_SESSION["message"] = "<div class='succ'>".$label["Usuario borrado exitosamente"] ."</div>";
         header("Location: ./users.php");
@@ -236,19 +250,19 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
     <div class="content">
         <div class="title-manage"><?= $title?></div>
         <?= $message ?>
-        <form method="post" enctype="multipart/form-data">
+        <form id="form" method="post" enctype="multipart/form-data">
             <?php if ($action == "edit") {?>
                 <input type="hidden" name="img" value="<?=  $client["logo_path"]?>" />
                 <input type="hidden" name="id"  value="<?=  $_GET["id"]?>" />
             <?php } ?>
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
-                    $mandatory = "";
+                    $mandatory = $classMand = "" ;
                     if (!in_array($v["COLUMN_NAME"],$input[$section]["manage"]["no-show"])){
                         $type  = (isset($input[$section]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input[$section]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
                         $value = (isset($user[$v["COLUMN_NAME"]])) ? $user[$v["COLUMN_NAME"]] : "";    
-                        if ($input[$section]["manage"]["mandatory"] == "*") $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";
-                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";        
+                        if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
+                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}        
             ?>
                     
                 <?php // Se hace la verificacion del tipo del input para cada columna ?>
@@ -259,7 +273,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?=$classMand?> />
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ($type == "file") { 
                     ?>
@@ -267,18 +281,19 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                         <?php if ($value != "") {?>
                             <img class='manage-image' src='./<?=$value?>'/>
                         <?php } ?>
-                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" />
+                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" <?=$classMand?> />
+                        <img src="./images/info.png" class="information" alt="Información" />
                         <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
                  <?php // Tipo textarea. Se muestra un textarea ?>
                  <?php } else if ($type== "textarea") { ?>
-                        <textarea name="<?= $v["COLUMN_NAME"]?>"><?= $value?></textarea>
+                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?=$classMand?>><?= $value?></textarea>
                  <?php // Tipo password. ?>
                  <?php } else if ($type== "password") { ?>
-                        <input type="password" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value?>" autocomplete="off"/>
+                        <input type="password" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value?>" autocomplete="off" <?=$classMand?>/>
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  <?php } else if ($type == "select") { ?>
                             <?php if ($v["COLUMN_NAME"] == "client_id"){?>
-                                <select name="<?= $v["COLUMN_NAME"]?>">
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?=$classMand ?> >
                                 <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($clients as $sk=>$sv){
                                      $sel = ""; if ($sv["client_id"] == $value) $sel = "selected";
@@ -288,7 +303,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                                 </select>
                             <?php }else{
                                 $options = $input[$section]["manage"][$v["COLUMN_NAME"]]["options"]; ?>
-                                <select name="<?= $v["COLUMN_NAME"]?>">
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?=$classMand ?>>
                                  <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($options as $sk=>$sv){
                                     $selected=""; if($value == $sk) $selected = "selected";
@@ -313,21 +328,29 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td colspan="5" class="tr_permi"><?= $label["Permisologia"]?></td>
             </tr>
             <tr class="permi">
-                <td></td>
-                <td><?= $label["Crear"]?></td>
-                <td><?= $label["Leer"]?></td>
-                <td><?= $label["Editar"]?></td>
-                <td><?= $label["Eliminar"]?></td>
+                <td style="padding-top: 10px ;"></td>
+                <td style="padding-top: 10px ;"><?= $label["Crear"]?></td>
+                <td style="padding-top: 10px ;"><?= $label["Leer"]?></td>
+                <td style="padding-top: 10px ;"><?= $label["Editar"]?></td>
+                <td style="padding-top: 10px ;"><?= $label["Eliminar"]?></td>
             </tr >   
                 <?php foreach ($sections as $k=>$v){?>
+                    <?php
+                     $disabled = array("create"=>"", "update"=>"", "delete"=>"");
+                     if ($v["name"] == "evaluaciones") { 
+                            $disabled["create"]  = "disabled";
+                            $disabled["update"] = "disabled";
+                            $disabled["delete"]  = "disabled";
+                     } 
+                     ?>
                     <tr class="permi" >
                         <td>
                             <?= (isset($label[$v["name"]])) ? $label[$v["name"]]: ucfirst($v["name"]) ?>
                         </td>
-                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_create" <?= (isset($permissions["section"]) && $permissions["section"][$v["section_id"]]["create"] == "1")? "checked": ""?>/></td>
+                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_create" <?= (isset($permissions["section"]) && $permissions["section"][$v["section_id"]]["create"] == "1")? "checked": ""?> <?=   $disabled["create"]?>/></td>
                         <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_read" <?=   (isset($permissions["section"]) && $permissions["section"][$v["section_id"]]["read"] == "1")? "checked": ""?>/></td>
-                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_update" <?= (isset($permissions["section"]) && $permissions["section"][$v["section_id"]]["update"] == "1")? "checked": ""?>/></td>
-                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_delete" <?= (isset($permissions["section"]) &&  $permissions["section"][$v["section_id"]]["delete"] == "1")? "checked": ""?>/></td>
+                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_update" <?= (isset($permissions["section"]) && $permissions["section"][$v["section_id"]]["update"] == "1")? "checked": ""?> <?=   $disabled["update"]?>/></td>
+                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_delete" <?= (isset($permissions["section"]) &&  $permissions["section"][$v["section_id"]]["delete"] == "1")? "checked": ""?> <?=  $disabled["delete"]?>/></td>
                     </tr>
                 <?php } ?>
             
@@ -335,7 +358,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td></td>
                 <td class="action" colspan="4">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
-                    <?php if ($action == "edit" && ($_SESSION["app-user"]["user"][1]["type"] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
+                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
                         <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./users.php"><?= $label["Cancelar"]?></a>
@@ -346,7 +369,9 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
             
         </form>
     </div>
-    <?php if ($user["type"] == "administrador"){ ?>
+  </body>
+  <?php
+     if (!isset($user["type"]) || $typeUser[$user["type"]] == "administrador"){ ?>
         <style>
         tr.client_id {
           display: none;
@@ -354,7 +379,5 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
         tr.permi{display: none;}
         </style>
     <?php } ?> 
-    
-  </body>
-  
+   <?= my_footer() ?>
 </html>

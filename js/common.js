@@ -4,12 +4,6 @@ $( document ).ready(function() {
         loadEventList($(this).val());
     });
     
-    $('.dcjq-parent').click(function() {
-        alert('a');
-       $(this).find(".dcjq-icon").css('background', 'url(../images/expand.png) no-repeat bottom !important');
-    });
-    
-    
     //Agregar dinamicamente las redes sociales de un evento
     $(".add-e a").click(function(event){
         elem = $(this).closest(".social_networks-td").find('.networks:first').clone().appendTo(".social_networks-td");
@@ -55,7 +49,7 @@ $( document ).ready(function() {
     
     //Ocultar/mostrar permisologia dependiendo del tipo de usuario
     $('select[name=type]').change(function(event){
-        if ($(this).val()== "cliente"){
+        if ($(this).val()== "Supervisor"){
             $('.client_id').show();
             $('.permi').show();
         }else{
@@ -90,20 +84,53 @@ $( document ).ready(function() {
         $(".subm").hide();
     });
     
+    $(".forgot").click(function(event){
+        if (typeof pass !== "undefined" && pass == 1  ){
+            $(".error-login").hide();
+            $(".succ-login").hide();
+        }
+        if ($(this).text() != "Cancelar"){
+            $("input[name='at-password']").hide();
+            $("button[name='login']").html("Restablecer Contraseña");
+            $("button[name='login']").attr("name", "forgot");
+            $(this).html("Cancelar");
+        }else{
+            $("input[name='at-password']").show();
+            $("button[name='forgot']").html("Ingresar");
+            $("button[name='forgot']").attr("name", "login");
+            $(this).html("¿Olvidó su contraseña?");
+        }
+    });
+    
+    $(".information").click(function(event){
+        $(".image_format").toggle("fast");
+    });
+    
+    //On click read
+     $("input[type='checkbox']").click(function(event){
+        if ($(this).is(':checked')){
+           name = $(this).attr("name");
+           id   = name.substring(0,1);
+           if (name.substring(2) == "create" || name.substring(2) == "delete" || name.substring(2) == "update"){
+                aux = id + "_read";
+                $("input[name='"+aux+"']").prop('checked', true);
+           }
+       }
+    });
+    
     
 });
 
 /* Funcion encargada de obtener los eventos asociados a un cliente */
 function loadEventList(client){
     var clientId = client;
-    if (typeof client !== "undefined") clientId = clientId;
+    if (typeof client === "undefined") clientId = "";
     var eventId  = eventId;
     if (typeof eventId === "undefined"  ) $eventId = "";
     html = "";
     $(".events").html("<option value=''>Cargando...</option>");
     if (typeof clientId !== "undefined"  ){
-        $.post( "./backend/events-ajax.php", {"id": clientId}, function( data ) {
-            //alert(data);
+        $.post( "./backend/events_ajax.php", {"id": clientId}, function( data ) {
             data = jQuery.parseJSON(data);
             if (data == ""){
                  html += "<option value=''>No hay eventos asociados</option>";
@@ -144,11 +171,42 @@ $.datepicker.regional['es'] = {
 };
 $.datepicker.setDefaults($.datepicker.regional['es']);
 $(function() {
+    min =  0;
+    max = "";
+    if (typeof startDate !== 'undefined') {
+        min = startDate;
+    }
+    if (typeof endDate !== 'undefined') {
+        max = endDate;
+    }
     $( ".datepicker" ).datepicker({
       showOn: "both",
       buttonImage: "images/calendar.png",
       buttonImageOnly: true,
-      buttonText: "Fecha"
+      buttonText: "Fecha",
+      minDate: min,
+      maxDate: max,
     });
     $('.timepicker').timepicki(); 
 });
+
+$.validator.messages.required   = 'Este campo es obligatorio';
+$.validator.messages.email      = "Por favor ingrese un correo electrónico válido.";
+$.validator.messages.number     = "Por favor ingrese un número válido";
+$.validator.messages.url        = "Por favor ingrese una dirección url válida";
+    
+
+jQuery(function($) {
+    validator = $("#form").validate(
+        {
+            rules: {
+                "email"         : {email: true},
+                "contact_email" : {email: true},
+                "contact_phone" : {number: true},
+                "phone"         : {number:true},
+                "website"       : {url: true},
+                "link"          : {url: true},
+            }
+        } 
+    );
+})

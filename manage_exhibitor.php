@@ -6,7 +6,7 @@
 include ("./common/common-include.php");
 //Verificar que el usuario tiene  permisos
 $sectionId = "6";
-if ($_SESSION["app-user"]["user"][1]["type"] == "client" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
+if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
 
 
 //Obtener las columnas a editar/crear
@@ -125,7 +125,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
 //Borrar speaker
 if (isset($_POST["delete"])){
    $id              = $backend->clean($_POST["id"]);
-   $en["active"]    = 0;
+   $en["active"]    = "0";
    //1. Borrar imagen expositor
    $id = $backend->updateRow($section, $en, " exhibitor_id = '$id' ");
    //2. Borrar imagen  asociado
@@ -148,7 +148,14 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $id             = $backend->clean($_GET["id"]);
     $title          = $label["Editar Expositor"];
     $action         = "edit";
-    if (!$error)    $exhibitor        = $backend->getExhibitor($_GET["id"]);
+    if (!$error)   { 
+        $exhibitor        = $backend->getExhibitor($_GET["id"]);
+        if (!$exhibitor){
+            $_SESSION["message"] = "<div class='error'>".$label["Expositor no encontrado"]  ."</div>";
+            header("Location: ./exhibitors.php");
+            exit();
+        }
+    }
     $categoryExh    = $backend->getCategory($exhibitor["category_id"]);
 }else{
     $title = $label["Crear Expositor"];
@@ -198,20 +205,20 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
     <div class="content">
         <div class="title-manage"><?= $title?></div>
         <?=$message ?>
-        <form method="post" enctype="multipart/form-data">
+        <form id="form" method="post" enctype="multipart/form-data">
             <?php if ($action == "edit") {?>
                 <input type="hidden" name="img" value="<?=  $exhibitor["image_path"]?>" />
                 <input type="hidden" name="id"  value="<?=  $_GET["id"]?>" />
             <?php } ?>
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
-                    $mandatory = "";
+                    $mandatory = ""; $classMand = "";
                     if (!in_array($v["COLUMN_NAME"],$input[$section]["manage"]["no-show"])){
                         $type  = (isset($input[$section]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input[$section]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
                         $value = (isset($exhibitor[$v["COLUMN_NAME"]])) ? $exhibitor[$v["COLUMN_NAME"]] : "";
-                        if ($input[$section]["manage"]["mandatory"] == "*") $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";
-                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";
-                ?>
+                        if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
+                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}        
+             ?>
                 <?php // Se hace la verificacion del tipo del input para cada columna ?>
                     <tr class="tr_<?=$v["COLUMN_NAME"]?>">
                         <td class="tdf"><?=(isset($label[$v["COLUMN_NAME"]])) ? $label[$v["COLUMN_NAME"]]: $v["COLUMN_NAME"]?> <?= $mandatory?>:</td>
@@ -220,28 +227,29 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" <?= $classMand?> />
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ( $type == "file") { ?>
                         <?php if ($value != "") {?>
                             <img class='manage-image' src='./<?=$value?>'/>
                         <?php } ?>
                         <input type="file" name="<?= $v["COLUMN_NAME"]?>" />
+                        <img src="./images/info.png" class="information" alt="Información" />
                         <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
                  <?php // Tipo textarea. Se muestra un textarea ?>
                  <?php } else if ($type == "textarea") { ?>
-                        <textarea name="<?= $v["COLUMN_NAME"]?>"><?=$value?></textarea>
+                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>><?=$value?></textarea>
                  <?php // Tipo date. Se muestra un text pero especial para tener el date picker ?>
                  <?php } else if ($type == "time") { ?>
-                       <input type="text" class="timepicker" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                       <input type="text" class="timepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  
                  <?php } else if ($type == "date") { ?>
-                        <input type="text" class="datepicker" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                        <input type="text" class="datepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  <?php } else if ($type == "select") { ?>
                             <?php if ($v["COLUMN_NAME"] == "category_id"){?>
-                                <select name="<?= $v["COLUMN_NAME"]?>">
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>>
                                 <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($category as $sk=>$sv){
                                      $sel = ""; if ($sv["category_id"] == $value) $sel = "selected";
@@ -250,7 +258,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                                 <?php }?>
                                 </select>
                             <?php }else{ ?>
-                                <select name="<?= $v["COLUMN_NAME"]?>">
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>>
                                     <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($input[$section]["manage"][$v["COLUMN_NAME"]]["options"] as $sk=>$sv){?>
                                     <option value="<?=$sk?>"><?= $sv?></option>
@@ -273,7 +281,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td></td>
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
-                    <?php if ($action == "edit" && ($_SESSION["app-user"]["user"][1]["type"] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
+                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
                     <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./exhibitors.php"><?= $label["Volver"]?></a>
@@ -283,6 +291,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
             </table>
         </form>
     </div>
+     <?= my_footer() ?>
    
   </body>
 </html>

@@ -6,7 +6,7 @@
 include ("./common/common-include.php");
 //Verificar que el usuario tiene  permisos
 $sectionId = 2;
-if ($_SESSION["app-user"]["user"][1]["type"] == "client" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
+if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente"){ header("Location: ./index.php"); exit();}
 
 
 //Obtener las columnas a editar/crear
@@ -102,13 +102,16 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
 //Borrar Cliente
 if (isset($_POST["delete"])){
    $id              = $backend->clean($_POST["id"]);
-   $en["active"]    = 0;
+   $en["active"]    = "0";
    //Borrado logico de la entrada
    @$backend->updateRow("client", $en, " client_id = '$id' ");
    
    //Borrar imagen asociada
    @unlink($_POST["img"]);
-    if ($id > 0) { 
+    
+   //3. Borrar dato sobre el cliente actual si se esta borrando ese
+   if ($_SESSION["data"]["cliente"] == $_POST["id"]){ unset($_SESSION["data"]["cliente"]);  unset($_SESSION["data"]["evento"]);}
+   if ($id > 0) { 
         $_SESSION["message"] = "<div class='succ'>".$label["Cliente borrado exitosamente"] ."</div>";
         header("Location: ./clients.php");
         exit();
@@ -122,7 +125,14 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $id             = $backend->clean($_GET["id"]);
     $title          = $label["Editar Cliente"];
     $action         = "edit";
-    if (!$error)   $client         = $backend->getClient($_GET["id"]);
+    if (!$error)   {
+        $client         = $backend->getClient($_GET["id"]);
+        if (!$client){
+            $_SESSION["message"] = "<div class='error'>".$label["Cliente no encontrado"] ."</div>";
+            header("Location: ./clients.php");
+            exit();
+        }
+   }
 }else{
     $title = $label["Crear Cliente"];
     $action = "add";
@@ -144,25 +154,55 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
 <html lang="en">
   <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
      <?= my_header()?>
+      <script>
+          $(function() {
+            $( "#dialog-confirm" ).dialog({
+                  autoOpen: false,
+                  resizable: false,
+                  height:160,
+                  modal: true,
+                  buttons: {
+                  "Si": function() {
+                   $( this ).dialog( "close" );
+                   $('<input />').attr('type', 'hidden')
+                  .attr('name', "delete")
+                  .attr('value', "1")
+                  .appendTo('#form');
+                   $("#form").submit();
+                 },
+                 "Cancelar": function() {
+                  $( this ).dialog( "close" );
+                }
+              }
+            });
+            $(".dltP").on("click", function(e) {
+                e.preventDefault();
+                $("#dialog-confirm").dialog("open");
+            });
+          });
+          
+          
+    </script>
   </head>
   <body>
     <?= menu("clientes"); ?>
     <div class="content">
         <div class="title-manage"><?= $title?></div>
         <?=$message ?>
-        <form method="post" enctype="multipart/form-data">
+        <form id="form" method="post" enctype="multipart/form-data">
             <?php if ($action == "edit") {?>
             <input type="hidden" name="img" value="<?=  $client["logo_path"]?>" />
             <input type="hidden" name="id"  value="<?=  $_GET["id"]?>" />
             <?php } ?>
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
+                    $mandatory = $classMand = "" ;
                     if (!in_array($v["COLUMN_NAME"],$input["client"]["manage"]["no-show"])){
                         $type  = (isset($input["client"]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input["client"]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
                         $value = (isset($client[$v["COLUMN_NAME"]])) ? $client[$v["COLUMN_NAME"]] : "";            
-                        if ($input[$section]["manage"]["mandatory"] == "*") $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";
-                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";
-                
+                        if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
+                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}        
+          
             ?>
                     
                 <?php // Se hace la verificacion del tipo del input para cada columna ?>
@@ -173,23 +213,24 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?= $classMand?> />
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ($type == "file") { 
                     ?>
                         <?php if ($value != "") {?>
                             <img class='manage-image' src='./<?=$value?>'/>
                         <?php } ?>
-                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" />
+                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>/>
+                        <img src="./images/info.png" class="information" alt="Información" />
                         <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
                  <?php // Tipo textarea. Se muestra un textarea ?>
                  <?php } else if ($type== "textarea") { ?>
-                        <textarea name="<?= $v["COLUMN_NAME"]?>"><?= $value?></textarea>
+                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>><?= $value?></textarea>
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  <?php } else if ($type == "select") { 
                          $options = $input[$section]["manage"][$v["COLUMN_NAME"]]["options"];
                     ?>
-                            <select name="<?= $v["COLUMN_NAME"]?>">
+                            <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>>
                                 <?php foreach ($options as $sk=>$sv){
                                     $selected=""; if($value == $sk) $selected = "selected";
                                     ?>
@@ -212,8 +253,12 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td></td>
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
-                    <?php if ($action == "edit" && ($_SESSION["app-user"]["user"][1]["type"] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1" )) {?>
-                    <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
+                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1" )) {
+                          if (@$_SESSION["data"]["cliente"] == @$_GET["id"]) { ?> 
+                            <input type="submit" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
+                        <?php }else{ ?>
+                            <input type="submit" class="important dlt" name="delete"  value="<?= $label["Borrar"]?>" />
+                        <?php } ?>
                     <?php } ?>
                     <a href="./clients.php"><?= $label["Cancelar"]?></a>
                 </td>
@@ -223,5 +268,9 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
             
         </form>
     </div>
+    <div id="dialog-confirm" title="Confirmación">
+      <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Está a punto de borrar el cliente sobre el que está trabajando actualmente. ¿Desea continuar?</p>
+    </div>  
+     <?= my_footer() ?>
   </body>
 </html>

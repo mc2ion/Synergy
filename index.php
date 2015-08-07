@@ -20,5 +20,6 @@ include ("./common/common-include.php");
             <?= $label["Bienvenido introduccion"]?>
         </div>
     </div>
+     <?= my_footer() ?>
   </body>
 </html>

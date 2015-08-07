@@ -6,14 +6,16 @@
 include ("./common/common-include.php");
 //Verificar que el usuario tiene  permisos
 $sectionId = "4";
-if ($_SESSION["app-user"]["user"][1]["type"] == "client" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
+if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
 
 
 //Obtener las columnas a editar/crear
-$section = "room";
-$columns = $backend->getColumnsTable($section);
-$id      = $message = $error = $room = "";
-
+$section        = "room";
+$columns        = $backend->getColumnsTable($section);
+$id             = $message = $error = $room = $sessions =  "";
+//Sessiones asociadas a la sala
+if (isset($_GET["id"])) $sessions       = $backend->getSessionListByRoom($_GET["id"], $_SESSION["data"]["evento"]); 
+ 
 
 //Agregar nuevo cliente
 if (isset($_POST["add"]) || isset($_POST["edit"])){
@@ -37,7 +39,7 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
    
    //Verificar que el nombre de la sala no exista
    if (isset($en["name"])){
-        $exists = $backend->existsRoom($en["name"], $_POST["id"]);
+        $exists = $backend->existsRoom($en["name"], @$_POST["id"]);
         if ($exists) {
             $error = 1;
             $message = "<div class='error'>".$label["Ya existe una sala con este nombre"]. "</div>";
@@ -70,15 +72,21 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
         $room    = $en;
    }
 }
-//Borrar Cliente
+//Borrar Sala
 if (isset($_POST["delete"])){
-    //Subir la imagen
    $id              = $backend->clean($_POST["id"]);
-   $en["active"]    = 0;
+   $en["active"]    = "0";
    @$backend->updateRow("room", $en, " room_id = '$id' ");
+   if ($sessions) {
+    //Eliminar sessiones asociadas
+        foreach($sessions as $k=>$v){
+            $enAux["active"] = "0";
+            @$backend->updateRow("session", $enAux, " session_id = '{$v["session_id"]}' ");
+        }
+   }
    $_SESSION["message"] = "<div class='succ'>".$label["Sala borrada exitosamente"]. "</div>";
-    header("Location: ./rooms.php");
-    exit();
+   header("Location: ./rooms.php");
+   exit();
 }
 
 
@@ -88,7 +96,14 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $id             = $backend->clean($_GET["id"]);
     $title          = $label["Editar Sala"];
     $action         = "edit";
-    if (!$error)    $room           = $backend->getRoom($_GET["id"]);
+    if (!$error)    {
+        $room           = $backend->getRoom($_GET["id"]);
+        if (!$room){
+                $_SESSION["message"] = "<div class='error'>".$label["Sala no encontrada"]  ."</div>";
+                header("Location: ./rooms.php");
+                exit();
+        }
+    }
 }else{
     $title = $label["Crear Sala"];
     $action = "add";
@@ -101,25 +116,53 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
 <html lang="en">
   <head>
      <?= my_header()?>
+     <script>
+          $(function() {
+            $( "#dialog-confirm" ).dialog({
+                  autoOpen: false,
+                  resizable: false,
+                  height: 300,
+                  modal: true,
+                  buttons: {
+                  "Si": function() {
+                   $( this ).dialog( "close" );
+                   $('<input />').attr('type', 'hidden')
+                  .attr('name', "delete")
+                  .attr('value', "1")
+                  .appendTo('#form');
+                   $("#form").submit();
+                 },
+                 "Cancelar": function() {
+                  $( this ).dialog( "close" );
+                }
+              }
+            });
+            
+            $(".dltP").on("click", function(e) {
+                e.preventDefault();
+                $("#dialog-confirm").dialog("open");
+            });
+          });
+    </script>
   </head>
   <body>
     <?= menu("salas"); ?>
     <div class="content">
         <div class="title-manage"><?= $title?></div>
          <?=$message ?>
-        <form method="post" enctype="multipart/form-data">
+        <form id="form" method="post" enctype="multipart/form-data">
             <?php if ($action == "edit") {?>
                 <input type="hidden" name="id"  value="<?=  $_GET["id"]?>" />
             <?php } ?>
             
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
-                   $mandatory = "";
+                    $mandatory = $classMand = "" ;
                     if (!in_array($v["COLUMN_NAME"],$input[$section]["manage"]["no-show"])){
                         $type  = (isset($input[$section]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input[$section]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
                         $value = (isset($room[$v["COLUMN_NAME"]])) ? $room[$v["COLUMN_NAME"]] : "";            
-                        if ($input[$section]["manage"]["mandatory"] == "*") $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";
-                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";
+                        if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
+                        else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}        
             ?>
                     
                 <?php // Se hace la verificacion del tipo del input para cada columna ?>
@@ -130,16 +173,16 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
                 <?php   
                         if ($type == ""){ 
                 ?>
-                       <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" />
+                       <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?= $classMand?> />
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ($type == "file") { ?>
-                       <input type="file" name="<?= $v["COLUMN_NAME"]?>"  />
+                       <input type="file" name="<?= $v["COLUMN_NAME"]?>"   />
                  <?php // Tipo textarea. Se muestra un textarea ?>
                  <?php } else if ($type== "textarea") { ?>
-                       <textarea name="<?= $v["COLUMN_NAME"]?>"><?= $value?></textarea>
+                       <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>><?= $value?></textarea>
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  <?php } else if ($type == "select") { ?>
-                       <select name="<?= $value ?>"></select>
+                       <select name="<?= $value ?>" <?= $classMand?>></select>
                  <?php } ?>
                     <div class="missing-error">
                         <?php if (isset($missing[$v["COLUMN_NAME"]])) { ?>
@@ -156,8 +199,12 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
                 <td></td>
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
-                    <?php if ($action == "edit" && ($_SESSION["app-user"]["user"][1]["type"] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
-                    <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
+                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
+                        <?php if ($sessions) { ?> 
+                                <input type="submit" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
+                        <?php }else{ ?>
+                                <input type="submit" class="important dlt" name="delete"  value="<?= $label["Borrar"]?>" />
+                        <?php } ?>
                     <?php } ?>
                     <a href="./rooms.php"><?= $label["Volver"]?></a>
                 </td>
@@ -167,5 +214,28 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
             
         </form>
     </div>
+    <div>
+    <?php 
+       if ($sessions){
+    ?>
+    <div id="dialog-confirm" title="Confirmación">
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+            Está a punto de borrar una sala que tiene sesiones asociadas, las cuales serán borradas también. ¿Desea continuar?.
+        </p>
+        <p> Sesiones asociadas a esta sala:
+        <?php 
+           $r      = "<ul class='sesList'>";
+            foreach($sessions as $k=>$v){
+                $r .= "<li><b>ID</b>: {$v["session_id"]} - <b>Título</b>: {$v["title"]}</li>";
+           }
+           $r      .= "</ul>";
+        ?>
+        <?= $r ?>
+        </p>
+    </div>  
+   <?php } ?>
+    </div>
+     <?= my_footer() ?>
   </body>
 </html>

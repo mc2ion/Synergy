@@ -1,20 +1,21 @@
 <?php
-$label["Usuarios"]              = "Usuarios";
 /* Seccion Cliente */
-$label["Clientes"]              = "Clientes";
-$label["Crear Cliente"]         = "Crear Cliente";
-$label["Editar Cliente"]        = "Editar Cliente";
-$label["name"]                  = "Nombre";
-$label["logo_path"]             = "Logo";
-$label["country"]               = "País";
-$label["contact_name"]          = "Nombre del contacto";
-$label["contact_email"]         = "Email del contacto";
-$label["contact_phone"]         = "Teléfono del contacto";
-$label["client_id"]             = "ID";
+$label["Clientes"]                           = "Clientes";
+$label["Crear Cliente"]                      = "Crear Cliente";
+$label["Editar Cliente"]                     = "Editar Cliente";
+$label["name"]                               = "Nombre";
+$label["logo_path"]                          = "Logo";
+$label["country"]                            = "País";
+$label["contact_name"]                       = "Nombre del contacto";
+$label["contact_email"]                      = "Email del contacto";
+$label["contact_phone"]                      = "Teléfono del contacto";
+$label["client_id"]                          = "ID";
 $label["Cliente editado exitosamente"]       = "Cliente editado exitosamente.";
 $label["Cliente creado exitosamente"]        = "Cliente creado exitosamente.";
 $label["Cliente borrado exitosamente"]       = "Cliente borrado exitosamente.";
-/* Fin Seccion Cliente */
+$label["Cliente no encontrado"]              = "Cliente no encontrado";
+$label["No hay clientes disponibles"]        = "No hay clientes disponibles";
+
 
 /*Seccion Eventos */
 $label["Eventos"]                           = "Eventos";
@@ -36,6 +37,7 @@ $label["No hay eventos disponibles"]        = "No hay eventos disponibles.";
 $label["Debe ingresar al menos una red social"] = "Debe ingresar al menos una red social.";
 $label["Debe ingresar al menos un organizador"] = "Debe ingresar al menos un organizador.";
 $label["La fecha de inicio no puede ser mayor que la fecha de fin"] = "La fecha de inicio no puede ser mayor que la fecha de fin.";
+$label["Evento no encontrado"]              = "Evento no encontrado";
 
 //Seccion de salas
 $label["Salas"]                         = "Salas";
@@ -53,6 +55,7 @@ $label["image_path"]                    = "Imagen";
 $label["link"]                          = "Link Externo";
 $label["No hay salas disponibles"]      = "No hay salas disponibles.";
 $label["Para agregar una sesión, debe tener creado al menos una sala."] = "Para agregar una sesión, debe tener creado al menos una sala.";
+$label["Sala no encontrada"]            = "Sala no encontrada";
 
 //Seccion encuestas
 $label["Encuesta | Preguntas"]          = "Encuesta | Preguntas";
@@ -68,7 +71,6 @@ $label["Pregunta editada exitosamente"] = "Pregunta editada exitosamente.";
 $label["Pregunta borrada exitosamente"] = "Pregunta borrada exitosamente.";
 $label["No hay preguntas disponibles"]  = "No hay preguntas disponibles.";
 
-
 //Sección sesion
 $label["Sesiones"]                      = "Sesiones";
 $label["No hay sesiones disponibles"]   = "No hay sesiones disponibles";
@@ -77,6 +79,7 @@ $label["Crear Sesión"]                  = "Crear Sesión";
 $label["Editar Sesión"]                 = "Editar Sesión";
 $label["Sesión editada exitosamente"]   = "Sesión editada exitosamente.";
 $label["Sesión borrada exitosamente"]   = "Sesión borrada exitosamente.";
+$label["Sesión no encontrada"]          = "Sesión no encontrada";
 
 //Sección usuarios
 $label["first_name"]                    = "Nombre";
@@ -98,10 +101,11 @@ $label["Crear"]                         = "Crear";
 $label["Editar"]                        = "Editar";
 $label["Leer"]                          = "Leer";
 $label["Borrar"]                        = "Borrar";
-$label["El correo ingresado ya existe"] = "El correo ingresado ya existe.";
+$label["El correo ingresado ya existe"] = "Disculpe, ya existe un usuario con el correo proporciado.";
 $label["Usuario no encontrado"]         = "Usuario no encontrado";
-
-
+$label["No hay usuarios disponibles"]   = "No hay usuarios disponibles";
+$label["Usuarios"]                      = "Usuarios";
+ 
 /*Expositores*/
 $label["Expositores"]                    = "Expositores";
 $label["No hay expositores disponibles"] = "No hay expositores disponibles";
@@ -112,7 +116,7 @@ $label["Editar Expositor"]               = "Editar Expositor";
 $label["Crear Expositor"]                = "Crear Expositor";
 $label["category_id"]                    = "Categoría";
 $label["category"]                       = "Categoría";
-
+$label["Expositor no encontrado"]        = "Expositor no encontrado";
 
 /*Speakers */
 $label["Presentadores"]                     = "Speakers";
@@ -125,12 +129,13 @@ $label["other"]                             = "Otro";
 $label["Presentador creado exitosamente"]   = "Speaker creado exitosamente";
 $label["Presentador editado exitosamente"]  = "Speaker editado exitosamente";
 $label["Presentador borrado exitosamente"]  = "Speaker borrado exitosamente";
+$label["Presentador no encontrado"]         = "Presentador no encontrado";
 
 /*Evaluaciones */
 $label["Evaluaciones"]                      = "Evaluaciones";
 $label["Ver Resultados"]                    = "Ver Resultados";
 $label["No hay evaluaciones disponibles"]   = "No hay evaluaciones disponibles";
-
+$label["Evaluación no encontrada"]          = "Evaluación no encontrada";
 
 
 /* Generales */
@@ -166,34 +171,50 @@ $label["El tamaño de la imagen es muy grande. Tamaño máximo permitido:"] = "E
 $label["Archivo duplicado"]      = "Archivo duplicado.";
 $label["Formato de la imagen no válido."] = "Formato de la imagen no válido.";
 $label["La imagen proporcionada debe ser cuadrada"] = "La imagen proporcionada debe ser cuadrada.";
-$label["La imagen proporcionada excede con el tamaño máximo permitido"] = "La imagen proporcionada excede con el tamaño máximo permitido.";
-$label["La imagen proporcionada debe ser rectangular. Más ancha que alta"] = "La imagen proporcionada debe ser rectangular (más ancha que alta).";
+$label["La imagen proporcionada excede con el tamaño máximo permitido"] = "La imagen proporcionada excede con el tamaño máximo permitido";
+$label["La imagen proporcionada debe ser rectangular. Más ancha que alta"] = "La imagen proporcionada debe ser rectangular (más ancha que alta)";
 $label["Error en las redes sociales"]   = "Error en las redes sociales.";
 $label["Verifique la información de los organizadores"]     = "Verifique la información de los organizadores.";
-$label["Verifique la información de las redes sociales"]    = "Verifique la información de las redes sociales.";
-$label["Ingrese a su cuenta"]                               = "Ingrese a su cuenta";
-$label["Ya existe una sala con este nombre"]                = "Ya existe una sala con este nombre.";
-$label["Reporte"]                                           = "Visualizar Reporte";
-$label["Esta encuesta no posee resultados aún"]             = "Esta encuesta no posee resultados aún";
-$label["Exportar PDF"]                                      = "Exportar PDF";
-$label["Imprimir"]                                          = "Imprimir";
-$label["Exportar Excel"]                                    = "Exportar Excel";
-$label["q_options"]                                         = "N° opciones";
-$label["No hay clientes activos"]                           = "No hay clientes activos";
-$label["Comentarios"]                                       = "Comentarios";
-$label["Votaciones"]                                        = "Votaciones";
-$label["Votacion"]                                          = "Votación";
-$label["Cantidad de votaciones"]                            = "Cantidad de votaciones";
-$label["Valoracion Total"]                                  = "Valoración Total";
-$label["Ranking"]                                           = "Ranking";
-$label["Cantidad"]                                          = "Cantidad";
-$label["Resultado evaluacion"]                              = "Resultado evaluación";
-$label["Valoracion"]                                        = "Valoración";
-$label["Datos incorrectos"]                                 = "La combinación correo/contraseña es incorrecta. Por favor verifique sus datos e intente de nuevo.";
-$label["Seleccionar cliente"]                               = "Seleccionar cliente";
-$label["Seleccionar evento"]                                = "Seleccionar evento";
-$label["No hay eventos disponibles"]                        = "No hay eventos disponibles";
-$label["No hay eventos asociados aun"]                      = "No hay eventos asociados aún";
-
-
+$label["Verifique la información de las redes sociales"]        = "Verifique la información de las redes sociales.";
+$label["Ingrese a su cuenta"]                                   = "Ingrese a su cuenta";
+$label["Ya existe una sala con este nombre"]                    = "Ya existe una sala con este nombre.";
+$label["Reporte"]                                               = "Visualizar Reporte";
+$label["Esta encuesta no posee resultados aún"]                 = "Esta encuesta no posee resultados aún";
+$label["Exportar PDF"]                                          = "Exportar PDF";
+$label["Imprimir"]                                              = "Imprimir";
+$label["Exportar Excel"]                                        = "Exportar Excel";
+$label["q_options"]                                             = "N° opciones";
+$label["No hay clientes activos"]                               = "No hay clientes activos";
+$label["Comentarios"]                                           = "Comentarios";
+$label["Votaciones"]                                            = "Votaciones";
+$label["Votacion"]                                              = "Votación";
+$label["Cantidad de votaciones"]                                = "Cantidad de votaciones";
+$label["Valoracion Total"]                                      = "Valoración Total";
+$label["Ranking"]                                               = "Ranking";
+$label["Cantidad"]                                              = "Cantidad";
+$label["Resultado evaluacion"]                                  = "Resultado evaluación";
+$label["Valoracion"]                                            = "Valoración";
+$label["Datos incorrectos"]                                     = "La dirección de correo electrónico y la contraseña que ha introducido no coinciden.";
+$label["Seleccionar cliente"]                                   = "Seleccionar cliente";
+$label["Seleccionar evento"]                                    = "Seleccionar evento";
+$label["No hay eventos disponibles"]                            = "No hay eventos disponibles";
+$label["No hay eventos asociados aun"]                          = "No hay eventos asociados aún";
+$label["Ingresar"]                                              = "Ingresar";
+$label["Introduzca su correo"]                                  = "Introduzca su correo";
+$label["Su nueva contraseña se ha enviado a su correo"]         = "Su nueva contraseña se ha envíado a su correo exitosamente.";
+$label["El correo electrónico ingresado no existe"]             = "La dirección de correo electrónico ingresado no existe";
+$label["Ingrese su correo electrónico"]                         = "Ingrese su dirección de correo electrónico";
+$label["Ingrese su contraseña"]                                 = "Ingrese su contraseña";
+$label["No hay resultados que coincidan con su búsqueda"]       = "No hay resultados que coincidan con su búsqueda";
+$label["La dirección de correo electrónico no es válida"]       = "La dirección de correo electrónico no es válida";
+$label["Ingrese sus credenciales"]                              = "Ingrese sus credenciales";
+$label["Perfil de Usuario"]                                     = "Perfil de Usuario";
+$label["Cambiar contraseña"]                                    = "Cambiar contraseña";
+$label["Su contraseña fue modificada exitosamente"]             = "Su contraseña fue modificada exitosamente";
+$label["Su contraseña actual no es válida"]                     = "La contraseña actual ingresada no es válida";
+$label["Contraseña anterior"]                                   = "Contraseña actual";
+$label["Contraseña nueva"]                                      = "Nueva contraseña";
+$label["Ingrese su contraseña actual"]                          = "Ingrese su contraseña actual";
+$label["Ingrese su nueva contraseña"]                           = "Ingrese su nueva contraseña";
+$label["La nueva contraseña debe tener al menos 4 caracteres"]  = "La nueva contraseña debe tener al menos 4 caracteres";
 ?>

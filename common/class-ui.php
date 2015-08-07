@@ -42,12 +42,12 @@ class ui  {
                     .fireUI-table td{border:1px solid #ccc;padding:4px;}
                     .fireUI-table thead{border:1px solid #ccc}
                     .fireUI-table *{text-align:left;}
-                    .fireUI-table thead th{ font-size:12px;position:relative; background-color: #FFFF33; padding: 5px 4px; border: 1px solid #CCCCCC;}
+                    .fireUI-table thead th{ font-size:12px;position:relative; background-color: #545454; color:white; padding: 5px 4px; border: 1px solid #CCCCCC;}
                     .fireUI_navigation li{padding:10px;}
                     .fireUI-table span {overflow: hidden; text-overflow: ellipsis;}
                     ";
        if ($order || $filter){ 
-       $style .=    "@media (min-width: 501px) {.fireUI-table thead th:hover{background: #F6E235;cursor: pointer; }}
+       $style .=    "@media (min-width: 501px) {.fireUI-table thead th:hover{background: #333;cursor: pointer; }}
                     .fireUI-table thead div{position:absolute;left:0px;top:38px;display:none; background:white; padding: 10px; box-shadow: 0px 0px 5px gray;}
                     .fireUI-table thead div input{padding: 3px; font-weight:normal;}";
        }
@@ -228,7 +228,7 @@ class ui  {
                     .fireUI_pagination li {display: inline-block; padding: 0px 2px; }
                     .fireUI_pagination a {text-decoration: none; color: #404040; cursor: pointer; padding: 5px 10px;}
                     @media (min-width: 501px) {.fireUI_pagination a:hover{background:#F2F2F2; padding: 5px 10px;}}
-                    .fireUI_li_active a {background: #EAEFFA}
+                    .fireUI_li_active a {background: #E0E0E0;}
                     .fireUI_li_inactive a {color: #e4e4e4;}
                     @media (min-width: 501px) {.fireUI_li_inactive a:hover{background: none; cursor: default;}}
                     </style>";
