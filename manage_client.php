@@ -39,7 +39,7 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
             $_SESSION["client"]["logo_path"] =  $path;
             $en["logo_path"]                 =  $path ;
         }
-   }else if ($client["logo_path"] == "" && !isset($_SESSION["client"]["logo_path"])){
+   }else if (@$client["logo_path"] == "" && !isset($_SESSION["client"]["logo_path"])){
         $error = 1;
         $missing["logo_path"] = 1;
    }
@@ -143,7 +143,9 @@ foreach ($general[$section]["image_format"] as $k){
     $imageTypeAux .= "," . $k ;
 }
 $imageType = $label["Formatos permitidos:"]."<b> ". substr($imageTypeAux, 1). "</b>" ;
-$imageSize = "Tamaño máximo permitido: <b> ".$general[$section]["image_width"]."x".$general[$section]["image_height"] . "</b>" ;
+$extra     = "(Cuadrada)";
+if (isset($general["$section"]["image_type"]) &&  $general["$section"]["image_type"] == "rectangle") $extra = "(Rectangular)";
+$imageSize = "Tamaño máximo permitido: <b> ".$general[$section]["image_width"]."x".$general[$section]["image_height"] . " $extra </b>" ;
 $s = $general[$section]["image_size"] / 1000;
 $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
 
@@ -199,7 +201,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                     $mandatory = $classMand = "" ;
                     if (!in_array($v["COLUMN_NAME"],$input["client"]["manage"]["no-show"])){
                         $type  = (isset($input["client"]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input["client"]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
-                        $value = (isset($client[$v["COLUMN_NAME"]])) ? $client[$v["COLUMN_NAME"]] : "";            
+                        $value = (isset($client[$v["COLUMN_NAME"]])) ? $client[$v["COLUMN_NAME"]] : "";
                         if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
                         else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}        
           
@@ -231,6 +233,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                          $options = $input[$section]["manage"][$v["COLUMN_NAME"]]["options"];
                     ?>
                             <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>>
+                                <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($options as $sk=>$sv){
                                     $selected=""; if($value == $sk) $selected = "selected";
                                     ?>

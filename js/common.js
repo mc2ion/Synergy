@@ -131,6 +131,7 @@ function loadEventList(client){
     $(".events").html("<option value=''>Cargando...</option>");
     if (typeof clientId !== "undefined"  ){
         $.post( "./backend/events_ajax.php", {"id": clientId}, function( data ) {
+            //alert(data);
             data = jQuery.parseJSON(data);
             if (data == ""){
                  html += "<option value=''>No hay eventos asociados</option>";

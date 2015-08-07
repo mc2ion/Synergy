@@ -1,7 +1,8 @@
 <?php
 session_start();
 include (__dir__."/../common/labels.php");
-include("class-backend.php"); $backend = new backend($label);
+include (__dir__."/../common/conf.php");
+include("class-backend.php"); $backend = new backend($label, $typeUser);
 $clientId = isset($_POST["id"]) ? $_POST["id"] :"" ;
 $out    = "";
 if ($clientId){

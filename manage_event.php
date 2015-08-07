@@ -253,7 +253,9 @@ foreach ($general[$section]["image_format"] as $k){
     $imageTypeAux .= "," . $k ;
 }
 $imageType = $label["Formatos permitidos:"]."<b> ". substr($imageTypeAux, 1). "</b>" ;
-$imageSize = "Tamaño máximo permitido: <b> ".$general[$section]["image_width"]."x".$general[$section]["image_height"] . "</b>" ;
+$extra     = "(Cuadrada)";
+if (isset($general["$section"]["image_type"]) &&  $general["$section"]["image_type"] == "rectangle") $extra = "(Rectangular)";
+$imageSize = "Tamaño máximo permitido: <b> ".$general[$section]["image_width"]."x".$general[$section]["image_height"] . " $extra </b>" ;
 $s = $general[$section]["image_size"] / 1000;
 $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
 
