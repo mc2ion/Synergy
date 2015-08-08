@@ -152,6 +152,12 @@ function loadEventList(client){
     }    
 }
 
+//Tablas
+$(document).ready( function () {
+    $('.fireUI-table').DataTable({"bLengthChange": false,"bInfo": false});
+});
+
+
 //Date picker español
 $.datepicker.regional['es'] = {
      closeText: 'Cerrar',

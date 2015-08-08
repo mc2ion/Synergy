@@ -11,6 +11,9 @@ $out =
     <link href="./js/jquery-ui.css" rel="stylesheet">
     <script src="./js/jquery-ui.js"></script>
     <script src="./js/common.js"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="./js/datatable/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="./js/datatable/js/jquery.dataTables.js"></script>
 EOT;
     return $out;
 }

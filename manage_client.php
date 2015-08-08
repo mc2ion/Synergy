@@ -67,13 +67,11 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
        }
    }
 
-
-    //Calcular color secundario
-    //$en["secondary_color"]  ''
-
-
-   
-   if (!$error){
+  if (!$error){
+        //Calcular color secundario
+        $en["button_color"]          = colourBrightness($en["top_menu_color"], -0.70);
+        $en["main_menu_color_aux"]   = colourBrightness($en["main_menu_color"], 0.80);
+        $en["main_submenu_color"]    = colourBrightness($en["main_menu_color"], 0.92);
        if (isset($_POST["add"])){
             $id = @$backend->insertRow("client", $en);
             if ($id > 0) { 
@@ -210,7 +208,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                         if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
                         else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}        
                         $class = $classMand;
-                        if ($v["COLUMN_NAME"] == "primary_color1" || $v["COLUMN_NAME"] == "primary_color2") $class="class= 'color {hash:true} ".substr($classMand,7, 9)."'";
+                        if ($v["COLUMN_NAME"] == "main_menu_color" || $v["COLUMN_NAME"] == "top_menu_color") $class="class= 'color {hash:true} ".substr($classMand,7, 9)."'";
 
             ?>
                     

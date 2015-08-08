@@ -19,7 +19,7 @@ class backend extends db{
     function login($params){
         $email = $this->clean($params["at-email"]);
         $pass  = md5($this->clean($params["at-password"]));
-        $query = "SELECT t1.*, t2.name as client_name, t2.logo_path, t2.primary_color1, t2.primary_color2, t2.secondary_color from user t1 left join client t2 on (t1.client_id = t2.client_id)  WHERE email = '{$email}' AND password = '{$pass}' LIMIT 1";
+        $query = "SELECT t1.*, t2.name as client_name, t2.logo_path, t2.main_menu_color, t2.main_menu_color_aux, t2.button_color, t2.top_menu_color, t2.font_main_menu_color, t2.font_top_menu_color, t2.main_submenu_color from user t1 left join client t2 on (t1.client_id = t2.client_id)  WHERE email = '{$email}' AND password = '{$pass}' LIMIT 1";
         $q["user"] = $this->dbQuery($query);
         if ($q["user"]){
             if ($this->app["typeUser"][$q["user"][1]["type"]] == "cliente"){
