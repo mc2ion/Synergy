@@ -68,11 +68,13 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
    }
 
   if (!$error){
-        //Calcular color secundario
-        $en["button_color"]          = colourBrightness($en["top_menu_color"], -0.70);
-        $en["main_menu_color_aux"]   = colourBrightness($en["main_menu_color"], 0.80);
-        $en["main_submenu_color"]    = colourBrightness($en["main_menu_color"], 0.92);
-       if (isset($_POST["add"])){
+      //Calcular color secundario
+      $en["button_color"]          = colourBrightness($en["top_menu_color"], -0.85);
+      $en["main_menu_color_aux"]   = colourBrightness($en["main_menu_color"], 0.80);
+      $en["main_submenu_color"]    = colourBrightness($en["main_menu_color"], 0.92);
+      $en["font_main_menu_color"]  = getFontColor($en["main_menu_color"]);
+      $en["font_top_menu_color"]   = getFontColor($en["top_menu_color"]);
+      if (isset($_POST["add"])){
             $id = @$backend->insertRow("client", $en);
             if ($id > 0) { 
                 unset($_SESSION["client"]["logo_path"]);

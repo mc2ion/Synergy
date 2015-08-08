@@ -5,8 +5,10 @@
     $main_menu              = "#000000";
     $top_menu               = "#fbe336";
     $button                 = "#e8b113";
-    $main_menu_axu          = "#333";
-    $submenu                = "#545454";
+    $main_menu_axu          = "#333333";
+    $submenu                = "#161616";
+    $font_main_menu         = "#ffffff";
+    $font_top_menu          = "#000000";
 
     if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente"){
         $main_menu          = $_SESSION["app-user"]["user"][1]["main_menu_color"];
@@ -14,6 +16,8 @@
         $main_menu_axu      = $_SESSION["app-user"]["user"][1]["main_menu_color_aux"];
         $button             = $_SESSION["app-user"]["user"][1]["button_color"];
         $submenu            = $_SESSION["app-user"]["user"][1]["main_submenu_color"];
+        $font_main_menu     = $_SESSION["app-user"]["user"][1]["font_main_menu_color"];
+        $font_top_menu     = $_SESSION["app-user"]["user"][1]["font_top_menu_color"];
     }
 ?>/* Generales */
 *{ font-family: "Trebuchet MS", Helvetica, sans-serif; margin: 0; padding: 0; font-size: 13px;}
@@ -22,14 +26,14 @@ body.login {background: #E9E9E9;}
 /* Menu y barra superior */
 .menu{width: 250px; background-color: <?= $main_menu?>;  position: fixed; height: 100%;/* border-right: 1px solid rgb(126, 126, 126); */ z-index: 2;text-align: center;}
 .menu li { list-style-type: none;}
-.menu li a { display: inline-block; color: white; text-decoration: none; width: 217px; padding: 15px; border-left: 3px solid <?= $main_menu?>; position: relative;}
+.menu li a { display: inline-block; color: <?= $font_main_menu?>; text-decoration: none; width: 217px; padding: 15px; border-left: 3px solid <?= $main_menu?>; position: relative;}
 .menu li a:hover{background: <?= $main_menu_axu?>;border-left: 3px solid <?= $top_menu ?>;}
 .menu li a.selected{ background: <?= $main_menu_axu?>; border-left: 3px solid <?= $top_menu ?>; width: 217px;}
 .submenu li a.selected{ background: <?= $main_menu_axu?>; border-left: 3px solid <?= $top_menu ?>; width: 192px;}
 .logo {margin: 25px 0px 0px; max-width: 180px; max-height: 60px;}
 .admin {color:white; text-align: center; padding: 15px 0px;}
 .top-bar{width: 100%; background-color: <?= $top_menu ?>; padding: 5px 0px;  text-align: right; font-size: 12px;margin-right: 0px;position: fixed;box-shadow: 0px 0px 4px gray;z-index: 1;height: 30px;}
-.logout {color: #333333;margin-right: 0px;display: inline-block;margin-left: 5px;font-weight: bold;margin-left: 15px;margin-right: 10px;}
+.logout {color: <?= $font_top_menu?>;margin-right: 0px;display: inline-block;margin-left: 5px;font-weight: bold;margin-left: 15px;margin-right: 10px;}
 .content {margin-left: 250px;padding: 60px 30px;}
 .topu{text-align: left; padding: 20px 0px;border-bottom: 1px solid #333333;}
 .mng select{  width: 96%; padding: 5px !important;  margin: 10px auto;  display: block;}
@@ -96,8 +100,8 @@ img.ui-datepicker-trigger {  position: absolute;  right: 3px;  top: 3px;  width:
 .organizer .top {margin-bottom: 10px;}
 tr.tr_organizers * {font-size: 16px;}
 tr.tr_organizers td {border-bottom: 1px solid #848484;margin-bottom: 10px;}
-.label {    display: table-cell;    width: 200px;vertical-align: top;}
-.value {    display: table-cell;    width: 300px;}
+.label {    display: table-cell;    width: 215px;vertical-align: top;}
+.value {    display: table-cell;    width: 335px;}
 .options-title { font-size: 16px; border-bottom: 1px solid #848484;margin-bottom: 10px;}
 td.option-td {padding-top: 10px;}
 .option textarea{height: 50px;}
@@ -129,8 +133,8 @@ img.mandatory {  width: 9px;}
 .action a:hover {  text-decoration: underline;}
 .action a {  color: black;  text-decoration: none;}
 .tr_permi{  border-bottom: 1px solid rgb(0, 0, 0); margin-bottom: 10px;  font-size:16px;}
-.mng-text{  width: 96%; margin: 2%;color: white; text-align: center;  padding: 15px 0px 5px;}
-div.top-sb.submenu-holder a {text-decoration: none; color: #404040;}
+.mng-text{  width: 96%; margin: 2%;color: <?= $font_main_menu?>; text-align: center;  padding: 15px 0px 5px;}
+div.top-sb.submenu-holder a {text-decoration: none; color: <?= $font_top_menu?>;}
 div.top-sb.submenu-holder {display: inline-block;position: relative;line-height: 29px;}
 div.submenu-holder:hover ul.sbm { display: block;}
 ul.sbm {/* display: none; */ position: absolute;  margin-top: 1px; z-index: 200; min-width: 140px; background-color: rgb(245, 245, 245);box-shadow: 0px 0px 2px gray;margin-left: -10px;}
@@ -156,6 +160,8 @@ div.pass{line-height:25px;}
 .fireUI-table td{border:1px solid #ccc;padding:4px;}
 .fireUI-table thead{border:1px solid #ccc}
 .fireUI-table *{text-align:left;}
-.fireUI-table thead th{ font-size:12px;position:relative; background-color: <?= $main_menu_axu?>; color:white; padding: 5px 4px; border: 1px solid #CCCCCC;}
+.fireUI-table thead th{ font-size:12px;position:relative; background-color: <?= $main_menu_axu?>; color:<?= $font_main_menu?>; padding: 5px 4px; border: 1px solid #CCCCCC;}
 .fireUI_navigation li{padding:10px;}
 .fireUI-table span {overflow: hidden; text-overflow: ellipsis;}
+.dataTables_filter label{ display: inline-block !important; width:100%; margin-bottom:15px; vertical-align:middle;}
+.dataTables_filter input{ padding:5px;}

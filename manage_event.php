@@ -437,7 +437,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){
-                        if ($_SESSION["data"]["evento"] == $_GET["id"]) { ?> 
+                        if (@$_SESSION["data"]["evento"] == $_GET["id"]) { ?>
                             <input type="submit" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                         <?php }else{ ?>
                             <input type="submit" class="important dlt" name="delete"  value="<?= $label["Borrar"]?>" />
