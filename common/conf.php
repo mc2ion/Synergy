@@ -92,8 +92,12 @@ $input["client"]["manage"]["country"]["options"]        = include "country.php";
 /** Fin seccion cliente **/
 
 /** Evento **/
-$input["event"]["manage"]["mandatory"]                  = array("name", "map_path", "date_ini", "address", "phone", "website", "organizers");
+$input["event"]["manage"]["mandatory"]                  = array("name", "map_path", "date_ini", "address", "phone", "country", "website", "organizers");
 $input["event"]["manage"]["no-show"]                    = array("event_id", "client_id", "active");
+$input["event"]["manage"]["country"]["type"]            = "select";
+$input["event"]["manage"]["country"]["options"]         = include "country.php";
+
+
 
 //Si options esta vacio es porque estoy buscando un query en particular
 $input["event"]["manage"]["map_path"]["type"]           = "file";

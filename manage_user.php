@@ -122,8 +122,6 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
             $id = @$backend->insertRow($section, $en);
             if ($id > 0) {
                 if ($en["type"] == "cliente"){
-                    echo "a";
-                    exit();
                     /* Permisologia */
                     foreach ($p["section"] as $k=>$v){
                         $v["user_id"] = $backend->clean($id);

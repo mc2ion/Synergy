@@ -223,7 +223,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                         if ($type == ""){ 
                 ?>
                         <?php if ($v["COLUMN_NAME"] == "contact_phone"){?>
-                                <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" class="code"  />
+                                <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" class="code" disabled />
                                 <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" class="phone" />
                         <?php  }else{ ?>
                             <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?= $class?>  />

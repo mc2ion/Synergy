@@ -247,7 +247,7 @@ $(function() {
 });
 
 $.validator.messages.required   = 'Este campo es obligatorio';
-$.validator.messages.email      = "Ingrese una dirección de correo electrónico válido.";
+$.validator.messages.email      = "Ingrese una dirección de correo electrónico válida.";
 $.validator.messages.number     = "Ingrese un número telefónico válido";
 $.validator.messages.url        = "Ingrese una dirección de url válida";
     
@@ -255,11 +255,11 @@ $.validator.messages.url        = "Ingrese una dirección de url válida";
 jQuery(function($) {
     $.validator.addMethod("phoneNumber", function(value, element) {
         return this.optional(element) || /^[0-9\-\s]+$/i.test(value);
-    }, "Ingrese un número de teléfono válido. Los símbolos permitidos son: -, espacio y +.");
+    }, "Ingrese un número de teléfono válido. Los símbolos permitidos son: - y espacio.");
 
     $.validator.addMethod("phone", function(value, element) {
         return this.optional(element) || /^[0-9\-\s]+$/i.test(value);
-    }, "Ingrese un número de teléfono válido. Los símbolos permitidos son: +, - y espacio.");
+    }, "Ingrese un número de teléfono válido. Los símbolos permitidos son: - y espacio.");
 
     validator = $("#form").validate(
         {
