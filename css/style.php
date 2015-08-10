@@ -165,3 +165,5 @@ div.pass{line-height:25px;}
 .fireUI-table span {overflow: hidden; text-overflow: ellipsis;}
 .dataTables_filter label{ display: inline-block !important; width:100%; margin-bottom:15px; vertical-align:middle;}
 .dataTables_filter input{ padding:5px;}
+input.code {width: 14% !Important;float: left;margin-right: 1%;}
+input.phone {float: left;width: 85% !important;}

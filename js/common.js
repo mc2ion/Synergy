@@ -58,6 +58,13 @@ $( document ).ready(function() {
         }
         
     });
+
+    //Mostrar codigo de area segun pais seleccionado
+    $('select[name=country]').change(function(event){
+        $.post( "./common/phoneCode.php", {"code": $(this).val()}, function( data ) {
+           $(".code").val(data);
+        });
+    });
     
     //Ocultar campos dependiendo de la categoria del expositor
     $('select[name=category_id]').change(function(event){

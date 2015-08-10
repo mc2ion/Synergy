@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2f899c89-1ed1-43d3-bf6f-df8f1baecfb4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/common/country.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/common/phoneCode.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/common.js" afterPath="$PROJECT_DIR$/js/common.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common/conf.php" afterPath="$PROJECT_DIR$/common/conf.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common/country.php" afterPath="$PROJECT_DIR$/common/country.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/datatable/css/jquery.dataTables.css" afterPath="$PROJECT_DIR$/js/datatable/css/jquery.dataTables.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/timepicker/css/timepicki.css" afterPath="$PROJECT_DIR$/js/timepicker/css/timepicki.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manage_client.php" afterPath="$PROJECT_DIR$/manage_client.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common/phoneCode.php" afterPath="$PROJECT_DIR$/common/phoneCode.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/style.php" afterPath="$PROJECT_DIR$/css/style.php" />
     </list>
     <ignored path="synergy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,56 +29,68 @@
     <favorites_list name="synergy" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.48983365">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="country.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/common/country.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="6.313406">
-                  <caret line="205" column="36" selection-start-line="205" selection-start-column="36" selection-end-line="205" selection-end-column="36" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="conf.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/common/conf.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-171.3077">
-                  <caret line="273" column="47" selection-start-line="273" selection-start-column="47" selection-end-line="273" selection-end-column="47" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="phoneCode.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/common/phoneCode.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.4003623">
-                  <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="labels.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/common/labels.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-136.65384">
-                  <caret line="209" column="46" selection-start-line="209" selection-start-column="46" selection-end-line="209" selection-end-column="46" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf>
+      <file leaf-file-name="country.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/common/country.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.5380435">
+              <caret line="209" column="23" selection-start-line="209" selection-start-column="23" selection-end-line="209" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manage_client.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/manage_client.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-16.423077">
+              <caret line="225" column="114" selection-start-line="225" selection-start-column="110" selection-end-line="225" selection-end-column="114" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="phoneCode.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common/phoneCode.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.1090908">
+              <caret line="61" column="24" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/style.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-17.76923">
+              <caret line="168" column="38" selection-start-line="168" selection-start-column="38" selection-end-line="168" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="common.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/common.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="64" column="25" selection-start-line="64" selection-start-column="25" selection-end-line="64" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="conf.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common/conf.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-15.038462">
+              <caret line="90" column="79" selection-start-line="90" selection-start-column="79" selection-end-line="90" selection-end-column="79" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -96,7 +108,6 @@
         <option value="$PROJECT_DIR$/manage_password.php" />
         <option value="$PROJECT_DIR$/manage_user.php" />
         <option value="$PROJECT_DIR$/common/labels.php" />
-        <option value="$PROJECT_DIR$/common/conf.php" />
         <option value="$PROJECT_DIR$/backend/class-backend.php" />
         <option value="$PROJECT_DIR$/common/class-ui.php" />
         <option value="$PROJECT_DIR$/clients.php" />
@@ -105,9 +116,7 @@
         <option value="$PROJECT_DIR$/reviews.php" />
         <option value="$PROJECT_DIR$/js/spanish.js" />
         <option value="$PROJECT_DIR$/common/functions.php" />
-        <option value="$PROJECT_DIR$/css/style.php" />
         <option value="$PROJECT_DIR$/manage_event.php" />
-        <option value="$PROJECT_DIR$/js/common.js" />
         <option value="$PROJECT_DIR$/sessions.php" />
         <option value="$PROJECT_DIR$/survey-report.php" />
         <option value="$PROJECT_DIR$/users.php" />
@@ -116,12 +125,15 @@
         <option value="$PROJECT_DIR$/exhibitors.php" />
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/login.php" />
-        <option value="$PROJECT_DIR$/manage_client.php" />
         <option value="$PROJECT_DIR$/js/timepicker/css/timepicki.css" />
         <option value="$PROJECT_DIR$/js/datatable/css/jquery.dataTables.css" />
         <option value="$PROJECT_DIR$/js/country.js" />
-        <option value="$PROJECT_DIR$/common/country.php" />
+        <option value="$PROJECT_DIR$/manage_client.php" />
+        <option value="$PROJECT_DIR$/css/style.php" />
+        <option value="$PROJECT_DIR$/common/conf.php" />
+        <option value="$PROJECT_DIR$/js/common.js" />
         <option value="$PROJECT_DIR$/common/phoneCode.php" />
+        <option value="$PROJECT_DIR$/common/country.php" />
       </list>
     </option>
   </component>
@@ -207,7 +219,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
+              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -221,7 +233,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="backend" />
+              <option name="myItemId" value="common" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -530,13 +542,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/style.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.2545455">
-          <caret line="103" column="46" selection-start-line="103" selection-start-column="46" selection-end-line="103" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/surveys.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7234042">
@@ -559,14 +564,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/common.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.65745854">
-          <caret line="170" column="75" selection-start-line="170" selection-start-column="75" selection-end-line="170" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/clients.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0967118">
@@ -585,13 +582,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.038462">
           <caret line="431" column="21" selection-start-line="431" selection-start-column="21" selection-end-line="431" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manage_client.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39458415">
-          <caret line="82" column="24" selection-start-line="82" selection-start-column="24" selection-end-line="82" selection-end-column="24" />
           <folding />
         </state>
       </provider>
@@ -622,6 +612,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21581548">
           <caret line="429" column="17" selection-start-line="429" selection-start-column="17" selection-end-line="429" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -629,6 +620,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.48105437">
           <caret line="30" column="4" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -636,6 +628,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.08777969">
           <caret line="185" column="22" selection-start-line="185" selection-start-column="18" selection-end-line="185" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -647,34 +640,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/css/style.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.76923">
+          <caret line="168" column="38" selection-start-line="168" selection-start-column="38" selection-end-line="168" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/common/conf.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-171.3077">
-          <caret line="273" column="47" selection-start-line="273" selection-start-column="47" selection-end-line="273" selection-end-column="47" />
+        <state vertical-scroll-proportion="-15.038462">
+          <caret line="90" column="79" selection-start-line="90" selection-start-column="79" selection-end-line="90" selection-end-column="79" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/common/labels.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-136.65384">
+        <state vertical-scroll-proportion="6.1153183">
           <caret line="209" column="46" selection-start-line="209" selection-start-column="46" selection-end-line="209" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage_client.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.423077">
+          <caret line="225" column="114" selection-start-line="225" selection-start-column="110" selection-end-line="225" selection-end-column="114" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="64" column="25" selection-start-line="64" selection-start-column="25" selection-end-line="64" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/common/phoneCode.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4003623">
-          <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+        <state vertical-scroll-proportion="-2.1090908">
+          <caret line="61" column="24" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/common/country.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="6.313406">
-          <caret line="205" column="36" selection-start-line="205" selection-start-column="36" selection-end-line="205" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.5380435">
+          <caret line="209" column="23" selection-start-line="209" selection-start-column="23" selection-end-line="209" selection-end-column="23" />
           <folding />
         </state>
       </provider>

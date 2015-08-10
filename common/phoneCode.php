@@ -1,4 +1,5 @@
 <?php
+$code            = $_POST["code"];
 $phoneCode       = array();
 $phoneCode["AF"] = "+93";
 $phoneCode["AL"] = "+355";
@@ -27,6 +28,7 @@ $phoneCode["BO"] = "+591";
 $phoneCode["BA"] = "+387";
 $phoneCode["BW"] = "+267";
 $phoneCode["BR"] = "+55";
+$phoneCode["CN"] = "+86";
 $phoneCode["IO"] = "+246";
 $phoneCode["VG"] = "+1";
 $phoneCode["BN"] = "+673";
@@ -56,6 +58,8 @@ $phoneCode["DK"] = "+45";
 $phoneCode["DJ"] = "+253";
 $phoneCode["DM"] = "+1";
 $phoneCode["DO"] = "+1";
+$phoneCode["GT"] = "+502";
+$phoneCode["IL"] = "+972";
 $phoneCode["EC"] = "+593";
 $phoneCode["EG"] = "+20";
 $phoneCode["SV"] = "+503";
@@ -231,4 +235,5 @@ $phoneCode["WF"] = "+681";
 $phoneCode["YE"] = "+967";
 $phoneCode["ZM"] = "+260";
 $phoneCode["ZW"] = "+263";
+echo $phoneCode[$code];
 ?>

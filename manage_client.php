@@ -222,7 +222,12 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?= $class?>  />
+                        <?php if ($v["COLUMN_NAME"] == "contact_phone"){?>
+                                <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" class="code"  />
+                                <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" class="phone" />
+                        <?php  }else{ ?>
+                            <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?= $class?>  />
+                        <?php } ?>
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ($type == "file") { 
                     ?>
