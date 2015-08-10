@@ -164,6 +164,13 @@ $(document).ready( function () {
                     aTargets: [ -1 ]
                 }
             ],
+            "fnDrawCallback":function(){
+                if($(".fireUI-table").find("tr:not(.ui-widget-header)").length<=5){
+                    $('.dataTables_wrapper div.dataTables_paginate').hide();
+                } else {
+                    $('.dataTables_wrapper div.dataTables_paginate').show();
+                }
+            },
             "language":
             {
                 "sProcessing":     "Procesando...",
