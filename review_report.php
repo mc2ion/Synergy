@@ -5,10 +5,10 @@
 */
 include ("./common/common-include.php");
 //Verificar que el usuario tiene  permisos
-if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"]["9"]["read"] == "0"){ header("Location: ./index.php"); exit();}
+if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"]["6"]["read"] == "0"){ header("Location: ./index.php"); exit();}
 
 if (!isset($_GET["id"]) ||  $_GET["id"] < 0) {
-     $_SESSION["message"] = "<div class='error'>".$label["EvaluaciÃ³n no encontrada"]  ."</div>";
+     $_SESSION["message"] = "<div class='error'>".$label["Evaluación no encontrada"]  ."</div>";
     header("Location: ./reviews.php");
     exit();
 }

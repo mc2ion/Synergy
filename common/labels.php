@@ -220,5 +220,6 @@ $label["Ingrese su contraseña actual"]                                      = "
 $label["Ingrese su nueva contraseña"]                                       = "Ingrese su nueva contraseña";
 $label["La nueva contraseña debe tener al menos 4 caracteres"]              = "La nueva contraseña debe tener al menos 4 caracteres";
 $label["Editar perfil de usuario"]                                          = "Editar perfil de usuario";
-
+$label["Por favor ingrese al menos un permiso"]                             = "Por favor ingrese al menos un permiso";
+$label["Perfil de usuario editado exitosamente"]                            = "Perfil de usuario editado exitosamente";
 ?>

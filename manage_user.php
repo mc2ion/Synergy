@@ -49,7 +49,7 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
         }
    }
    
-    if ($typeUser[$_POST["type"]] == "administrador") {
+    if (@$typeUser[$_POST["type"]] == "administrador") {
         //No colocar como obligatorio client_id, si el usuario es "super user"
         if(($key = array_search("client_id", $input[$section]["manage"]["mandatory"])) !== false) {
             unset($input[$section]["manage"]["mandatory"][$key]);
@@ -102,6 +102,7 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
 
    
    /* Permisologia */
+    $create = "";
     foreach ($sections as $k=>$v){
         if (isset($_POST[$v["section_id"]."_create"])){ $create = 1;}
         if (isset($_POST[$v["section_id"]."_read"]))  { $create = 1;}
@@ -114,18 +115,18 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
         $in["read"]       = isset($_POST[$v["section_id"]."_read"])? "1" : "0";
         $p["section"][$v["section_id"]] = $in;
     }
-   
+    if ($create == "" && @$typeUser[$_POST["type"]] == "cliente"){ $error = "1"; $message = "<div class='error'>".$label["Por favor ingrese al menos un permiso"]. "</div>";}
    if (!$error){
        if (isset($_POST["add"])){
             if ($en["client_id"] == "") unset($en["client_id"]);
             $en["password"] = md5($en["password"]);
             $id = @$backend->insertRow($section, $en);
             if ($id > 0) {
-                if ($en["type"] == "cliente"){
+                if ($typeUser[$en["type"]] == "cliente"){
                     /* Permisologia */
                     foreach ($p["section"] as $k=>$v){
                         $v["user_id"] = $backend->clean($id);
-                        @$backend->insertRow("permission", $v);
+                        $backend->insertRow("permission", $v);
                     }
                 }
                 $_SESSION["message"] = "<div class='succ'>".$label["Usuario creado exitosamente"]. "</div>";

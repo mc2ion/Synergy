@@ -235,5 +235,6 @@ $phoneCode["WF"] = "+681";
 $phoneCode["YE"] = "+967";
 $phoneCode["ZM"] = "+260";
 $phoneCode["ZW"] = "+263";
-echo $phoneCode[$code];
+if (isset($phoneCode[$code])) echo $phoneCode[$code];
+else echo  "";
 ?>

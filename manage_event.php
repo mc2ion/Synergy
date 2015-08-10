@@ -147,7 +147,12 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
             $message = "<div class='error'>".$label["La fecha de inicio no puede ser mayor que la fecha de fin"]. "</div>";
        }
    }
-   if (!$error){ 
+   if (!$error){
+       //Agregar el codigo del pais
+       $en["phone"] = "(".$_POST["phone_code"] . ")". $en["phone"];
+
+       //Pais
+       $en["country"]      = $country[$en["country"]];
        if (isset($_POST["add"])){
            $id = $backend->insertRow("event", $en);
            if ($id > 0) { 
@@ -233,6 +238,13 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
             $_SESSION["message"] = "<div class='error'>".$label["Evento no encontrado"] ."</div>";
             header("Location: ./events.php");
             exit();
+        }
+        $limiter = explode(")", $event["phone"]);
+        if (count($limiter) > 1){
+            $event["phone_code"]    = substr($limiter[0],1);
+            $event["phone"]         = $limiter[1];
+        }else{
+            $event["phone"]         = $limiter[0];
         }
         //Redes sociales del evento
         $socials = json_decode($event["social_networks"], true);
@@ -344,7 +356,14 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" <?= $classMand?> />
+                    <?php if ($v["COLUMN_NAME"] == "phone"){
+                            $valueCode = (isset($event[$v["COLUMN_NAME"]."_code"])) ? $event[$v["COLUMN_NAME"]."_code"] : "";
+                    ?>
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>_code" value="<?= $valueCode ?>" class="code" readOnly="true" />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" class="phone" />
+                    <?php  }else{ ?>
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?= $classMand?>  />
+                    <?php } ?>
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ( $type == "file") { ?>
                         <?php if ($value != "") {?>
@@ -364,10 +383,11 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                         $options = $input["event"]["manage"][$v["COLUMN_NAME"]]["options"];
                     ?>
                             <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>>
+                                <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($options as $sk=>$sv){
-                                    $selected=""; if($value == $sk) $selected = "selected";
+                                    $selected=""; if($value == $sv) $selected = "selected";
                                     ?>
-                                    <option value="<?=$sk?>"><?= $sv?></option>
+                                    <option value="<?=$sk?>" <?= $selected?>><?= $sv?></option>
                                 <?php }?>
                             </select>
                  <?php }else if ($type == "special" && $v["COLUMN_NAME"] == "social_networks"){

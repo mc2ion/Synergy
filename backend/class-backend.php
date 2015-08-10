@@ -350,7 +350,7 @@ class backend extends db{
                         }else $out[$k][$sk] = $sv;
                     } 
                 }
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"]["7"]["update"] == "1"){
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"]["8"]["update"] == "1"){
                     $out[$k]["action"] = "<a href='./manage_speaker.php?id={$v["speaker_id"]}'>{$this->label["Editar"]}</a>";
                 }
             }
@@ -382,7 +382,7 @@ class backend extends db{
                 }
                 if ($out[$k]["category"] == "")  $out[$k]["category"] = "---";
                 unset($out[$k]["category_id"]);
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"]["6"]["update"] == "1"){
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"]["7"]["update"] == "1"){
                     $out[$k]["action"] = "<a href='./manage_exhibitor.php?id={$v["exhibitor_id"]}'>{$this->label["Editar"]}</a>";
                 }
             }

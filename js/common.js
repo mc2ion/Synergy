@@ -65,6 +65,8 @@ $( document ).ready(function() {
            $(".code").val(data);
         });
     });
+
+
     
     //Ocultar campos dependiendo de la categoria del expositor
     $('select[name=category_id]').change(function(event){

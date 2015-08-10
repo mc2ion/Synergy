@@ -4,6 +4,8 @@
     Sección de usuarios
 */
 include ("./common/common-include.php");
+include ("./common/country.php");
+
 //Verificar que el usuario tiene  permisos
 $sectionId = "1";
 if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente"){ header("Location: ./index.php"); exit();}
@@ -69,11 +71,17 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
 
   if (!$error){
       //Calcular color secundario
-      $en["button_color"]          = colourBrightness($en["top_menu_color"], -0.85);
-      $en["main_menu_color_aux"]   = colourBrightness($en["main_menu_color"], 0.80);
-      $en["main_submenu_color"]    = colourBrightness($en["main_menu_color"], 0.92);
-      $en["font_main_menu_color"]  = getFontColor($en["main_menu_color"]);
-      $en["font_top_menu_color"]   = getFontColor($en["top_menu_color"]);
+      $en["button_color"]          = colourBrightness(@$en["top_menu_color"], -0.85);
+      $en["main_menu_color_aux"]   = colourBrightness(@$en["main_menu_color"], 0.80);
+      $en["main_submenu_color"]    = colourBrightness(@$en["main_menu_color"], 0.92);
+      $en["font_main_menu_color"]  = getFontColor(@$en["main_menu_color"]);
+      $en["font_top_menu_color"]   = getFontColor(@$en["top_menu_color"]);
+
+      //Agregar el codigo del pais
+      $en["contact_phone"] = "(".$_POST["contact_phone_code"] . ")". $en["contact_phone"];
+
+      //Pais
+      $en["country"]      = $country[$en["country"]];
       if (isset($_POST["add"])){
             $id = @$backend->insertRow("client", $en);
             if ($id > 0) { 
@@ -136,7 +144,14 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
             header("Location: ./clients.php");
             exit();
         }
-   }
+        $limiter = explode(")", $client["contact_phone"]);
+        if (count($limiter) > 1){
+            $client["contact_phone_code"]    = substr($limiter[0],1);
+            $client["contact_phone"]         = $limiter[1];
+        }else{
+            $client["contact_phone"]         = $limiter[0];
+        }
+    }
 }else{
     $title = $label["Crear Cliente"];
     $action = "add";
@@ -222,8 +237,10 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <?php if ($v["COLUMN_NAME"] == "contact_phone"){?>
-                                <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" class="code" disabled />
+                        <?php if ($v["COLUMN_NAME"] == "contact_phone"){
+                                $valueCode = (isset($client[$v["COLUMN_NAME"]."_code"])) ? $client[$v["COLUMN_NAME"]."_code"] : "";
+                                ?>
+                                <input type="text" name="<?= $v["COLUMN_NAME"]?>_code" value="<?=$valueCode ?>" class="code" readOnly="true" />
                                 <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" class="phone" />
                         <?php  }else{ ?>
                             <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?= $class?>  />
@@ -247,7 +264,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                             <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>>
                                 <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($options as $sk=>$sv){
-                                    $selected=""; if($value == $sk) $selected = "selected";
+                                    $selected=""; if($value == $sv) $selected = "selected";
                                     ?>
                                     <option value="<?=$sk?>" <?= $selected ?>><?= $sv?></option>
                                 <?php }?>

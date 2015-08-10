@@ -62,9 +62,8 @@ if (isset($_POST["forgot"])){
 }
 
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <?= my_header()?>
     <?php if ($pass == 1){?>

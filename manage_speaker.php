@@ -6,7 +6,7 @@
 include ("./common/common-include.php");
 
 //Verificar que el usuario tiene  permisos
-$sectionId = "7";
+$sectionId = "8";
 if ($_SESSION["app-user"]["user"][1]["type"] == "client" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
 
 

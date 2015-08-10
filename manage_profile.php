@@ -13,7 +13,7 @@ $id         = $message  = $error    =  $cond = "";
 $user       = "";
 $en         = array();
 $section    = "profile";
-
+$userType   = $typeUser[$_SESSION["app-user"]["user"][1]["type"]];
 
 
 //Agregar nuevo usuario
@@ -59,8 +59,12 @@ if (isset($_POST["edit"])){
                             $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
                         }
                     }
-                }else if ($v["COLUMN_NAME"] != "photo_path" && $v["COLUMN_NAME"] != "email" && $v["COLUMN_NAME"] != "password" ){
-                    $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                }else if ($v["COLUMN_NAME"] != "photo_path" ){
+                    if ($userType == "cliente" && $v["COLUMN_NAME"] != "email" && $v["COLUMN_NAME"] != "password" ){
+                        $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                    }else if ($userType != "cliente" && $v["COLUMN_NAME"] != "password" ){
+                        $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                    }
                 }
             }
         }
@@ -86,15 +90,7 @@ if (isset($_POST["edit"])){
             $_SESSION["app-user"]["user"]["1"]                  = $backend->getUserInfo($id);
             $_SESSION["app-user"]["user"]["1"]["client_name"]   = @$backend->getClient($id)["name"];
             $_SESSION["app-user"]["user"]["1"]["logo_path"]     = @$backend->getClient($id)["logo_path"];
-
-
-            /*if ($_SESSION["app-user"]["user"]["1"]["user_id"] == $id){
-                //Verificar si el usuario se está editando a sí mismo
-                if ($_POST["type"] == "cliente")     $_SESSION["app-user"]["permission"]  = $backend->getPermission($id);
-            }*/
-
-            $message = "<div class='succ'>".$label["Usuario editado exitosamente"] ."</div>";
-
+            $message = "<div class='succ'>".$label["Perfil de usuario editado exitosamente"] ."</div>";
         }else{
             $message = "<div class='error'>".$label["Hubo un problema con la edición"]. "</div>";
         }
@@ -158,7 +154,12 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                     $value = (isset($user[$v["COLUMN_NAME"]])) ? $user[$v["COLUMN_NAME"]] : "";
                     if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
                     else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}
-                    $disabled = ""; if ($v["COLUMN_NAME"] == "email" || $v["COLUMN_NAME"] == "password" ) $disabled = "disabled";
+                    $disabled = "";
+                    if ($userType == "cliente"){
+                        $disabled = ""; if ($v["COLUMN_NAME"] == "email" || $v["COLUMN_NAME"] == "password" ) $disabled = "disabled";
+                    }else{
+                        if ($v["COLUMN_NAME"] == "password" ) $disabled = "disabled";
+                    }
                     ?>
 
                     <?php // Se hace la verificacion del tipo del input para cada columna ?>
