@@ -38,8 +38,8 @@ $label["Debe ingresar al menos una red social"] = "Debe ingresar al menos una re
 $label["Debe ingresar al menos un organizador"] = "Debe ingresar al menos un organizador.";
 $label["La fecha de inicio no puede ser mayor que la fecha de fin"] = "La fecha de inicio no puede ser mayor que la fecha de fin.";
 $label["Evento no encontrado"]              = "Evento no encontrado";
-$label["primary_color1"]                    = "Color Primario (Menú lateral)";
-$label["primary_color2"]                    = "Color Primario (Menú superior)";
+$label["main_menu_color"]                   = "Color menú lateral";
+$label["top_menu_color"]                    = "Color menú superior";
 
 //Seccion de salas
 $label["Salas"]                             = "Salas";
@@ -222,4 +222,5 @@ $label["La nueva contraseña debe tener al menos 4 caracteres"]              = "
 $label["Editar perfil de usuario"]                                          = "Editar perfil de usuario";
 $label["Por favor ingrese al menos un permiso"]                             = "Por favor ingrese al menos un permiso";
 $label["Perfil de usuario editado exitosamente"]                            = "Perfil de usuario editado exitosamente";
+
 ?>
