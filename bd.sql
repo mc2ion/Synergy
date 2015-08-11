@@ -11,11 +11,13 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- Volcando estructura de base de datos para manager
+DROP DATABASE IF EXISTS `manager`;
 CREATE DATABASE IF NOT EXISTS `manager` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `manager`;
 
 
 -- Volcando estructura para tabla manager.category
+DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `category_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
@@ -37,6 +39,7 @@ INSERT INTO `category` (`category_id`, `name`, `type`, `active`) VALUES
 
 
 -- Volcando estructura para tabla manager.client
+DROP TABLE IF EXISTS `client`;
 CREATE TABLE IF NOT EXISTS `client` (
   `client_id` int(11) NOT NULL AUTO_INCREMENT,
   `logo_path` text NOT NULL,
@@ -66,6 +69,7 @@ INSERT INTO `client` (`client_id`, `logo_path`, `name`, `country`, `contact_name
 
 
 -- Volcando estructura para tabla manager.event
+DROP TABLE IF EXISTS `event`;
 CREATE TABLE IF NOT EXISTS `event` (
   `event_id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
@@ -96,6 +100,7 @@ INSERT INTO `event` (`event_id`, `client_id`, `name`, `description`, `date_ini`,
 
 
 -- Volcando estructura para tabla manager.exhibitor
+DROP TABLE IF EXISTS `exhibitor`;
 CREATE TABLE IF NOT EXISTS `exhibitor` (
   `exhibitor_id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
@@ -120,6 +125,7 @@ DELETE FROM `exhibitor`;
 
 
 -- Volcando estructura para tabla manager.permission
+DROP TABLE IF EXISTS `permission`;
 CREATE TABLE IF NOT EXISTS `permission` (
   `permission_id` int(11) NOT NULL AUTO_INCREMENT,
   `section_id` int(11) NOT NULL,
@@ -161,6 +167,7 @@ INSERT INTO `permission` (`permission_id`, `section_id`, `user_id`, `create`, `r
 
 
 -- Volcando estructura para tabla manager.question_option
+DROP TABLE IF EXISTS `question_option`;
 CREATE TABLE IF NOT EXISTS `question_option` (
   `option_id` int(11) NOT NULL AUTO_INCREMENT,
   `question_id` int(11) NOT NULL,
@@ -179,6 +186,7 @@ DELETE FROM `question_option`;
 
 
 -- Volcando estructura para tabla manager.question_result
+DROP TABLE IF EXISTS `question_result`;
 CREATE TABLE IF NOT EXISTS `question_result` (
   `result_id` int(11) NOT NULL AUTO_INCREMENT,
   `question_id` int(11) NOT NULL,
@@ -198,6 +206,7 @@ DELETE FROM `question_result`;
 
 
 -- Volcando estructura para tabla manager.review
+DROP TABLE IF EXISTS `review`;
 CREATE TABLE IF NOT EXISTS `review` (
   `review_id` int(11) NOT NULL AUTO_INCREMENT,
   `session_id` int(11) NOT NULL,
@@ -216,6 +225,7 @@ DELETE FROM `review`;
 
 
 -- Volcando estructura para tabla manager.room
+DROP TABLE IF EXISTS `room`;
 CREATE TABLE IF NOT EXISTS `room` (
   `room_id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
@@ -233,6 +243,7 @@ DELETE FROM `room`;
 
 
 -- Volcando estructura para tabla manager.section
+DROP TABLE IF EXISTS `section`;
 CREATE TABLE IF NOT EXISTS `section` (
   `section_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(150) NOT NULL,
@@ -259,6 +270,7 @@ INSERT INTO `section` (`section_id`, `name`, `type`, `file`, `father_id`) VALUES
 
 
 -- Volcando estructura para tabla manager.session
+DROP TABLE IF EXISTS `session`;
 CREATE TABLE IF NOT EXISTS `session` (
   `session_id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
@@ -285,6 +297,7 @@ DELETE FROM `session`;
 
 
 -- Volcando estructura para tabla manager.speaker
+DROP TABLE IF EXISTS `speaker`;
 CREATE TABLE IF NOT EXISTS `speaker` (
   `speaker_id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
@@ -307,6 +320,7 @@ DELETE FROM `speaker`;
 
 
 -- Volcando estructura para tabla manager.survey_question
+DROP TABLE IF EXISTS `survey_question`;
 CREATE TABLE IF NOT EXISTS `survey_question` (
   `question_id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
@@ -325,6 +339,7 @@ DELETE FROM `survey_question`;
 
 
 -- Volcando estructura para tabla manager.user
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(50) NOT NULL,
