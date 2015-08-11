@@ -21,7 +21,7 @@ $general["event"]["image_folder"]                       = "files/event/";
 $general["event"]["image_format"]                       = array("png", "jpg");
 $general["event"]["image_size"]                         = "400000"; //Bytes
 $general["event"]["image_width"]                        = "2560";  //px
-$general["event"]["image_height"]                       = "1440"; 
+$general["event"]["image_height"]                       = "2560";
 $general["event"]["image_type"]                         = "rectangle"; // Si es cuadrada no hace falta indicarlo 
 
 $general["session"]["image_folder"]                     = "files/session/";
@@ -72,7 +72,7 @@ $input["user"]["manage"]["no-show"]                     = array("user_id"); // A
 $input["user"]["manage"]["photo_path"]["type"]          = "file"; //Aqui definimos los campos que van a tener un input diferente a "text" que es el usado por defecto
 $input["user"]["manage"]["type"]["type"]                = "select"; //Aqui definimos los campos que van a tener un input diferente a "text" que es el usado por defecto
 $input["user"]["manage"]["password"]["type"]            = "password"; //Aqui definimos los campos que van a tener un input diferente a "text" que es el usado por defecto
-$input["user"]["manage"]["type"]["options"]             = array("Super Usuario"=>"Super Usuario", "Supervisor"=>"Supervisor" ); // Al ser "type" un input select tenemos que definir las opciones a mostrar
+$input["user"]["manage"]["type"]["options"]             = array("Super Usuario"=>"Super Usuario", "Administrador"=>"Administrador","Supervisor"=>"Supervisor" ); // Al ser "type" un input select tenemos que definir las opciones a mostrar
 $input["user"]["manage"]["client_id"]["type"]           = "select";
 $input["user"]["list"]["no-show"]                       = array("user_id", "password", "photo_path"); // Aqui van aquellos campos que no queremos que se muestren en el listado.
 

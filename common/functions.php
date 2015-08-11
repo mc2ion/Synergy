@@ -130,7 +130,7 @@ function menuAdministrator($user, $selected="", $label){
    
     $out = "";
      /* Menu superior, sera visible únicamente si el usuario es de tipo administrador*/
-    if ($typeUser[$user["type"]] == "administrador"){
+    if ($typeUser[$user["type"]] == "administrador" || $typeUser[$user["type"]] == "cliente-administrador"){
         $menuTop   =  $backend->getMenu("administrador", "menu");
         $out = '<div class="topu">
                     <ul>';
@@ -154,8 +154,8 @@ function menuCLiente($user, $selected="", $label, $clientList){
     $client         =  @$_SESSION["data"]["cliente"];
     $out            = "";
 
-    if ($typeUser[$user["type"]] != "administrador")  $permission     =  $_SESSION["app-user"]["permission"];
-    if (($typeUser[$user["type"]] == "administrador" && $clientList!= "" && !empty($clientList) && $client != "") || ($typeUser[$user["type"]] == "cliente" && $client != "")){
+    if ($typeUser[$user["type"]] == "cliente")  $permission     =  $_SESSION["app-user"]["permission"];
+    if ((($typeUser[$user["type"]] == "administrador"  ) && $clientList!= "" && !empty($clientList) && $client != "") || ($typeUser[$user["type"]] != "administrador" && $client != "")){
         $out = '<div class="infu">
                     <ul>';
                     foreach($menu as $k=>$v){
@@ -163,7 +163,7 @@ function menuCLiente($user, $selected="", $label, $clientList){
    
                         // Verifico si el usuario es tipo administrador
                         // o si es cliente, que tenga permiso para ver la seccion
-                        if ($typeUser[$user["type"]] == "administrador" || ($typeUser[$user["type"]] == "cliente" && isset($permission[$v["section_id"]]) && $permission[$v["section_id"]]["read"] == "1")){
+                        if ($typeUser[$user["type"]] != "cliente" || ($typeUser[$user["type"]] == "cliente" && isset($permission[$v["section_id"]]) && $permission[$v["section_id"]]["read"] == "1")){
                             $extra = ""; $class=""; 
                             $sel  = ''; if ($selected == $v["name"]) $sel = "class='selected'";
                             if (isset($submenu[$v["section_id"]])){ 

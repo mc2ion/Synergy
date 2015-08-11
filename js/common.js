@@ -52,11 +52,13 @@ $( document ).ready(function() {
         if ($(this).val()== "Supervisor"){
             $('.client_id').show();
             $('.permi').show();
-        }else{
+        }else if ($(this).val()== "Super Usuario"){
              $('.client_id').hide();
              $('.permi').hide();
+        }else if ($(this).val()== "Administrador"){
+            $('.client_id').show();
+            $('.permi').hide();
         }
-        
     });
 
     //Mostrar codigo de area segun pais seleccionado

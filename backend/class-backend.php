@@ -77,7 +77,7 @@ class backend extends db{
     function getSubsections(){
         $query = "SELECT * from $this->schema.subsection";
         $q     = $this->dbQuery($query);
-        $out;
+        $out   = array();
         if ($q){
             foreach($q as $k=>$v){
                 $out[$v["section_id"]] = $v;
@@ -131,7 +131,7 @@ class backend extends db{
                         }else $out[$k][$sk] = $sv;
                     } 
                 }
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"]["2"]["update"] == "1"){
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["2"]["update"] == "1"){
                     $out[$k]["action"] = "<a href='./manage_client.php?id={$v["client_id"]}'>{$this->label["Editar"]}</a>";
                 }
             }
@@ -165,7 +165,7 @@ class backend extends db{
                         }else $out[$k][$sk] = $sv;
                     } 
                 }
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || @$_SESSION["app-user"]["permission"]["3"]["update"] == "1"){
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["3"]["update"] == "1"){
                     $out[$k]["action"] = "<a href='./manage_event.php?id={$v["event_id"]}'>{$this->label["Editar"]}</a>";
                 }
             }
@@ -195,7 +195,7 @@ class backend extends db{
                        if ($v["position"] == "")  $out[$k]["position"] = "N/A";                        
                     } 
                 }
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"]["9"]["update"] == "1"){
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["9"]["update"] == "1"){
                     $out[$k]["action"] = "<a href='./manage_question.php?id={$v["question_id"]}'>{$this->label["Editar"]}</a>";
                 }
             }
@@ -233,7 +233,7 @@ class backend extends db{
                         $out[$k][$sk] = $sv;
                     } 
                 }
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"]["4"]["update"] == "1"){
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["4"]["update"] == "1"){
                     $out[$k]["action"] = "<a href='./manage_room.php?id={$v["room_id"]}'>{$this->label["Editar"]}</a>";
                 }
             }
@@ -263,7 +263,7 @@ class backend extends db{
             $q     = $this->dbQuery($query);
         }
         else{
-            $q      = @$this->selectSession("session t1 left join room t2 on t1.room_id = t2.room_id", "t1.*, t2.name", "t1.active='1' AND t1.event_id ='$eventId'", "t1.session_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+            $q      = @$this->select("session t1 left join room t2 on t1.room_id = t2.room_id", "t1.*, t2.name", "t1.active='1' AND t1.event_id ='$eventId'", "t1.session_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
         }
         $out    = "";
         if ($simple == "0"){
@@ -279,7 +279,7 @@ class backend extends db{
                             $out[$k]["room_id"] = $name;
                         } 
                     }
-                    if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"]["4"]["update"] == "1"){
+                    if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["4"]["update"] == "1"){
                         $out[$k]["action"] = "<a href='./manage_session.php?id={$v["session_id"]}'>{$this->label["Editar"]}</a>";
                     }
                 }
@@ -308,7 +308,7 @@ class backend extends db{
     
     /** Seccion Usuarios **/
      function getUserList($noShow){
-        $q      = @$this->select("user", "*", "", "user_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+        $q      = @$this->select("user", "*", "user_id != '{$_SESSION["app-user"]["user"]["1"]["user_id"]}'", "user_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
         $out    = "";
         if ($q){
             foreach($q as $k=>$v){
@@ -319,7 +319,7 @@ class backend extends db{
                 }
                 unset( $out[$k]["client_id"]);
                 //Verificar que el usuario puede ver la seccion
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"]["1"]["type"]] == "administrador" || @$_SESSION["app-user"]["permission"]["1"]["update"] == "1"){
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"]["1"]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["1"]["update"] == "1"){
                     $out[$k]["action"] = "<a href='./manage_user.php?id={$v["user_id"]}'>{$this->label["Editar"]}</a>";
                 }
             }
@@ -335,7 +335,7 @@ class backend extends db{
         if ($q){
             return $q[1];
         }
-        return;
+        return "";
     }
     
     function getSpeakerList($noShow){
@@ -350,7 +350,7 @@ class backend extends db{
                         }else $out[$k][$sk] = $sv;
                     } 
                 }
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"]["8"]["update"] == "1"){
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["8"]["update"] == "1"){
                     $out[$k]["action"] = "<a href='./manage_speaker.php?id={$v["speaker_id"]}'>{$this->label["Editar"]}</a>";
                 }
             }
@@ -369,7 +369,7 @@ class backend extends db{
     }
     
     function getExhibitorList($noShow){
-        $q      = @$this->selectExhibitor("exhibitor t1 left join category t2 on t1.category_id = t2.category_id", "t2.name as category,t1.* ", "t1.active = '1'", "exhibitor_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+        $q      = @$this->select("exhibitor t1 left join category t2 on t1.category_id = t2.category_id", "t2.name as category,t1.* ", "t1.active = '1'", "exhibitor_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
         $out    = "";
         if ($q){
             foreach($q as $k=>$v){
@@ -382,7 +382,7 @@ class backend extends db{
                 }
                 if ($out[$k]["category"] == "")  $out[$k]["category"] = "---";
                 unset($out[$k]["category_id"]);
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"]["7"]["update"] == "1"){
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["7"]["update"] == "1"){
                     $out[$k]["action"] = "<a href='./manage_exhibitor.php?id={$v["exhibitor_id"]}'>{$this->label["Editar"]}</a>";
                 }
             }
@@ -442,11 +442,11 @@ class backend extends db{
                 $uploadOk["message"] = $this->label["La imagen proporcionada debe ser cuadrada"];
                 return $uploadOk;
             }
-            else if ($square != "" && ($w < $h || $w == $h)){
+            /*else if ($square != "" && ($w <= $h || $w == $h)){
                 $uploadOk["result"] = 0;
                 $uploadOk["message"] = $this->label["La imagen proporcionada debe ser rectangular. Más ancha que alta"];
                 return $uploadOk;
-            }
+            }*/
             // Varificar algun error
             if ($uploadOk["result"] != 0) {
                 if (move_uploaded_file($_FILES[$input]["tmp_name"], $target_file)) {
@@ -549,6 +549,7 @@ class backend extends db{
     }
     function select($table, $fields="*", $where="", $order="id asc", $from=0, $size=10, $group="", $fireUI=""){
         if($order=="") $order = "id asc";
+        $filter = "";
         if(is_array($fireUI)){
             if ($fireUI["orderBy"]["field"] == "category")  $fireUI["orderBy"]["field"] = "t2.name";
             if($fireUI["orderBy"]["field"]!="") {$dir[0] = "asc"; $dir[1] = "desc"; $order = "{$fireUI["orderBy"]["field"]} {$dir[$fireUI["orderBy"]["direction"]]}";}
@@ -566,21 +567,22 @@ class backend extends db{
         return $q;
     }
     
-    function selectExhibitor($table, $fields="*", $where="", $order="id asc", $from=0, $size=10, $group="", $fireUI=""){
+    /*function selectExhibitor($table, $fields="*", $where="", $order="id asc", $from=0, $size=10, $group="", $fireUI=""){
         if($order=="") $order = "id asc";
+        $filter = "";
         if(is_array($fireUI)){
             if ($fireUI["orderBy"]["field"] == "category")  $fireUI["orderBy"]["field"] = "name";
             if($fireUI["orderBy"]["field"]!="") {$dir[0] = "asc"; $dir[1] = "desc"; $order = "{$fireUI["orderBy"]["field"]} {$dir[$fireUI["orderBy"]["direction"]]}";}
             if($fireUI["filter"])               {
-                foreach($fireUI["filter"] as $k=>$v){ 
+                foreach($fireUI["filter"] as $k=>$v){
                     if ($k == "category") {$k = "name"; }
                     $filter .= " AND `$k` LIKE '%".$this->clean($v)."%'";
                 }
             }
             if($fireUI["currentPage"]!="")      {$from = ($fireUI["currentPage"]-1) * $size; }
-            
+
         }
-        
+
         $where = trim($where)==""? "1=1":$where;
         $query = "select $fields from $table where $where $filter $group order by $order limit $from, $size";
         $count = "select count(*) as count from $table where $where $filter $group order by $order";
@@ -589,7 +591,7 @@ class backend extends db{
         $this->app["count"] = $r["1"]["count"];
         return $q;
     }
-    
+
     function selectSession($table, $fields="*", $where="", $order="id asc", $from=0, $size=10, $group="", $fireUI=""){
         if($order=="") $order = "id asc";
         if(is_array($fireUI)){
@@ -613,7 +615,7 @@ class backend extends db{
         $this->app["count"] = $r["1"]["count"];
         return $q;
     }
-
+*/
     function insertRow($table, $data){
         return $this->dbInsert($this->schema.".".$table, $data);
     }

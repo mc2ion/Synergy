@@ -359,7 +359,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td></td>
                 <td class="action" colspan="4">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
-                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
+                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
                         <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./users.php"><?= $label["Cancelar"]?></a>
@@ -379,6 +379,10 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
         }   
         tr.permi{display: none;}
         </style>
-    <?php } ?> 
+    <?php }else if ($typeUser[$user["type"]] == "cliente-administrador"){?>
+         <style>
+             tr.permi{display: none;}
+         </style>
+    <?php } ?>
    <?= my_footer() ?>
 </html>
