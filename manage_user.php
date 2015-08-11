@@ -169,7 +169,8 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
                 if ($_SESSION["app-user"]["user"]["1"]["user_id"] == $id){
                      //Verificar si el usuario se está editando a sí mismo
                     $_SESSION["app-user"]["user"]["1"]                  = $backend->getUserInfo($id);
-                    $_SESSION["app-user"]["user"]["1"]["client_name"]   = $backend->getClient($id)["name"];
+                    $c                                                  = $backend->getClient($id);
+                    $_SESSION["app-user"]["user"]["1"]["client_name"]   = @$c["name"];
                     if ($_POST["type"] == "cliente")     $_SESSION["app-user"]["permission"]  = $backend->getPermission($id);
                 }
           
