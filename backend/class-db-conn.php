@@ -55,7 +55,7 @@ class db {
         }
         $fieldList = substr($fieldList, 1);
         $valueList = substr($valueList, 1);
-        echo $query = "Insert Into $tableName ($fieldList) values ($valueList)";
+        $query = "Insert Into $tableName ($fieldList) values ($valueList)";
 
         if (mysql_query($query, $this->conn)) {
             return mysql_insert_id($this->conn);
