@@ -49,15 +49,15 @@ $( document ).ready(function() {
     
     //Ocultar/mostrar permisologia dependiendo del tipo de usuario
     $('select[name=type]').change(function(event){
+        $userType = $("#userType").val();
         if ($(this).val()== "Supervisor"){
-            $('.client_id').show();
+            if ($userType == "administrador"){
+                $('.client_id').show();
+            }
             $('.permi').show();
-        }else if ($(this).val()== "Super Usuario"){
+        }else if ($(this).val()== "Super Usuario" ||$(this).val()== "Administrador" ){
              $('.client_id').hide();
              $('.permi').hide();
-        }else if ($(this).val()== "Administrador"){
-            $('.client_id').show();
-            $('.permi').hide();
         }
     });
 

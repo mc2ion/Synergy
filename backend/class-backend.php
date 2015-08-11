@@ -114,12 +114,16 @@ class backend extends db{
         else return $q;
     }
     
-    function getClientList($noShow=array(), $menu=1){
+    function getClientList($noShow=array(), $menu=1, $user="administrador"){
+        $extraCond = ""; global $clientId;
+        if ($user == "cliente-administrador"){
+            $extraCond = "AND client_id = '{$_SESSION["data"]["cliente"]}'";
+        }
         if ($menu == 1){
             $query = "SELECT * from $this->schema.client WHERE active = '1' order by client_id asc";
             $q      = $this->dbQuery($query);
         }else{ 
-            $q      = @$this->select("client","*", "active='1'", "client_id", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+            $q      = @$this->select("client","*", "active='1' $extraCond", "client_id", 0, $this->app["perPage"], "", $_GET["fireUI"]);
         }$out    = "";
         if ($menu) return $q;
         if ($menu == "0" && $q){
@@ -307,8 +311,12 @@ class backend extends db{
     }
     
     /** Seccion Usuarios **/
-     function getUserList($noShow){
-        $q      = @$this->select("user", "*", "user_id != '{$_SESSION["app-user"]["user"]["1"]["user_id"]}'", "user_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+     function getUserList($noShow, $user="administrador"){
+         $extraCond = "";
+         if ($user == "cliente-administrador"){
+             $extraCond = "AND client_id = '{$_SESSION["data"]["cliente"]}' AND type != 'Super Usuario'";
+         }
+        $q      = @$this->select("user", "*", "user_id != '{$_SESSION["app-user"]["user"]["1"]["user_id"]}' $extraCond", "user_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
         $out    = "";
         if ($q){
             foreach($q as $k=>$v){

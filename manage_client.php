@@ -10,6 +10,11 @@ include ("./common/country.php");
 $sectionId = "1";
 if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente"){ header("Location: ./index.php"); exit();}
 
+//Evitar que un usuario tipo administrador ingrese a editar un cliente diferente
+if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente-administrador"){
+    $_GET["id"] = $_SESSION["data"]["cliente"];
+}
+
 
 //Obtener las columnas a editar/crear
 $columns = $backend->getColumnsTable("client");

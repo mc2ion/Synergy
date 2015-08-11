@@ -48,9 +48,13 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
             $en["photo_path"]               =  $path ;
         }
    }
-   
+
+    //No colocar como obligatorio client_id, si el usuario es "super user"  o si el usuario actual que esta usando
+    // el administrador es cliente-administrador
+    if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente-administrador" ){
+        $_POST["client_id"] = $_SESSION["data"]["cliente"];
+    }
     if (@$typeUser[$_POST["type"]] == "administrador") {
-        //No colocar como obligatorio client_id, si el usuario es "super user"
         if(($key = array_search("client_id", $input[$section]["manage"]["mandatory"])) !== false) {
             unset($input[$section]["manage"]["mandatory"][$key]);
         }  
@@ -76,11 +80,11 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
                         $missing[$v["COLUMN_NAME"]] = 1;
                     }else{
                         if ($v["COLUMN_NAME"] != "photo_path" ){
-                            $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                            $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                         }
                     }
                 }else if ($v["COLUMN_NAME"] != "photo_path" ){
-                    $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                    $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                 }
             }
        }
@@ -218,7 +222,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
             header("Location: ./users.php");
             exit();
         }
-        $permissions = $backend->getPermission($id); 
+        $permissions = $backend->getPermission($id);
     }
     //No mostrar la contraseña al editar
     array_push($input[$section]["manage"]["no-show"], "password");
@@ -227,6 +231,14 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $action = "add";
 }
 
+//Eliminar el tipo de usuario "Super Usuario" si el usuario actual no es "Super Usuario" y eliminar la lista de clientes,
+//ya que todo usuario creado pertenecería al cliente actual.
+if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "administrador"){
+    unset($input[$section]["manage"]["type"]["options"]["Super Usuario"]);
+}
+
+
+//Información adicional de las imágenes
 $imageTypeAux = "";
 foreach ($general[$section]["image_format"] as $k){
     $imageTypeAux .= "," . $k ;
@@ -256,6 +268,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <input type="hidden" name="img" value="<?=  $client["logo_path"]?>" />
                 <input type="hidden" name="id"  value="<?=  $_GET["id"]?>" />
             <?php } ?>
+            <input type="hidden" id="userType"  value="<?=  $typeUser[$_SESSION["app-user"]["user"][1]["type"]] ?>" />
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
                     $mandatory = $classMand = "" ;
@@ -383,6 +396,13 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
          <style>
              tr.permi{display: none;}
          </style>
+    <?php } ?>
+    <?php if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente-administrador"){?>
+      <style>
+          tr.client_id {
+              display: none;
+          }
+      </style>
     <?php } ?>
    <?= my_footer() ?>
 </html>
