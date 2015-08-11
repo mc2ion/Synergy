@@ -32,7 +32,6 @@ $( document ).ready(function() {
         $(this).closest(".organizer").remove();
     })
     
-    
     //Agregar dinamicamente las opciones a una pregunta
     $(".add-opt a").click(function(event){
         elem = $(this).closest(".option-td").find('.option:first').clone().appendTo(".option-td");
@@ -68,8 +67,6 @@ $( document ).ready(function() {
         });
     });
 
-
-    
     //Ocultar campos dependiendo de la categoria del expositor
     $('select[name=category_id]').change(function(event){
         $tipo = types[$(this).val()];
@@ -253,7 +250,7 @@ $(function() {
 $.validator.messages.required   = 'Este campo es obligatorio';
 $.validator.messages.email      = "Ingrese una dirección de correo electrónico válida.";
 $.validator.messages.number     = "Ingrese un número telefónico válido";
-$.validator.messages.url        = "Ingrese una dirección de url válida";
+$.validator.messages.url        = "La dirección URL no es válida";
     
 
 jQuery(function($) {
@@ -274,6 +271,7 @@ jQuery(function($) {
                 "phone"         : {phoneNumber:true},
                 "website"       : {url: true},
                 "link"          : {url: true},
+                "url[]"         : {url:true},
             }
         } 
     );

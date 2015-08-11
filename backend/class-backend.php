@@ -223,7 +223,7 @@ class backend extends db{
     /** Seccion rooms **/
     function getRoomList($eventId, $noshow=array(), $all="0"){
         if ($all == "1"){
-            $query  = "SELECT * from $this->schema.room WHERE event_id ='$eventId' order by room_id asc";
+            $query  = "SELECT * from $this->schema.room WHERE event_id ='$eventId' AND active='1' order by room_id asc";
             $q     = $this->dbQuery($query);
         }
         else{

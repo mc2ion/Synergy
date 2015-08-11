@@ -103,7 +103,7 @@ $label["Crear"]                             = "Crear";
 $label["Editar"]                            = "Editar";
 $label["Leer"]                              = "Leer";
 $label["Borrar"]                            = "Borrar";
-$label["El correo ingresado ya existe"]     = "Disculpe, ya existe un usuario con el correo proporciado.";
+$label["El correo ingresado ya existe"]     = "Disculpe, ya existe un usuario con la dirección de correo electrónico proporcionada.";
 $label["Usuario no encontrado"]             = "Usuario no encontrado";
 $label["No hay usuarios disponibles"]       = "No hay usuarios disponibles";
 $label["Usuarios"]                          = "Usuarios";
@@ -179,7 +179,7 @@ $label["Error en las redes sociales"]                                       = "E
 $label["Verifique la información de los organizadores"]                     = "Verifique la información de los organizadores.";
 $label["Verifique la información de las redes sociales"]                    = "Verifique la información de las redes sociales.";
 $label["Ingrese a su cuenta"]                                               = "Ingrese a su cuenta";
-$label["Ya existe una sala con este nombre"]                                = "Ya existe una sala con este nombre.";
+$label["Ya existe una sala con este nombre"]                                = "Disculpe, el nombre de la sala proporcionado ya existe.";
 $label["Reporte"]                                                           = "Visualizar Reporte";
 $label["Esta encuesta no posee resultados aún"]                             = "Esta encuesta no posee resultados aún";
 $label["Exportar PDF"]                                                      = "Exportar PDF";
@@ -222,5 +222,6 @@ $label["La nueva contraseña debe tener al menos 4 caracteres"]              = "
 $label["Editar perfil de usuario"]                                          = "Editar perfil de usuario";
 $label["Por favor ingrese al menos un permiso"]                             = "Por favor ingrese al menos un permiso";
 $label["Perfil de usuario editado exitosamente"]                            = "Perfil de usuario editado exitosamente";
+$label["URL"]                                                               = "URL";
 
 ?>

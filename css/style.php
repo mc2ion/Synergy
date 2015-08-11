@@ -82,7 +82,7 @@ color: white !important;
 .manage-content textarea {  width: 100%;  height: 100px;  resize: none;  border: 1px solid rgb(182, 182, 182);  padding: 4px;  box-sizing: border-box;}
 img.ui-datepicker-trigger {  position: absolute;  right: 3px;  top: 3px;  width: 22px;}
 .datepicker, .timepicker{cursor:pointer;}
-.org-desc {margin-top: 10px;}
+.org-desc, .org-url {margin-top: 10px;}
 .organizer, .option {background-color: rgb(244, 244, 244); padding: 7px 0px;    border-radius: 2px;    -moz-border-radius: 2px;    -webkit-border-radius: 2px;}
 .c2 {width: 49%; float: left;}
 .c2.left{margin-right: 1%;}
@@ -93,7 +93,7 @@ img.ui-datepicker-trigger {  position: absolute;  right: 3px;  top: 3px;  width:
 .delete a, .delete-org a, .delete-opt a{ color:rgb(185, 0, 28) !important;}
 .add-org {    top: 20px;}
 .delete.i0, .delete-org.i0, .delete-opt.i0 {display: none;}
-.networks, .organizer, .option {margin-bottom: 5px;display: inline-block;width: 100%; position: relative;}
+.networks, .organizer, .option {margin-bottom: 15px;display: inline-block;width: 100%; position: relative;}
 .manage-image{max-width: 200px; padding-bottom: 10px;}
 .succ{font-size: 20px;    margin-bottom: 25px;background-color: rgb(217, 249, 207);  padding: 6px 5px;color: #545454;}
 .center{text-align: center;}

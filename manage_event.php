@@ -65,7 +65,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                             $missing[$v["COLUMN_NAME"]] = 1;
                         }else{
                             if ($v["COLUMN_NAME"] != "map_path" ){
-                                $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                                $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                             }
                         }
                     }else{
@@ -76,9 +76,10 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                                 $missing["social_networks"] = 1;
                             }else{
                                 foreach($_POST["network"] as $k=>$v){
-                                    $network[$k]["type"]  = $v;
+                                    $network[$k]["type"]  =  $v;
                                     $network[$k]["value"] =  $_POST["value"][$k];
-                                    if ($network[$k]["value"] == "" || $network[$k]["type"]  == ""){
+                                    $network[$k]["title"] =  $_POST["title"][$k];
+                                    if ($network[$k]["value"] == "" || $network[$k]["type"]  == "" || $network[$k]["title"]  == ""){
                                         $error = 1;
                                         $message = "<div class='error'>{$label["Verifique la información de las redes sociales"]}</div>";
                                     }
@@ -94,7 +95,8 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                                 foreach($_POST["name_organizer"] as $k=>$v){
                                     $organizers[$k]["name"]          = $v;
                                     $organizers[$k]["description"]   = $_POST["desc_organizer"][$k];
-                                    if ($organizers[$k]["name"] == "" || $organizers[$k]["description"] == ""){
+                                    $organizers[$k]["url"]           = $_POST["url_organizer"][$k];
+                                    if ($organizers[$k]["name"] == "" || $organizers[$k]["description"] == "" || $organizers[$k]["url"] == ""){
                                         $error = 1;
                                         $message = "<div class='error'>{$label["Verifique la información de los organizadores"]}</div>";
                                     }
@@ -110,10 +112,12 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                             foreach($_POST["network"] as $k=>$v){
                                 $network[$k]["type"]  = $v;
                                 $network[$k]["value"] =  $_POST["value"][$k];
-                                $errorT = $errorV = "";
-                                if ($network[$k]["value"] == ""){ $errorV = 1;}
-                                if ($network[$k]["type"] == ""){ $errorT = 1;}
-                                if ($errorT != $errorV){
+                                $network[$k]["title"] =  $_POST["title"][$k];
+                                $errorT = $errorV = $errorTT = "";
+                                if ($network[$k]["value"] == "") { $errorV = 1;}
+                                if ($network[$k]["type"]  == "") { $errorT = 1;}
+                                if ($network[$k]["title"] == "") { $errorTT = 1;}
+                                if ($errorT != $errorV && $errorV!= $errorTT){
                                     $error = 1;
                                     $message = "<div class='error'> {$label["Verifique la información de las redes sociales"]}</div>";
                                 }
@@ -124,10 +128,11 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                             foreach($_POST["name_organizer"] as $k=>$v){
                                 $organizers[$k]["name"]          = $v;
                                 $organizers[$k]["description"]   = $_POST["desc_organizer"][$k];
-                                $errorN = $errorD = "";
+                                $organizers[$k]["url"]           = $_POST["url_organizer"][$k];
+                                $errorN = $errorD = $errorU = "";
                                 if ($organizers[$k]["name"] == ""){ $errorN = 1;}
                                 if ($organizers[$k]["description"] == ""){ $errorD = 1;}
-                                if ($errorN != $errorD){
+                                if ($errorN != $errorD && $errorD != $errorU){
                                     $error = 1;
                                     $message = "<div class='error'>{$label["Verifique la información de los organizadores"]}</div>";
                                 }
@@ -147,12 +152,15 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
             $message = "<div class='error'>".$label["La fecha de inicio no puede ser mayor que la fecha de fin"]. "</div>";
        }
    }
-   if (!$error){
+
+    //Pais
+    $en["country"]      = $country[$en["country"]];
+
+    if (!$error){
        //Agregar el codigo del pais
        $en["phone"] = "(".$_POST["phone_code"] . ")". $en["phone"];
 
-       //Pais
-       $en["country"]      = $country[$en["country"]];
+
        if (isset($_POST["add"])){
            $id = $backend->insertRow("event", $en);
            if ($id > 0) { 
@@ -199,6 +207,8 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
    }else{
         if (isset($missing)) $message    .= "<div class='error'>".$label["Por favor ingrese todos los datos requeridos"]. "</div>";
         $event      = $en;
+        $event["phone_code"]    = $_POST["phone_code"];
+        $event["phone"]         = $_POST["phone"];
         $socials    = json_decode($event["social_networks"], true);
         $organizers = json_decode($event["organizers"], true);
    }
@@ -248,10 +258,10 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
         }
         //Redes sociales del evento
         $socials = json_decode($event["social_networks"], true);
-        if (!$socials) $socials = array("0"=>array("type"=>"", "value"=>""));
+        if (!$socials) $socials = array("0"=>array("type"=>"", "value"=>"", "title"=>""));
         //Organizadores
         $organizers = json_decode($event["organizers"], true);
-        if (!$organizers) $organizers = array("0"=>array("name"=>"", "description"=>""));
+        if (!$organizers) $organizers = array("0"=>array("name"=>"", "description"=>"", "url"=>""));
     }
 }else{
     $title = $label["Crear Evento"];
@@ -323,8 +333,6 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 $("#dialog").dialog("open");
             }
           });
-          
-          
     </script>
   </head>
   <body>
@@ -395,7 +403,8 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                     ?>
                             <div class="add-e"><a href="javascript:void(0)"><?= $label["Agregar nueva"]?></a></div>
                             <?php foreach ($socials as $mk=>$mv){
-                                $valueNetwork = $mv["value"];
+                                $valueNetwork   = $mv["value"];
+                                $titleNetwork   = $mv["title"];
                                 ?>
                             <div class="networks">
                                 <div class="c2 left">
@@ -408,17 +417,17 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                                             <option value="<?= $sk?>" <?= $selected?>><?=$sv?></option>
                                         <?php } ?>
                                     </select>
-                                    
                                 </div>
                                 <div class="c2 right">
-                                    <input name="value[]" type="text" value="<?= $valueNetwork?>"/>
+                                    <input name="title[]" type="text" placeholder="Nombre" value="<?= $titleNetwork?>"/>
+                                </div>
+                                <div>
+                                    <input style="margin-top:5px; clear: both" name="value[]" type="text" placeholder="URL de la red social" value="<?= $valueNetwork?>"/>
                                 </div>
                                 <div class="delete i<?= $mk ?>"><a href="javascript:void(0)"><?= $label["Eliminar"]?></a></div>
                             </div>
                             <?php } ?>
-                     <?php }else if ($type == "special" && $v["COLUMN_NAME"] == "organizers"){
-                            
-                    ?>
+                     <?php }else if ($type == "special" && $v["COLUMN_NAME"] == "organizers"){?>
                         </td>
                     </tr>
                     <tr class="organizers-name">
@@ -427,11 +436,16 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                             <?php foreach((array)$organizers as $sk=>$sv){
                             $name = $sv["name"];
                             $desc = $sv["description"];
+                            $url  = $sv["url"];
                             ?>
                                 <div class="organizer">
                                     <div class="org-name">
                                         <div class="label"><?= $label["Nombre"]?> (<img src='images/mandatory.png' class='mandatory'>):</div>
                                         <div class="value"><input type="text" name="name_organizer[]" value="<?= $name?>"/></div>
+                                    </div>
+                                    <div class="org-url">
+                                        <div class="label"><?= $label["URL"]?> (<img src='images/mandatory.png' class='mandatory'>):</div>
+                                        <div class="value"><input type="text" name="url_organizer[]" value="<?= $url?>"/></div>
                                     </div>
                                     <div class="org-desc">
                                         <div class="label"><?= $label["Descripción"]?> (<img src='images/mandatory.png' class='mandatory'>):</div>
@@ -465,9 +479,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                     <a href="./events.php"><?= $label["Volver"]?></a>
                 </td>
             </tr>
-            
             </table>
-            
         </form>
     </div>
     <div id="dialog-confirm" title="Confirmación">
