@@ -16,7 +16,6 @@ if (!isset($_GET["id"]) ||  $_GET["id"] < 0) {
 $out            = "";
 $review         = $backend->getReviewReport($_GET["id"]);
 $label["name"]  = "Sala";
-//print_r($review);
 //echo (empty($review));
 $title      = $review["details"]["1"]["session_title"];
 

@@ -4,8 +4,6 @@
     Archivo inicial del administrador web
 */
 include ("./common/common-include.php");
-
-//print_r($_SESSION);
 ?>
 
 <!DOCTYPE html>
