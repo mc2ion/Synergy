@@ -231,5 +231,5 @@ $label["Editar perfil de usuario"]                                          = "E
 $label["Por favor ingrese al menos un permiso"]                             = "Por favor ingrese al menos un permiso.";
 $label["Perfil de usuario editado exitosamente"]                            = "Perfil de usuario editado exitosamente.";
 $label["URL"]                                                               = "URL";
-$label["¿Esta acción es irreversible, está seguro que desea proceder?"]     = "¿Esta acción es irreversible, está seguro que desea proceder?";
+$label["¿Esta acción es irreversible, está seguro que desea proceder?"]     = "Esta acción es irreversible, ¿Está seguro que desea proceder?";
 ?>

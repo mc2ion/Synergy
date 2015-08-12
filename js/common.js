@@ -136,9 +136,12 @@ $( document ).ready(function() {
         if ($(this).is(':checked')){
            name = $(this).attr("name");
            id   = name.substring(0,1);
-           if (name.substring(2) == "create" || name.substring(2) == "delete" || name.substring(2) == "update"){
+           if (name.substring(2) == "delete" || name.substring(2) == "update"){
                 aux = id + "_read";
                 $("input[name='"+aux+"']").prop('checked', true);
+           }else if(name.substring(2) == "create"){
+               aux = id + "_update";
+               $("input[name='"+aux+"']").prop('checked', true);
            }
        }else{
             name = $(this).attr("name");
@@ -192,6 +195,7 @@ function loadEventList(client){
 $(document).ready( function () {
     $('.fireUI-table').DataTable(
         {
+            "aLengthMenu"  : 7,
             "bLengthChange": false,
             "bInfo": false,
             aoColumnDefs: [
@@ -201,7 +205,7 @@ $(document).ready( function () {
                 }
             ],
             "fnDrawCallback":function(){
-                if($(".fireUI-table").find("tr:not(.ui-widget-header)").length<=5){
+                if($(".fireUI-table").find("tr:not(.ui-widget-header)").length <= 7){
                     $('.dataTables_wrapper div.dataTables_paginate').hide();
                 } else {
                     $('.dataTables_wrapper div.dataTables_paginate').show();

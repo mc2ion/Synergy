@@ -96,9 +96,6 @@ $input["event"]["manage"]["mandatory"]                  = array("name", "map_pat
 $input["event"]["manage"]["no-show"]                    = array("event_id", "client_id", "active");
 $input["event"]["manage"]["country"]["type"]            = "select";
 $input["event"]["manage"]["country"]["options"]         = include "country.php";
-
-
-
 //Si options esta vacio es porque estoy buscando un query en particular
 $input["event"]["manage"]["map_path"]["type"]           = "file";
 $input["event"]["manage"]["description"] ["type"]       = "textarea";
@@ -108,7 +105,7 @@ $input["event"]["manage"]["date_end"] ["type"]          = "date";
 $input["event"]["manage"]["social_networks"]["type"]    = "special";
 $input["event"]["manage"]["social_networks"]["options"] = array("twitter"=>"Twitter", "facebook"=>"Facebook", "instagram"=>"Instagram", "linkedin"=>"LinkedIn");
 $input["event"]["manage"]["organizers"]["type"]         = "special";
-$input["event"]["list"]["no-show"]                      = array("event_id", "client_id", "website", "phone", "address", "active", "social_networks", "organizers", "map_path");
+$input["event"]["list"]["no-show"]                      = array("event_id", "client_id", "website", "phone", "description", "active", "social_networks", "organizers", "map_path");
 /** Fin seccion evento **/
 
 /* Encuestas */
@@ -144,7 +141,7 @@ $input["speaker"]["manage"]["mandatory"]                = array("name", "company
 $input["speaker"]["manage"]["no-show"]                  = array("speaker_id", "event_id","active");
 $input["speaker"]["manage"]["other"]["type"]            = "textarea";
 $input["speaker"]["manage"]["description"]["type"]      = "textarea";
-$input["speaker"]["list"]["no-show"]                    = array("speaker_id","event_id", "description", "other", "active");
+$input["speaker"]["list"]["no-show"]                    = array("speaker_id","event_id", "session_title", "other", "active");
 $input["speaker"]["manage"]["image_path"]["type"]       = "file";
 $input["speaker"]["manage"]["session_title"]["type"]    = "select";
 

@@ -173,3 +173,4 @@ div.pass{line-height:25px;}
 input.code {width: 14% !Important;float: left;margin-right: 1%;}
 input.phone {float: left;width: 85% !important;}
 footer{background-color: #333333;padding: 10px 0px;color: white;}
+.tutorial{text-align:center;}

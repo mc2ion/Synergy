@@ -15,8 +15,8 @@ include ("./common/common-include.php");
     <?= menu(); ?>
     <div class="content">
         <div class="title"><?= $label["Bienvenido"]?></div>
-        <div class="add-content">
-            <?= $label["Bienvenido introduccion"]?>
+        <div class="tutorial">
+            <img src="./images/test.png?v=01" alt="Tutorial"/>
         </div>
     </div>
      <?= my_footer() ?>

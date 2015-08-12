@@ -13,7 +13,7 @@ class db {
     
     function __construct($setnames=true) {
         $this->dbhost    = 'localhost';     //Cambiar este dato si la bd esta en otro servidor, por el IP correcto
-        $this->dbname    = 'manager'; //Poner los datos correctos
+        $this->dbname    = 'eventosplusdb'; //Poner los datos correctos
         $this->dbuser    = 'root';        //Poner los datos correctos
         $this->dbpass    = 'administrator';    //Poner los datos correctos
         $this->schema    = $this->dbname;
