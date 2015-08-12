@@ -181,35 +181,6 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
   <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
      <?= my_header()?>
       <script type="text/javascript" src="./js/colorPicker/jscolor.js"></script>
-      <script>
-          $(function() {
-            $( "#dialog-confirm" ).dialog({
-                  autoOpen: false,
-                  resizable: false,
-                  height:160,
-                  modal: true,
-                  buttons: {
-                  "Si": function() {
-                   $( this ).dialog( "close" );
-                   $('<input />').attr('type', 'hidden')
-                  .attr('name', "delete")
-                  .attr('value', "1")
-                  .appendTo('#form');
-                   $("#form").submit();
-                 },
-                 "Cancelar": function() {
-                  $( this ).dialog( "close" );
-                }
-              }
-            });
-            $(".dltP").on("click", function(e) {
-                e.preventDefault();
-                $("#dialog-confirm").dialog("open");
-            });
-          });
-          
-          
-    </script>
   </head>
   <body>
     <?= menu("clientes"); ?>

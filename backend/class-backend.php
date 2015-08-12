@@ -39,6 +39,24 @@ class backend extends db{
         }
         return $q;
    }
+
+
+    function getCompleteInfo($userId){
+        $query = "SELECT t1.*, t2.name as client_name, t2.logo_path, t2.main_menu_color, t2.main_menu_color_aux, t2.button_color, t2.top_menu_color, t2.font_main_menu_color, t2.font_top_menu_color, t2.main_submenu_color from user t1 left join client t2 on (t1.client_id = t2.client_id)  WHERE user_id = '{$userId}' LIMIT 1";
+        $q["user"] = $this->dbQuery($query);
+        if ($q["user"]){
+            if ($this->app["typeUser"][$q["user"][1]["type"]] == "cliente"){
+                //Buscar sus permisos
+                $queryAux = "SELECT * from permission where user_id = '{$q["user"][1]["user_id"]}'";
+                $qAux = $this->dbQuery($queryAux);
+                foreach($qAux as $k=>$v){
+                    $qr[$v["section_id"]] = $v;
+                }
+                $q["permission"] = $qr;
+            }
+        }
+        return $q;
+    }
     
     
     function getPermission($userId){
@@ -281,7 +299,7 @@ class backend extends db{
                                 $out[$k][$sk] = "<img src='{$sv}' alt='Logo' class='logo-company'/>";
                             }else $out[$k][$sk] = $sv;
                             $out[$k]["room_id"] = $name;
-                        } 
+                        }
                     }
                     if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["4"]["update"] == "1"){
                         $out[$k]["action"] = "<a href='./manage_session.php?id={$v["session_id"]}'>{$this->label["Editar"]}</a>";
@@ -296,16 +314,19 @@ class backend extends db{
         $query = "SELECT * from $this->schema.session WHERE session_id='$id'";
         $q     = $this->dbQuery($query);
         if ($q){
-            $formatted = date("g : i : a", strtotime($q[1]["time"]));
-            $q[1]["time"] =  $formatted;
+            $formatted = date("g : i : a", strtotime($q[1]["time_ini"]));
+            $q[1]["time_ini"] =  $formatted;
+            $formatted = date("g : i : a", strtotime($q[1]["time_end"]));
+            $q[1]["time_end"] =  $formatted;
             return $q[1];
         }
         return;
-      
+
     }
-    
-    function getSessionListByRoom($roomId, $eventId){
-        $query = "SELECT * from $this->schema.session WHERE active='1' AND room_id ='$roomId' AND event_id = '$eventId'";
+
+
+    function getSessionListByRoom($roomId, $eventId, $extra = ""){
+        $query = "SELECT * from $this->schema.session WHERE active='1' AND room_id ='$roomId' AND event_id = '$eventId' $extra";
         $q     = $this->dbQuery($query);
         return $q;
     }
@@ -499,20 +520,24 @@ class backend extends db{
     
     function getReviewReport($sessionId){
         //Obtener detalles de la sesion
-        $query = "SELECT R.name, S.TITLE AS session_title, S.DATE AS date, S.SPEAKER AS speaker, 
-                S.TIME AS time,
+        $query = "SELECT S.title AS session_title, R.name, S.date AS date, S.speaker AS speaker,
+                S.time_ini AS time_ini, S.time_end as time_end,
                 COUNT(RE.review_id) AS reviewers, SUM(RE.ranking)/COUNT(RE.review_id) AS ranking
                 FROM session S, room R, review RE
                 WHERE S.session_id = '$sessionId' AND S.active = 1 AND S.room_id = R.room_id AND S.session_id = RE.session_id";
         $q["details"]      = $this->dbQuery($query);
         if (!empty($q["details"][1]["name"])){
             foreach($q["details"] as $k=>$v){
-                $q["details"][$k]["time"] = date("g:i  a", strtotime($v["time"]));
+                unset($q["details"][$k]["time_ini"]);
+                unset($q["details"][$k]["time_end"]);
+                $q["details"][$k]["time"] = date("g:i  a", strtotime($v["time_ini"])) . " - ".date("g:i  a", strtotime($v["time_end"])) ;
+                //$q["details"][$k]["time_end"] = date("g:i  a", strtotime($v["time_end"]));
             }
         }else{
-            return;
+            return "";
         }
-        
+
+
         //Obtener detalles de las votacion
         $query =    "SELECT R.ranking, COUNT(R.review_id) AS reviewers
                     FROM review R
@@ -534,7 +559,7 @@ class backend extends db{
     /*Evaluaciones*/
     function getReviewList($noShow=array()){
         $eventId = $_SESSION["data"]["evento"];
-        $query   = "SELECT t1.session_id, t2.title, t2.speaker, t2.time 
+        $query   = "SELECT t1.session_id, t2.title,  t2.speaker, t2.date, t2.time_ini, t2.time_end
                     FROM review t1 left join session t2 on t1.session_id = t2.session_id 
                     WHERE t2.active = '1' AND t2.event_id = '$eventId' GROUP BY session_id ORDER BY t1.session_id asc";
         $q       = $this->dbQuery($query);         
@@ -547,8 +572,11 @@ class backend extends db{
                         $out[$k][$sk] = $sv;
                     } 
                 }
-                $formatted          =   date("g:i  a", strtotime($out[$k]["time"]));
-                $out[$k]["time"]    =   $formatted;
+                $formattedIni       =   date("g:i  a", strtotime($out[$k]["time_ini"]));
+                $formattedEnd       =   date("g:i  a", strtotime($out[$k]["time_end"]));
+                unset($out[$k]["time_ini"]);
+                unset($out[$k]["time_end"]);
+                $out[$k]["time"]    =   $formattedIni . " - " . $formattedEnd;
                 $out[$k]["action"]  = "<a href='./review_report.php?id={$v["session_id"]}'>{$this->label["Ver Resultados"]}</a>";
             }
         }   

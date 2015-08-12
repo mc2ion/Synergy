@@ -52,6 +52,8 @@ $label["room_id"]                           = "Sala";
 $label["date"]                              = "Fecha";
 $label["title"]                             = "Título";
 $label["speaker"]                           = "Speaker";
+$label["time_ini"]                          = "Hora de inicio";
+$label["time_end"]                          = "Hora fin";
 $label["time"]                              = "Hora";
 $label["image_path"]                        = "Imagen";
 $label["link"]                              = "Link Externo";
@@ -74,15 +76,17 @@ $label["Pregunta borrada exitosamente"]     = "Pregunta borrada exitosamente.";
 $label["No hay preguntas disponibles"]      = "No hay preguntas disponibles.";
 
 //Sección sesion
-$label["Sesiones"]                          = "Sesiones";
-$label["No hay sesiones disponibles"]       = "No hay sesiones disponibles";
-$label["Sesión creada exitosamente"]        = "Sesión creada exitosamente.";
-$label["Crear Sesión"]                      = "Crear Sesión";
-$label["Editar Sesión"]                     = "Editar Sesión";
-$label["Sesión editada exitosamente"]       = "Sesión editada exitosamente.";
-$label["Sesión borrada exitosamente"]       = "Sesión borrada exitosamente.";
-$label["Sesión no encontrada"]              = "Sesión no encontrada";
-
+$label["Sesiones"]                                                          = "Sesiones";
+$label["No hay sesiones disponibles"]                                       = "No hay sesiones disponibles";
+$label["Sesión creada exitosamente"]                                        = "Sesión creada exitosamente.";
+$label["Crear Sesión"]                                                      = "Crear Sesión";
+$label["Editar Sesión"]                                                     = "Editar Sesión";
+$label["Sesión editada exitosamente"]                                       = "Sesión editada exitosamente.";
+$label["Sesión borrada exitosamente"]                                       = "Sesión borrada exitosamente.";
+$label["Sesión no encontrada"]                                              = "Sesión no encontrada";
+$label["La hora de inicio y fin proporcionada no pueden ser iguales"]       = "La hora de inicio y fin proporcionada no pueden ser iguales";
+$label["La hora de inicio debe ser menor a la hora fin"]                    = "La hora de inicio debe ser menor a la hora fin";
+$label["Disculpe, ya existe una sesión creada para dicha sala, fecha y hora"]   = "Disculpe, ya existe una sesión creada para dicha sala, fecha y hora";
 //Sección usuarios
 $label["first_name"]                        = "Nombre";
 $label["last_name"]                         = "Apellido";
@@ -107,6 +111,7 @@ $label["El correo ingresado ya existe"]     = "Disculpe, ya existe un usuario co
 $label["Usuario no encontrado"]             = "Usuario no encontrado";
 $label["No hay usuarios disponibles"]       = "No hay usuarios disponibles";
 $label["Usuarios"]                          = "Usuarios";
+
  
 /*Expositores*/
 $label["Expositores"]                       = "Expositores";
@@ -126,7 +131,7 @@ $label["No hay presentadores disponibles"]  = "No hay speakers disponibles";
 $label["Editar Presentador"]                = "Editar Speaker";
 $label["Crear Presentador"]                 = "Crear Speaker";
 $label["company_name"]                      = "Empresa";
-$label["session_title"]                     = "Sesión";
+$label["session_title"]                     = "Nombre";
 $label["other"]                             = "Otro";
 $label["Presentador creado exitosamente"]   = "Speaker creado exitosamente";
 $label["Presentador editado exitosamente"]  = "Speaker editado exitosamente";
@@ -223,5 +228,4 @@ $label["Editar perfil de usuario"]                                          = "E
 $label["Por favor ingrese al menos un permiso"]                             = "Por favor ingrese al menos un permiso";
 $label["Perfil de usuario editado exitosamente"]                            = "Perfil de usuario editado exitosamente";
 $label["URL"]                                                               = "URL";
-
 ?>

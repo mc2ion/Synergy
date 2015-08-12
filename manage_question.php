@@ -166,7 +166,7 @@ $clients                        = $backend->getClientList(array(), "1");
     <div class="content">
         <div class="title-manage"><?= $title?></div>
         <?=$message ?>
-        <form method="post" enctype="multipart/form-data">
+        <form id="form" method="post" enctype="multipart/form-data">
             <?php if ($action == "edit") {?>
                 <input type="hidden" name="img" value="<?=  $survey["image_path"]?>" />
                 <input type="hidden" name="id"  value="<?=  $_GET["id"]?>" />

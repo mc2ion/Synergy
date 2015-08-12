@@ -128,12 +128,13 @@ $input["room"]["list"]["no-show"]                       = array("room_id","event
 /** Fin seccion evento **/
 
 /* Sesion */
-$input["session"]["manage"]["mandatory"]                = array("room_id", "title", "date", "speaker", "time", "image_path");
+$input["session"]["manage"]["mandatory"]                = array("room_id", "title", "date", "speaker", "time_ini", "time_end", "image_path");
 $input["session"]["manage"]["no-show"]                  = array("session_id", "event_id","active");
 $input["session"]["manage"]["question"]["type"]         = "textarea";
-$input["session"]["list"]["no-show"]                    = array("session_id","event_id", "description", "time", "link", "active");
+$input["session"]["list"]["no-show"]                    = array("session_id","event_id", "description", "time_ini", "time_end", "link", "active");
 $input["session"]["manage"]["date"]["type"]             = "date";
-$input["session"]["manage"]["time"]["type"]             = "time";
+$input["session"]["manage"]["time_ini"]["type"]         = "time";
+$input["session"]["manage"]["time_end"]["type"]         = "time";
 $input["session"]["manage"]["description"]["type"]      = "textarea";
 $input["session"]["manage"]["image_path"]["type"]       = "file";
 $input["session"]["manage"]["room_id"]["type"]          = "select";
@@ -150,7 +151,7 @@ $input["speaker"]["manage"]["session_title"]["type"]    = "select";
 /* Expositores */
 $input["exhibitor"]["manage"]["mandatory"]              = array("name", "company_name", "description", "image_path", "time", "category_id");
 $input["exhibitor"]["manage"]["no-show"]                = array("exhibitor_id", "event_id","active");
-$input["exhibitor"]["list"]["no-show"]                  = array("exhibitor_id","event_id","company_name", "description", "position", "other", "active");
+$input["exhibitor"]["list"]["no-show"]                  = array("exhibitor_id","event_id", "description", "position", "other", "active");
 $input["exhibitor"]["manage"]["category_id"]["type"]    = "select";
 $input["exhibitor"]["manage"]["description"]["type"]    = "textarea";
 $input["exhibitor"]["manage"]["other"]["type"]          = "textarea";

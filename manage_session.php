@@ -72,17 +72,46 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
             }
        }
    }
-   
-   if (!$error){
-        //Debo darle formato al time.
-        //$date = date( 'H : i : A', $en["time"]);
-        
-         $t= str_replace(' ', '', $en["time"]);
-         $h = explode(":", $t);
-         $ho = $h[0].":".$h[1]. " " .$h[2];
-         $date = date("H:i",strtotime($ho));
-        $en["time"] = $date;
-       if (isset($_POST["add"])){
+
+    //Debo darle formato al time.
+    $timeEnd = $timeIni = "";
+    if (!$error){
+        if ($en["time_ini"] != ""){
+            $t= str_replace(' ', '', $en["time_ini"]);
+            $h = explode(":", $t);
+            $ho = $h[0].":".$h[1]. " " .$h[2];
+            $date       = date("H:i",strtotime($ho));
+            $timeIni    = $date;
+
+        }
+
+        if ($en["time_end"] != ""){
+            $t= str_replace(' ', '', $en["time_end"]);
+            $h = explode(":", $t);
+            $ho = $h[0].":".$h[1]. " " .$h[2];
+            $date       = date("H:i",strtotime($ho));
+            $timeEnd    = $date;
+        }
+        if ($timeIni == $timeEnd ){ $error= 1; $message = "<div class='error'>".$label["La hora de inicio y fin proporcionada no pueden ser iguales"]. "</div>";}
+        if ($timeIni > $timeEnd ) { $error= 1; $message = "<div class='error'>".$label["La hora de inicio debe ser menor a la hora fin"]. "</div>";}
+
+        //Verificar que no haya otra sesion en esa fecha, hora y sala
+        $extra = "AND date = '{$en["date"]}' AND
+                ((time_ini <= '$timeIni' AND time_end > '$timeIni' AND time_end <= '$timeEnd')
+                    OR 	(time_ini >= '$timeIni' AND time_end >= '$timeEnd' AND time_ini < '$timeEnd')
+                    OR 	(time_ini >= '$timeIni' AND time_end <= '$timeEnd')
+                    OR    (time_ini <= '$timeIni' AND time_end >= '$timeEnd')
+                )";
+        $sesions = $backend->getSessionListByRoom($en["room_id"], $_SESSION["data"]["evento"], $extra );
+        if (count($sesions) == "1") {$error = "1"; $message = "<div class='error'>".$label["Disculpe, ya existe una sesión creada para dicha sala, fecha y hora"]. "</div>";}
+    }
+
+
+
+    if (!$error){
+        $en["time_ini"] = $timeIni;
+        $en["time_end"]  = $timeEnd;
+        if (isset($_POST["add"])){
             $id = $backend->insertRow($section, $en);
            if ($id > 0) { 
                 unset($_SESSION["session"]["image_path"]);

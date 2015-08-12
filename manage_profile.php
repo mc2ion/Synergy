@@ -87,9 +87,7 @@ if (isset($_POST["edit"])){
         $id             = $backend->clean($_POST["id"]);
         $rid            = @$backend->updateRow("user", $en, " user_id = '$id' ");
         if ($rid > 0) {
-            $_SESSION["app-user"]["user"]["1"]                  = $backend->getUserInfo($id);
-            $_SESSION["app-user"]["user"]["1"]["client_name"]   = @$backend->getClient($id)["name"];
-            $_SESSION["app-user"]["user"]["1"]["logo_path"]     = @$backend->getClient($id)["logo_path"];
+            $_SESSION["app-user"]                 = $backend->getCompleteInfo($id);
             $message = "<div class='succ'>".$label["Perfil de usuario editado exitosamente"] ."</div>";
         }else{
             $message = "<div class='error'>".$label["Hubo un problema con la edición"]. "</div>";

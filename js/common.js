@@ -6,7 +6,7 @@ $( document ).ready(function() {
     
     //Agregar dinamicamente las redes sociales de un evento
     $(".add-e a").click(function(event){
-        elem = $(this).closest(".social_networks-td").find('.networks:first').clone().appendTo(".social_networks-td");
+        elem = $(this).closest(".social_networks-td").find('.networks:first').clone(true).appendTo(".social_networks-td");
         $(elem).find("select").val("");
         $(elem).find("input").val("");
         $(".delete").show();
@@ -20,11 +20,12 @@ $( document ).ready(function() {
     
     //Agregar dinamicamente los organizadores de un evento
     $(".add-org a").click(function(event){
-        elem = $(this).closest(".organizer-td").find('.organizer:first').clone().appendTo(".organizer-td");
+        elem = $(this).closest(".organizer-td").find('.organizer:first').clone(true).appendTo(".organizer-td");
         $(elem).find("textarea").text("");
         $(elem).find("input").val("");
         $(".delete-org").show();
         $(".delete-org:first").hide();
+        add_validation_for_forms();
     })
     
     //Eliminar dinamicamente un organizador.
@@ -34,7 +35,7 @@ $( document ).ready(function() {
     
     //Agregar dinamicamente las opciones a una pregunta
     $(".add-opt a").click(function(event){
-        elem = $(this).closest(".option-td").find('.option:first').clone().appendTo(".option-td");
+        elem = $(this).closest(".option-td").find('.option:first').clone(true).appendTo(".option-td");
         $(elem).find("textarea").text("");
         $(elem).find("input").val("");
         $(".delete-opt").show();
@@ -205,6 +206,33 @@ $(document).ready( function () {
                 }
             }
         });
+
+    $(function() {
+        $( "#dialog-confirm" ).dialog({
+            autoOpen: false,
+            resizable: false,
+            height:160,
+            modal: true,
+            buttons: {
+                "Si": function() {
+                    $( this ).dialog( "close" );
+                    $('<input />').attr('type', 'hidden')
+                        .attr('name', "delete")
+                        .attr('value', "1")
+                        .appendTo('#form');
+                    $("#form").submit();
+                },
+                "Cancelar": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+        $(".dltP").on("click", function(e) {
+            e.preventDefault();
+            $("#dialog-confirm").dialog("open");
+        });
+    });
+
 });
 
 
@@ -249,9 +277,8 @@ $(function() {
 
 $.validator.messages.required   = 'Este campo es obligatorio';
 $.validator.messages.email      = "Ingrese una dirección de correo electrónico válida.";
-$.validator.messages.number     = "Ingrese un número telefónico válido";
+$.validator.messages.number     = "Sólo se permiten valores numéricos.";
 $.validator.messages.url        = "La dirección URL no es válida";
-    
 
 jQuery(function($) {
     $.validator.addMethod("phoneNumber", function(value, element) {
@@ -265,13 +292,15 @@ jQuery(function($) {
     validator = $("#form").validate(
         {
             rules: {
-                "email"         : {email: true},
-                "contact_email" : {email: true},
-                "contact_phone" : {phoneNumber: true},
-                "phone"         : {phoneNumber:true},
-                "website"       : {url: true},
-                "link"          : {url: true},
-                "url[]"         : {url:true},
+                "email"             : {email: true},
+                "contact_email"     : {email: true},
+                "contact_phone"     : {phoneNumber: true},
+                "phone"             : {phoneNumber:true},
+                "website"           : {url:     true},
+                "link"              : {url:     true},
+                "position"          : {number:  true},
+                "url_organizer[]"   : {url:     true},
+                "position_option[]" : {number:  true},
             }
         } 
     );

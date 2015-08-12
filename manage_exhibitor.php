@@ -182,7 +182,7 @@ $imageSize = "Tamaño máximo permitido: <b> ".$general[$section]["image_width"]
 $s = $general[$section]["image_size"] / 1000;
 $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
 
-
+$label["position"]  = "Posición en el mapa";
 ?>
 
 <!DOCTYPE html>

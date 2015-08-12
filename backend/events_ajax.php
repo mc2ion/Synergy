@@ -4,7 +4,7 @@ include (__dir__."/../common/labels.php");
 include (__dir__."/../common/conf.php");
 include("class-backend.php"); $backend = new backend($label, $typeUser);
 $clientId = isset($_POST["id"]) ? $_POST["id"] :"" ;
-$out    = "";
+$out      = "";
 if ($clientId){
     $events = $backend->getEventList($clientId);
     if ($events){

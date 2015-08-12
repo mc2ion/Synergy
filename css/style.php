@@ -26,7 +26,7 @@ body.login {background: #E9E9E9;}
 /* Menu y barra superior */
 .menu{width: 250px; background-color: <?= $main_menu?>;  position: fixed; height: 100%;/* border-right: 1px solid rgb(126, 126, 126); */ z-index: 2;text-align: center;}
 .menu li { list-style-type: none;}
-.menu li a { display: inline-block; color: <?= $font_main_menu?>; text-decoration: none; width: 217px; padding: 15px; border-left: 3px solid <?= $main_menu?>; position: relative;}
+.menu li a { display: inline-block; color: <?= $font_main_menu?>; text-decoration: none; width: 217px; padding: 12px 15px; border-left: 3px solid <?= $main_menu?>; position: relative;}
 .menu li a:hover{background: <?= $main_menu_axu?>;border-left: 3px solid <?= $top_menu ?>;}
 .menu li a.selected{ background: <?= $main_menu_axu?>; border-left: 3px solid <?= $top_menu ?>; width: 217px;}
 .submenu li a.selected{ background: <?= $main_menu_axu?>; border-left: 3px solid <?= $top_menu ?>; width: 192px;}

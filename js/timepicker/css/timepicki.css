@@ -40,11 +40,11 @@ Author: senthil
 }
 
 .next {
-	background-position: 50% 150%;
+	background-position: 50% 150% !important;
 }
 
 .prev {
-	background-position: 50% -50%;
+	background-position: 50% -50% !important;
 }
 
 .time_pick {
@@ -76,12 +76,12 @@ Author: senthil
 }
 input.timepicki-input {
 	background: none repeat scroll 0 0 #FFFFFF;
-    	border: 1px solid #CCCCCC;
-    	border-radius: 5px 5px 5px 5px;
-    	float: none;
-    	margin: 0;
-    	text-align: center;
-    	width: 70%;
+	border: 1px solid #CCCCCC;
+	border-radius: 5px 5px 5px 5px;
+	float: none;
+	margin: 0;
+	text-align: center;
+	width: 70%;
 }
 a.reset_time {
 	float: left;
