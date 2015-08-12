@@ -138,7 +138,18 @@ $( document ).ready(function() {
                 aux = id + "_read";
                 $("input[name='"+aux+"']").prop('checked', true);
            }
-       }
+       }else{
+            name = $(this).attr("name");
+            id   = name.substring(0,1);
+            if (name.substring(2) == "read"){
+                aux = id + "_delete";
+                $("input[name='"+aux+"']").prop('checked', false);
+                aux = id + "_create";
+                $("input[name='"+aux+"']").prop('checked', false);
+                aux = id + "_update";
+                $("input[name='"+aux+"']").prop('checked', false);
+            }
+        }
     });
     
     
