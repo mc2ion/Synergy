@@ -6,10 +6,11 @@ $( document ).ready(function() {
     
     //Agregar dinamicamente las redes sociales de un evento
     $(".add-e a").click(function(event){
-        elem = $(this).closest(".social_networks-td").find('.networks:first').clone(true).appendTo(".social_networks-td");
+        var elem = $(this).closest(".social_networks-td").find('.networks:first').clone(true).appendTo(".social_networks-td");
         $(elem).find("select").val("");
         $(elem).find("input").val("");
         $(elem).find("label").remove();
+        $(elem).find(".url_sn").rules("add", { url: true});
         $(".delete").show();
         $(".delete:first").hide();
     })
@@ -27,12 +28,13 @@ $( document ).ready(function() {
     
     //Agregar dinamicamente los organizadores de un evento
     $(".add-org a").click(function(event){
-        elem = $(this).closest(".organizer-td").find('.organizer:first').clone(true).appendTo(".organizer-td");
+        var elem = $(this).closest(".organizer-td").find('.organizer:first').clone(true).appendTo(".organizer-td");
         $(elem).find("textarea").text("");
         $(elem).find("input").val("");
         $(".delete-org").show();
         $(".delete-org:first").hide();
         $(elem).find("label").remove();
+        $(elem).find(".url_organizer").rules("add", { url: true});
     })
     
     //Eliminar dinamicamente un organizador.
@@ -42,7 +44,7 @@ $( document ).ready(function() {
     
     //Agregar dinamicamente las opciones a una pregunta
     $(".add-opt a").click(function(event){
-        elem = $(this).closest(".option-td").find('.option:first').clone(true).appendTo(".option-td");
+        var elem = $(this).closest(".option-td").find('.option:first').clone(true).appendTo(".option-td");
         $(elem).find("textarea").text("");
         $(elem).find("input").val("");
         $(".delete-opt").show();
@@ -56,16 +58,16 @@ $( document ).ready(function() {
     
     //Ocultar/mostrar permisologia dependiendo del tipo de usuario
     $('select[name=type]').change(function(event){
-        $userType = $("#userType").val();
+        var userType = $("#userType").val();
         //Si el usuario es de tipo administrador (super user) entonces mostrar el listado de clientes
         //para escoger el cliente asociado
         if ($(this).val()== "Supervisor") {
-            if ($userType == "administrador") {
+            if (userType == "administrador") {
                 $('.client_id').show();
             }
             $('.permi').show();
         }else if ($(this).val()== "Administrador"){
-            if ($userType == "administrador") {
+            if (userType == "administrador") {
                 $('.client_id').show();
             }
             $('.permi').hide();
@@ -83,9 +85,9 @@ $( document ).ready(function() {
     });
 
     //Ocultar campos dependiendo de la categoria del expositor
-    $('select[name=category_id]').change(function(event){
-        $tipo = types[$(this).val()];
-        if ($tipo == "grid"){
+    $('select[name=category_id]').change(function(){
+        var tipo = types[$(this).val()];
+        if (tipo == "grid"){
             $('.manage-content tr').hide();
             $('.tr_image_path').show();
             $('.tr_actions').show();
@@ -102,7 +104,7 @@ $( document ).ready(function() {
         $(".subm").show();
     });
     
-    //
+    //Ocultar menu perfil de usuario
     $("body").click(function(event){
         $(".subm").hide();
     });
@@ -325,6 +327,7 @@ jQuery(function($) {
                 "position"          : {number:  true},
                 "url_organizer[]"   : {url:     true},
                 "value[]"           : {url:  true},
+                "at-email"          : {email:true},
             }
         } 
     );

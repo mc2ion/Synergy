@@ -398,7 +398,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                                     <input name="title[]" type="text" placeholder="Nombre" value="<?= $titleNetwork?>"/>
                                 </div>
                                 <div>
-                                    <input style="margin-top:5px; clear: both" name="value[]" type="text" placeholder="URL completo de la red social" value="<?= $valueNetwork?>"/>
+                                    <input style="margin-top:5px; clear: both" name="value[]" type="text" class='url_sn'  placeholder="URL completo de la red social" value="<?= $valueNetwork?>"/>
                                 </div>
                                 <div class="delete i<?= $mk ?>"><a href="javascript:void(0)"><?= $label["Eliminar"]?></a></div>
                             </div>
@@ -421,7 +421,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                                     </div>
                                     <div class="org-url">
                                         <div class="label"><?= $label["URL"]?> (<img src='images/mandatory.png' class='mandatory'>):</div>
-                                        <div class="value"><input type="text" name="url_organizer[]" value="<?= $url?>"/></div>
+                                        <div class="value"><input type="text" class='url_organizer' name="url_organizer[]" value="<?= $url?>"/></div>
                                     </div>
                                     <div class="org-desc">
                                         <div class="label"><?= $label["Descripción"]?> (<img src='images/mandatory.png' class='mandatory'>):</div>

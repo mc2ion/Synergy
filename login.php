@@ -77,7 +77,7 @@ if (isset($_POST["forgot"])){
   </head>
   <body class="login">
     <div class="page-wrap">
-    <form method="post">
+    <form method="post" id="form">
         <div class="content-login">
              <div class='form'>
                  <div class='info'>
