@@ -60,6 +60,7 @@ $label["link"]                              = "Link Externo";
 $label["No hay salas disponibles"]          = "No hay salas disponibles.";
 $label["Para agregar una sesión, debe tener creado al menos una sala."] = "Para agregar una sesión, debe tener creado al menos una sala.";
 $label["Sala no encontrada"]                = "Sala no encontrada";
+$label["Disculpe, el nombre del speaker proporcionado ya existe"]   = "Disculpe, el nombre del speaker proporcionado ya existe";
 
 //Seccion encuestas
 $label["Encuesta | Preguntas"]              = "Encuesta | Preguntas";
@@ -74,6 +75,7 @@ $label["Pregunta agregada exitosamente"]    = "Pregunta agregada exitosamente.";
 $label["Pregunta editada exitosamente"]     = "Pregunta editada exitosamente.";
 $label["Pregunta borrada exitosamente"]     = "Pregunta borrada exitosamente.";
 $label["No hay preguntas disponibles"]      = "No hay preguntas disponibles.";
+$label["El nombre de expositor proporcionado ya existe"]    = "Disculpe, el nombre del expositor proporcionado ya existe.";
 
 //Sección sesion
 $label["Sesiones"]                                                          = "Sesiones";
@@ -83,10 +85,10 @@ $label["Crear Sesión"]                                                      = "
 $label["Editar Sesión"]                                                     = "Editar Sesión";
 $label["Sesión editada exitosamente"]                                       = "Sesión editada exitosamente.";
 $label["Sesión borrada exitosamente"]                                       = "Sesión borrada exitosamente.";
-$label["Sesión no encontrada"]                                              = "Sesión no encontrada";
-$label["La hora de inicio y fin proporcionada no pueden ser iguales"]       = "La hora de inicio y fin proporcionada no pueden ser iguales";
-$label["La hora de inicio debe ser menor a la hora fin"]                    = "La hora de inicio debe ser menor a la hora fin";
-$label["Disculpe, ya existe una sesión creada para dicha sala, fecha y hora"]   = "Disculpe, ya existe una sesión creada para dicha sala, fecha y hora";
+$label["Sesión no encontrada"]                                              = "Sesión no encontrada.";
+$label["La hora de inicio y fin proporcionada no pueden ser iguales"]       = "La hora de inicio y fin proporcionada no pueden ser iguales.";
+$label["La hora de inicio debe ser menor a la hora fin"]                    = "La hora de inicio debe ser menor a la hora fin.";
+$label["Disculpe, ya existe una sesión creada para dicha sala, fecha y hora"]   = "Disculpe, ya existe una sesión creada para dicha sala, fecha y hora.";
 //Sección usuarios
 $label["first_name"]                        = "Nombre";
 $label["last_name"]                         = "Apellido";
@@ -125,9 +127,10 @@ $label["category_id"]                       = "Categoría";
 $label["category"]                          = "Categoría";
 $label["Expositor no encontrado"]           = "Expositor no encontrado";
 
+
 /*Speakers */
 $label["Presentadores"]                     = "Speakers";
-$label["No hay presentadores disponibles"]  = "No hay speakers disponibles";
+$label["No hay presentadores disponibles"]  = "No hay speakers disponibles.";
 $label["Editar Presentador"]                = "Editar Speaker";
 $label["Crear Presentador"]                 = "Crear Speaker";
 $label["company_name"]                      = "Empresa";
@@ -141,7 +144,7 @@ $label["Presentador no encontrado"]         = "Presentador no encontrado";
 /*Evaluaciones */
 $label["Evaluaciones"]                      = "Evaluaciones";
 $label["Ver Resultados"]                    = "Ver Resultados";
-$label["No hay evaluaciones disponibles"]   = "No hay evaluaciones disponibles";
+$label["No hay evaluaciones disponibles"]   = "No hay evaluaciones disponibles.";
 $label["Evaluación no encontrada"]          = "Evaluación no encontrada";
 
 
@@ -186,12 +189,12 @@ $label["Verifique la información de las redes sociales"]                    = "
 $label["Ingrese a su cuenta"]                                               = "Ingrese a su cuenta";
 $label["Ya existe una sala con este nombre"]                                = "Disculpe, el nombre de la sala proporcionado ya existe.";
 $label["Reporte"]                                                           = "Visualizar Reporte";
-$label["Esta encuesta no posee resultados aún"]                             = "Esta encuesta no posee resultados aún";
+$label["Esta encuesta no posee resultados aún"]                             = "Esta encuesta no posee resultados aún.";
 $label["Exportar PDF"]                                                      = "Exportar PDF";
 $label["Imprimir"]                                                          = "Imprimir";
 $label["Exportar Excel"]                                                    = "Exportar Excel";
 $label["q_options"]                                                         = "N° respuestas";
-$label["No hay clientes activos"]                                           = "No hay clientes activos";
+$label["No hay clientes activos"]                                           = "No hay clientes activos.";
 $label["Comentarios"]                                                       = "Comentarios";
 $label["Votaciones"]                                                        = "Votaciones";
 $label["Votacion"]                                                          = "Votación";
@@ -212,8 +215,8 @@ $label["Su nueva contraseña se ha enviado a su correo"]                     = "
 $label["El correo electrónico ingresado no existe"]                         = "La dirección de correo electrónico ingresado no existe";
 $label["Ingrese su correo electrónico"]                                     = "Ingrese su dirección de correo electrónico";
 $label["Ingrese su contraseña"]                                             = "Ingrese su contraseña";
-$label["No hay resultados que coincidan con su búsqueda"]                   = "No hay resultados que coincidan con su búsqueda";
-$label["La dirección de correo electrónico no es válida"]                   = "La dirección de correo electrónico no es válida";
+$label["No hay resultados que coincidan con su búsqueda"]                   = "No hay resultados que coincidan con su búsqueda.";
+$label["La dirección de correo electrónico no es válida"]                   = "La dirección de correo electrónico no es válida.";
 $label["Ingrese sus credenciales"]                                          = "Ingrese sus credenciales";
 $label["Perfil de Usuario"]                                                 = "Perfil de Usuario";
 $label["Cambiar contraseña"]                                                = "Cambiar contraseña";
@@ -223,9 +226,10 @@ $label["Contraseña anterior"]                                               = "
 $label["Contraseña nueva"]                                                  = "Nueva contraseña";
 $label["Ingrese su contraseña actual"]                                      = "Ingrese su contraseña actual";
 $label["Ingrese su nueva contraseña"]                                       = "Ingrese su nueva contraseña";
-$label["La nueva contraseña debe tener al menos 4 caracteres"]              = "La nueva contraseña debe tener al menos 4 caracteres";
+$label["La nueva contraseña debe tener al menos 4 caracteres"]              = "La nueva contraseña debe tener al menos 4 caracteres.";
 $label["Editar perfil de usuario"]                                          = "Editar perfil de usuario";
-$label["Por favor ingrese al menos un permiso"]                             = "Por favor ingrese al menos un permiso";
-$label["Perfil de usuario editado exitosamente"]                            = "Perfil de usuario editado exitosamente";
+$label["Por favor ingrese al menos un permiso"]                             = "Por favor ingrese al menos un permiso.";
+$label["Perfil de usuario editado exitosamente"]                            = "Perfil de usuario editado exitosamente.";
 $label["URL"]                                                               = "URL";
+$label["¿Esta acción es irreversible, está seguro que desea proceder?"]     = "¿Esta acción es irreversible, está seguro que desea proceder?";
 ?>

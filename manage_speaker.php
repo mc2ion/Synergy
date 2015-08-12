@@ -47,7 +47,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
             $_SESSION["speaker"]["image_path"] =  $path;
             $en["image_path"] =  $path ;
         }
-   }else if ($speaker["image_path"] == "" && !isset($_SESSION["speaker"]["image_path"] )){
+   }else if ((!isset($speaker["image_path"]) ||  $speaker["image_path"] == "")  && !isset($_SESSION["speaker"]["image_path"] )){
         $error = 1;
         $missing["image_path"] = 1;
    }
@@ -74,7 +74,15 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
             }
        }
    }
-   
+
+    if (!$error) {
+        $created = $backend->getSpeakerByCompany($en["company_name"], $en["name"], @$_POST["id"]);
+        if (count($created) > 0){
+            $error = 1;
+            $message = "<div class='error'>".$label["Disculpe, el nombre del speaker proporcionado ya existe"]. "</div>";
+        }
+    }
+
    if (!$error){
         if (isset($_POST["add"])){
             $id = $backend->insertRow($section, $en);
@@ -156,11 +164,12 @@ $imageSize = "Tamaño máximo permitido: <b> ".$general[$section]["image_width"]
 $s = $general[$section]["image_size"] / 1000;
 $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
 
+$label["session_title"] = "Sesión";
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
      <?= my_header()?>
   </head>
@@ -246,7 +255,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
-                    <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
+                        <input type="button" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./speakers.php"><?= $label["Volver"]?></a>
                 </td>
@@ -256,6 +265,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
             
         </form>
     </div>
-     <?= my_footer() ?>
+    <?= include('common/dialog.php'); ?>
+    <?= my_footer() ?>
   </body>
 </html>

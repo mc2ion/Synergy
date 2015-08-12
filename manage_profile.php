@@ -56,14 +56,14 @@ if (isset($_POST["edit"])){
                         $missing[$v["COLUMN_NAME"]] = 1;
                     }else{
                         if ($v["COLUMN_NAME"] != "photo_path" ){
-                            $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                            $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                         }
                     }
                 }else if ($v["COLUMN_NAME"] != "photo_path" ){
                     if ($userType == "cliente" && $v["COLUMN_NAME"] != "email" && $v["COLUMN_NAME"] != "password" ){
-                        $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                        $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                     }else if ($userType != "cliente" && $v["COLUMN_NAME"] != "password" ){
-                        $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                        $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                     }
                 }
             }
@@ -129,8 +129,8 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
-<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html lang="es">
+<head>
     <?= my_header()?>
 </head>
 <body>

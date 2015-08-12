@@ -9,6 +9,7 @@ $( document ).ready(function() {
         elem = $(this).closest(".social_networks-td").find('.networks:first').clone(true).appendTo(".social_networks-td");
         $(elem).find("select").val("");
         $(elem).find("input").val("");
+        $(elem).find("label").remove();
         $(".delete").show();
         $(".delete:first").hide();
     })
@@ -25,7 +26,7 @@ $( document ).ready(function() {
         $(elem).find("input").val("");
         $(".delete-org").show();
         $(".delete-org:first").hide();
-        add_validation_for_forms();
+        $(elem).find("label").remove();
     })
     
     //Eliminar dinamicamente un organizador.
@@ -50,12 +51,19 @@ $( document ).ready(function() {
     //Ocultar/mostrar permisologia dependiendo del tipo de usuario
     $('select[name=type]').change(function(event){
         $userType = $("#userType").val();
-        if ($(this).val()== "Supervisor"){
-            if ($userType == "administrador"){
+        //Si el usuario es de tipo administrador (super user) entonces mostrar el listado de clientes
+        //para escoger el cliente asociado
+        if ($(this).val()== "Supervisor") {
+            if ($userType == "administrador") {
                 $('.client_id').show();
             }
             $('.permi').show();
-        }else if ($(this).val()== "Super Usuario" ||$(this).val()== "Administrador" ){
+        }else if ($(this).val()== "Administrador"){
+            if ($userType == "administrador") {
+                $('.client_id').show();
+            }
+            $('.permi').hide();
+        }else if ($(this).val()== "Super Usuario"){
              $('.client_id').hide();
              $('.permi').hide();
         }
@@ -222,13 +230,12 @@ $(document).ready( function () {
                         .appendTo('#form');
                     $("#form").submit();
                 },
-                "Cancelar": function() {
+                "No": function() {
                     $( this ).dialog( "close" );
                 }
             }
         });
-        $(".dltP").on("click", function(e) {
-            e.preventDefault();
+        $(".dltP").on("click", function() {
             $("#dialog-confirm").dialog("open");
         });
     });
@@ -300,10 +307,9 @@ jQuery(function($) {
                 "link"              : {url:     true},
                 "position"          : {number:  true},
                 "url_organizer[]"   : {url:     true},
-                "position_option[]" : {number:  true},
+                "value[]"           : {url:  true},
             }
         } 
     );
-
 })
 

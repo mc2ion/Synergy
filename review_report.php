@@ -180,7 +180,7 @@ function getReport($title, $excel="0"){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
      <?= my_header()?>
      <link rel="stylesheet" href="./css/surveyprint.css" type="text/css" media="print" />

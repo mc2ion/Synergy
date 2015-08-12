@@ -64,11 +64,11 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
                         $missing[$v["COLUMN_NAME"]] = 1;
                     }else{
                         if ($v["COLUMN_NAME"] != "logo_path" ){
-                            $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                            $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                         }
                     }
                 }else if ($v["COLUMN_NAME"] != "logo_path" ){
-                    $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                    $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                 }
             }
        }
@@ -177,7 +177,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
      <?= my_header()?>
       <script type="text/javascript" src="./js/colorPicker/jscolor.js"></script>
@@ -261,12 +261,8 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td></td>
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
-                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1" ))) {
-                          if (@$_SESSION["data"]["cliente"] == @$_GET["id"]) { ?> 
-                            <input type="submit" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
-                        <?php }else{ ?>
-                            <input type="submit" class="important dlt" name="delete"  value="<?= $label["Borrar"]?>" />
-                        <?php } ?>
+                    <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "administrador" || ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1" ))) {?>
+                            <input type="button" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./clients.php"><?= $label["Cancelar"]?></a>
                 </td>
@@ -276,9 +272,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
             
         </form>
     </div>
-    <div id="dialog-confirm" title="Confirmación">
-      <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Está a punto de borrar el cliente sobre el que está trabajando actualmente. ¿Desea continuar?</p>
-    </div>  
+    <?= include('common/dialog.php'); ?>
      <?= my_footer() ?>
   </body>
 </html>

@@ -13,10 +13,10 @@ if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSIO
 //Obtener las columnas a editar/crear
 $section    = "event";
 $columns    = $backend->getColumnsTable($section);
-$id         =  $message      =  $error   =  $alert    = "";
+$id         =  $message      =  $error   =  $alert  = "";
 //Creamos un array vacio para que aparezca un box inicial
-$socials    = array("0"=>array("type"=>"", "value"=>""));
-$organizers = array("0"=>array("name"=>"", "description"=>""));
+$socials    = array("0"=>array("type"=>"", "value"=>"", "title"=>""));
+$organizers = array("0"=>array("name"=>"", "description"=>"", "url"=>""));
 $client     = $_SESSION["data"]["cliente"];
 
 
@@ -77,7 +77,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                             }else{
                                 foreach($_POST["network"] as $k=>$v){
                                     $network[$k]["type"]  =  $v;
-                                    $network[$k]["value"] =  $_POST["value"][$k];
+                                    $network[$k]["value"] =  addhttp($_POST["value"][$k]);
                                     $network[$k]["title"] =  $_POST["title"][$k];
                                     if ($network[$k]["value"] == "" || $network[$k]["type"]  == "" || $network[$k]["title"]  == ""){
                                         $error = 1;
@@ -95,7 +95,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                                 foreach($_POST["name_organizer"] as $k=>$v){
                                     $organizers[$k]["name"]          = $v;
                                     $organizers[$k]["description"]   = $_POST["desc_organizer"][$k];
-                                    $organizers[$k]["url"]           = $_POST["url_organizer"][$k];
+                                    $organizers[$k]["url"]           = addhttp($_POST["url_organizer"][$k]);
                                     if ($organizers[$k]["name"] == "" || $organizers[$k]["description"] == "" || $organizers[$k]["url"] == ""){
                                         $error = 1;
                                         $message = "<div class='error'>{$label["Verifique la información de los organizadores"]}</div>";
@@ -111,7 +111,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                         if ($v["COLUMN_NAME"] == "social_networks"){
                             foreach($_POST["network"] as $k=>$v){
                                 $network[$k]["type"]  = $v;
-                                $network[$k]["value"] =  $_POST["value"][$k];
+                                $network[$k]["value"] =  addhttp($_POST["value"][$k]);
                                 $network[$k]["title"] =  $_POST["title"][$k];
                                 $errorT = $errorV = $errorTT = "";
                                 if ($network[$k]["value"] == "") { $errorV = 1;}
@@ -128,7 +128,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                             foreach($_POST["name_organizer"] as $k=>$v){
                                 $organizers[$k]["name"]          = $v;
                                 $organizers[$k]["description"]   = $_POST["desc_organizer"][$k];
-                                $organizers[$k]["url"]           = $_POST["url_organizer"][$k];
+                                $organizers[$k]["url"]           = addhttp($_POST["url_organizer"][$k]);
                                 $errorN = $errorD = $errorU = "";
                                 if ($organizers[$k]["name"] == ""){ $errorN = 1;}
                                 if ($organizers[$k]["description"] == ""){ $errorD = 1;}
@@ -154,12 +154,14 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
    }
 
     //Pais
-    $en["country"]      = $country[$en["country"]];
+    if (isset($en["country"]) && $en["country"]!= "")  $en["country"]      = $country[$en["country"]];
 
     if (!$error){
        //Agregar el codigo del pais
        $en["phone"] = "(".$_POST["phone_code"] . ")". $en["phone"];
 
+        //Agregar http en caso necesario
+        $en["website"] = addhttp($en["website"]);
 
        if (isset($_POST["add"])){
            $id = $backend->insertRow("event", $en);
@@ -226,7 +228,7 @@ if (isset($_POST["delete"])){
   
     //3. Borrar dato sobre el evento actual si se esta borrando ese
     if ($_SESSION["data"]["evento"] == $_POST["id"]) unset($_SESSION["data"]["evento"]);
-    if ($id > 0) { 
+    if ($id > 0) {
         $_SESSION["message"] = "<div class='succ'>".$label["Evento borrado exitosamente"] ."</div>";
         header("Location: ./events.php");
     }else{
@@ -284,32 +286,12 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
      <?= my_header()?>
      <script>
-         alert = '<?= $alert?>';
+         alertSessions = '<?= $alert?>';
           $(function() {
-            $( "#dialog-confirm" ).dialog({
-                  autoOpen: false,
-                  resizable: false,
-                  height:160,
-                  modal: true,
-                  buttons: {
-                  "Si": function() {
-                   $( this ).dialog( "close" );
-                   $('<input />').attr('type', 'hidden')
-                  .attr('name', "delete")
-                  .attr('value', "1")
-                  .appendTo('#form');
-                   $("#form").submit();
-                 },
-                 "Cancelar": function() {
-                  $( this ).dialog( "close" );
-                }
-              }
-            });
-
               $( "#dialog" ).dialog({
                   autoOpen: false,
                   resizable: false,
@@ -322,16 +304,10 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                       }
                   }
               });
-            
-            $(".dltP").on("click", function(e) {
-                e.preventDefault();
-                $("#dialog-confirm").dialog("open");
-            });
-
-            if (alert){
-                $(".sessiones").html(alert);
-                $("#dialog").dialog("open");
-            }
+              if (alertSessions){
+                    $(".sessiones").html(alertSessions);
+                    $("#dialog").dialog("open");
+              }
           });
     </script>
   </head>
@@ -422,7 +398,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                                     <input name="title[]" type="text" placeholder="Nombre" value="<?= $titleNetwork?>"/>
                                 </div>
                                 <div>
-                                    <input style="margin-top:5px; clear: both" name="value[]" type="text" placeholder="URL de la red social" value="<?= $valueNetwork?>"/>
+                                    <input style="margin-top:5px; clear: both" name="value[]" type="text" placeholder="URL completo de la red social" value="<?= $valueNetwork?>"/>
                                 </div>
                                 <div class="delete i<?= $mk ?>"><a href="javascript:void(0)"><?= $label["Eliminar"]?></a></div>
                             </div>
@@ -470,11 +446,8 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){
-                        if (@$_SESSION["data"]["evento"] == $_GET["id"]) { ?>
-                            <input type="submit" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
-                        <?php }else{ ?>
-                            <input type="submit" class="important dlt" name="delete"  value="<?= $label["Borrar"]?>" />
-                        <?php } ?>
+                    ?>
+                            <input type="button" class="important dltP" name="delete"  value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./events.php"><?= $label["Volver"]?></a>
                 </td>
@@ -482,9 +455,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
             </table>
         </form>
     </div>
-    <div id="dialog-confirm" title="Confirmación">
-        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Está a punto de borrar el evento sobre el que está trabajando actualmente. ¿Desea continuar?</p>
-    </div>
+    <?= include('common/dialog.php'); ?>
     <div id="dialog" title="Confirmación">
         <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Recuerde que debe modificar las fechas de las sesiones asociadas al evento para mantener consistencia en los datos.</p>
         <p>Estas son las sesiones que debe modificar:</p>

@@ -3,7 +3,7 @@
 function my_header(){
 $out = 
 <<<EOT
-    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Synergy - Administrador Web</title>
     <link rel="stylesheet" type='text/css' href='css/style.php' />
     <script src="./js/jquery.js"></script>
@@ -172,9 +172,17 @@ function menuCLiente($user, $selected="", $label, $clientList){
                                             <a href='{$v["file"]}' $sel>".ucfirst($t). "<span class=\"darrow-menu\">▼</span></a>";
                                      $out .= "<ul class='submenu'>";
                                        foreach($submenu[$v["section_id"]] as $sk =>$sv){
-                                            $ts  = isset($label[$sv["name"]]) ? $label[$sv["name"]]: $sv["name"];
-                                            $selAux  = ''; if ($selected == $sv["name"]) $selAux = "class='selected'";
-                                            $out .= "<li><a href='{$sv["file"]}' $selAux>".ucfirst($ts)."</a></li>";
+                                            $continue = 1;
+                                            if ($sv["name"] != "salas"){
+                                                if (!isset($permission[$sv["section_id"]]) || $permission[$sv["section_id"]]["read"] != "1"){
+                                                    $continue = 0;
+                                                }
+                                            }
+                                            if ($continue){
+                                                $ts  = isset($label[$sv["name"]]) ? $label[$sv["name"]]: $sv["name"];
+                                                $selAux  = ''; if ($selected == $sv["name"]) $selAux = "class='selected'";
+                                                $out .= "<li><a href='{$sv["file"]}' $selAux>".ucfirst($ts)."</a></li>";
+                                            }
                                        }
                                        $out .= '</ul>';
                                      $out .= "</li>";
@@ -251,10 +259,18 @@ function colourBrightness($hex, $percent) {
 
 //Obtener color de la letra (blanco o negro)
 function getFontColor($hexcolor){
-    //echo $hexcolor;
     $r = hexdec(substr($hexcolor,1,2));
     $g = hexdec(substr($hexcolor,3,2));
     $b = hexdec(substr($hexcolor,5,2));
     $yiq = (($r*299)+($g*587)+($b*114))/1000;
     return ($yiq >= 150) ? '#000000' : '#FFFFFF';
+}
+
+//Agregar http a los urls que no lo tenga
+function addhttp($url) {
+    if ($url == "") return "";
+    if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+        $url = "http://" . $url;
+    }
+    return $url;
 }

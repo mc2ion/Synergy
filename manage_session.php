@@ -63,11 +63,11 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                         $missing[$v["COLUMN_NAME"]] = 1;
                     }else{
                         if ($v["COLUMN_NAME"] != "image_path" ){
-                            $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                            $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                         }
                     }
                 }else if ($v["COLUMN_NAME"] != "image_path" ){
-                    $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                    $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                 }
             }
        }
@@ -82,7 +82,6 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
             $ho = $h[0].":".$h[1]. " " .$h[2];
             $date       = date("H:i",strtotime($ho));
             $timeIni    = $date;
-
         }
 
         if ($en["time_end"] != ""){
@@ -95,22 +94,28 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
         if ($timeIni == $timeEnd ){ $error= 1; $message = "<div class='error'>".$label["La hora de inicio y fin proporcionada no pueden ser iguales"]. "</div>";}
         if ($timeIni > $timeEnd ) { $error= 1; $message = "<div class='error'>".$label["La hora de inicio debe ser menor a la hora fin"]. "</div>";}
 
-        //Verificar que no haya otra sesion en esa fecha, hora y sala
+        $sId = @$_POST["id"]; $x = "";
+        if ($sId != "") $x = "AND session_id != '$sId'";
+        //Verificar que no haya otra sesion en esa fecha, hora y sala si estoy creado una nueva sala
         $extra = "AND date = '{$en["date"]}' AND
                 ((time_ini <= '$timeIni' AND time_end > '$timeIni' AND time_end <= '$timeEnd')
                     OR 	(time_ini >= '$timeIni' AND time_end >= '$timeEnd' AND time_ini < '$timeEnd')
                     OR 	(time_ini >= '$timeIni' AND time_end <= '$timeEnd')
                     OR    (time_ini <= '$timeIni' AND time_end >= '$timeEnd')
-                )";
+                ) $x";
         $sesions = $backend->getSessionListByRoom($en["room_id"], $_SESSION["data"]["evento"], $extra );
         if (count($sesions) == "1") {$error = "1"; $message = "<div class='error'>".$label["Disculpe, ya existe una sesión creada para dicha sala, fecha y hora"]. "</div>";}
-    }
 
+    }
 
 
     if (!$error){
         $en["time_ini"] = $timeIni;
         $en["time_end"]  = $timeEnd;
+
+        //Agregar http en caso necesario
+        $en["link"] = addhttp($en["link"]);
+
         if (isset($_POST["add"])){
             $id = $backend->insertRow($section, $en);
            if ($id > 0) { 
@@ -199,7 +204,7 @@ $endDate   = $eventInfo["date_end"];
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
       <script>
           startDate = '<?= $startDate?>';
@@ -289,7 +294,7 @@ $endDate   = $eventInfo["date_end"];
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente"|| $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
-                    <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
+                        <input type="button" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./sessions.php"><?= $label["Volver"]?></a>
                 </td>
@@ -299,6 +304,7 @@ $endDate   = $eventInfo["date_end"];
             
         </form>
     </div>
+     <?= include('common/dialog.php'); ?>
      <?= my_footer() ?>
   </body>
 </html>

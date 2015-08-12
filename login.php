@@ -76,14 +76,15 @@ if (isset($_POST["forgot"])){
     <?php } ?>
   </head>
   <body class="login">
+    <div class="page-wrap">
     <form method="post">
         <div class="content-login">
-             <div class='info'>
-                  <h1><?= $label["Bienvenido al administrador web"]?> </h1>
-            </div>
              <div class='form'>
-              <div class='login'>
-                <h2><?= $label["Ingrese a su cuenta"]?></h2>
+                 <div class='info'>
+                     <img src="./images/logo.png" alt="logo" class="logo"/>
+                     <div><h1>Administrador Web<h1></div>
+                 </div>
+                 <div class='login'>
                 <form>
                   <input name="at-email" placeholder='<?= $label["Correo"]?>' type='text' value="<?= $email?>"/>
                   <input name="at-password" placeholder='<?= $label["Contraseña"]?>' type='password' value="<?= $password?>"/>
@@ -98,5 +99,7 @@ if (isset($_POST["forgot"])){
         </div>
     </form>
      <?= my_footer() ?>
+    </div>
+
   </body>
 </html>

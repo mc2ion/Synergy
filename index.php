@@ -9,7 +9,7 @@ include ("./common/common-include.php");
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
         <?= my_header()?>
   </head>

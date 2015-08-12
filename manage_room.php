@@ -12,12 +12,10 @@ if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSIO
 //Obtener las columnas a editar/crear
 $section        = "room";
 $columns        = $backend->getColumnsTable($section);
-$id             = $message = $error = $room = $sessions =  "";
-//Sessiones asociadas a la sala
-if (isset($_GET["id"])) $sessions       = $backend->getSessionListByRoom($_GET["id"], $_SESSION["data"]["evento"]); 
- 
+$id             = $message = $error = $room =  "";
 
-//Agregar nuevo cliente
+
+//Agregar /editar una sala
 if (isset($_POST["add"]) || isset($_POST["edit"])){
    $en["event_id"]     = $_SESSION["data"]["evento"];
    foreach ($columns as $k=>$v) {
@@ -29,14 +27,13 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
                     if ($_POST[$v["COLUMN_NAME"]] == "") {
                         $error =  1;
                         $missing[$v["COLUMN_NAME"]] = 1;
-                    }else $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                    }else $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                 }else{
-                    $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                    $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                 }
             }
        }
    }
-   
    //Verificar que el nombre de la sala no exista
    if (isset($en["name"])){
         $exists = $backend->existsRoom($en["name"], @$_POST["id"]);
@@ -77,19 +74,13 @@ if (isset($_POST["delete"])){
    $id              = $backend->clean($_POST["id"]);
    $en["active"]    = "0";
    @$backend->updateRow("room", $en, " room_id = '$id' ");
-   if ($sessions) {
-    //Eliminar sessiones asociadas
-        foreach($sessions as $k=>$v){
-            $enAux["active"] = "0";
-            @$backend->updateRow("session", $enAux, " session_id = '{$v["session_id"]}' ");
-        }
-   }
+   //Eliminar sessiones asociadas
+   $enAux["active"] = 0;
+   @$backend->updateRow("session", $enAux, " session_id = '{$v["session_id"]}' ");
    $_SESSION["message"] = "<div class='succ'>".$label["Sala borrada exitosamente"]. "</div>";
    header("Location: ./rooms.php");
    exit();
 }
-
-
 
 //Si el parametro id esta definido, estamos editando la entrada
 if (isset($_GET["id"]) && $_GET["id"] > 0 ){
@@ -97,7 +88,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $title          = $label["Editar Sala"];
     $action         = "edit";
     if (!$error)    {
-        $room           = $backend->getRoom($_GET["id"]);
+        $room           = $backend->getRoom($id);
         if (!$room){
                 $_SESSION["message"] = "<div class='error'>".$label["Sala no encontrada"]  ."</div>";
                 header("Location: ./rooms.php");
@@ -109,41 +100,11 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $action = "add";
 }
 
-
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
      <?= my_header()?>
-     <script>
-          $(function() {
-            $( "#dialog-confirm" ).dialog({
-                  autoOpen: false,
-                  resizable: false,
-                  height: 300,
-                  modal: true,
-                  buttons: {
-                  "Si": function() {
-                   $( this ).dialog( "close" );
-                   $('<input />').attr('type', 'hidden')
-                  .attr('name', "delete")
-                  .attr('value', "1")
-                  .appendTo('#form');
-                   $("#form").submit();
-                 },
-                 "Cancelar": function() {
-                  $( this ).dialog( "close" );
-                }
-              }
-            });
-            
-            $(".dltP").on("click", function(e) {
-                e.preventDefault();
-                $("#dialog-confirm").dialog("open");
-            });
-          });
-    </script>
   </head>
   <body>
     <?= menu("salas"); ?>
@@ -200,11 +161,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente"|| $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
-                        <?php if ($sessions) { ?> 
-                                <input type="submit" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
-                        <?php }else{ ?>
-                                <input type="submit" class="important dlt" name="delete"  value="<?= $label["Borrar"]?>" />
-                        <?php } ?>
+                                <input type="button" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./rooms.php"><?= $label["Volver"]?></a>
                 </td>
@@ -214,28 +171,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
             
         </form>
     </div>
-    <div>
-    <?php 
-       if ($sessions){
-    ?>
-    <div id="dialog-confirm" title="Confirmación">
-        <p>
-            <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-            Está a punto de borrar una sala que tiene sesiones asociadas, las cuales serán borradas también. ¿Desea continuar?.
-        </p>
-        <p> Sesiones asociadas a esta sala:
-        <?php 
-           $r      = "<ul class='sesList'>";
-            foreach($sessions as $k=>$v){
-                $r .= "<li><b>ID</b>: {$v["session_id"]} - <b>Título</b>: {$v["title"]}</li>";
-           }
-           $r      .= "</ul>";
-        ?>
-        <?= $r ?>
-        </p>
-    </div>  
-   <?php } ?>
-    </div>
-     <?= my_footer() ?>
+    <?= include('common/dialog.php'); ?>
+    <?= my_footer() ?>
   </body>
 </html>

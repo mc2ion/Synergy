@@ -71,7 +71,7 @@ class backend extends db{
         return $out;
     }
     
-    function getMenu($type="", $typeMenu=""){
+    function getMenu($type="", $typeMenu="", $all="0"){
         if ($type == ""){
             $cond = "1 = 1";
         }else{
@@ -79,6 +79,9 @@ class backend extends db{
             if ($typeMenu == "menu") $cond = " AND father_id is NULL";
             $cond                         .= " AND type = '$type'";
             $cond = substr($cond, 4);
+        }
+        if ($all == "1"){
+            $cond = " type = 'cliente' AND name != 'salas'";
         }
         $query = "SELECT * from $this->schema.section WHERE $cond ";
         $q     = $this->dbQuery($query);
@@ -206,7 +209,7 @@ class backend extends db{
                     survey_question sq, question_option qo
                     WHERE sq.question_id = qo.question_id
                     AND sq.active = '1' and qo.active = '1' AND event_id = '$eventId'
-                    group by qo.question_id ORDER BY sq.position";
+                    group by qo.question_id";
         $q = $this->dbQuery($query);
         $out    = "";
         if ($q){
@@ -214,8 +217,7 @@ class backend extends db{
                 foreach($v as $sk=>$sv){
                     if (!in_array($sk, $noShow)){
                        $out[$k][$sk] = $sv; 
-                       if ($v["position"] == "")  $out[$k]["position"] = "N/A";                        
-                    } 
+                    }
                 }
                 if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["9"]["update"] == "1"){
                     $out[$k]["action"] = "<a href='./manage_question.php?id={$v["question_id"]}'>{$this->label["Editar"]}</a>";
@@ -233,7 +235,7 @@ class backend extends db{
     
     //Obtener respuestas asociadas a una pregunta
     function getOptions($id){
-        $query = "SELECT * from $this->schema.question_option WHERE question_id='$id' AND active='1' ORDER BY position, option_id";
+        $query = "SELECT * from $this->schema.question_option WHERE question_id='$id' AND active='1' ORDER BY option_id";
         $q     = $this->dbQuery($query);
         return $q;
     }
@@ -366,6 +368,14 @@ class backend extends db{
         }
         return "";
     }
+
+    function getSpeakerByCompany($company_name, $name, $id=""){
+        $extra = "";
+        if ($id != ""){ $extra = "AND speaker_id != '$id'";}
+        $query = "SELECT * from $this->schema.speaker WHERE company_name='$company_name' AND name = '$name' $extra";
+        $q     = $this->dbQuery($query);
+        return $q;
+    }
     
     function getSpeakerList($noShow){
         $q      = @$this->select("speaker", "*", "active = '1'", "speaker_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
@@ -395,6 +405,14 @@ class backend extends db{
             return $q[1];
         }
         return;
+    }
+
+    function getExhibitorByName($name, $id=""){
+        $extra = "";
+        if ($id != ""){ $extra = "AND exhibitor_id != '$id'";}
+        $query = "SELECT * from $this->schema.exhibitor WHERE company_name='$name' $extra";
+        $q     = $this->dbQuery($query);
+        return $q;
     }
     
     function getExhibitorList($noShow){
@@ -498,7 +516,7 @@ class backend extends db{
                     (select e.name as event_name, sq.question_id, sq.question, qo.option_id, qo.optionDesc
                     from event e, survey_question sq, question_option qo
                     where e.event_id = {$eventId} and e.event_id = sq.event_id and sq.question_id = qo.question_id and sq.active = 1 and qo.active = 1
-                    order by sq.position, qo.position) as s
+                    order by sq.question_id, qo.option_id) as s
                     left join question_result qr
                     on s.question_id = qr.question_id and s.option_id = qr.option_id
                     group by s.question_id, s.option_id";

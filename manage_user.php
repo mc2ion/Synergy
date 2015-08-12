@@ -14,7 +14,7 @@ $columns = $backend->getColumnsTable("user");
 
 //Obtener los clientes actuales
 $clients    = $backend->getClientList(array(), "1");
-$sections   = $backend->getMenu("cliente", "menu");
+$sections   = $backend->getMenu("cliente", "menu", "1");
 
 $label["client_id"] = "Cliente";
 $id         = $message  = $error    =  $cond = "";
@@ -119,8 +119,9 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
         $in["read"]       = isset($_POST[$v["section_id"]."_read"])? "1" : "0";
         $p["section"][$v["section_id"]] = $in;
     }
+
     if ($create == "" && @$typeUser[$_POST["type"]] == "cliente"){ $error = "1"; $message = "<div class='error'>".$label["Por favor ingrese al menos un permiso"]. "</div>";}
-   if (!$error){
+    if (!$error){
        if (isset($_POST["add"])){
             if ($en["client_id"] == "") unset($en["client_id"]);
             $en["password"] = md5($en["password"]);
@@ -255,8 +256,8 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
-  <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html lang="es">
+  <head>
      <?= my_header()?>
   </head>
   <body>
@@ -362,10 +363,10 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                         <td>
                             <?= (isset($label[$v["name"]])) ? $label[$v["name"]]: ucfirst($v["name"]) ?>
                         </td>
-                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_create" <?= (isset($permissions["section"]) && $permissions["section"][$v["section_id"]]["create"] == "1")? "checked": ""?> <?=   $disabled["create"]?>/></td>
-                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_read" <?=   (isset($permissions["section"]) && $permissions["section"][$v["section_id"]]["read"] == "1")? "checked": ""?>/></td>
-                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_update" <?= (isset($permissions["section"]) && $permissions["section"][$v["section_id"]]["update"] == "1")? "checked": ""?> <?=   $disabled["update"]?>/></td>
-                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_delete" <?= (isset($permissions["section"]) &&  $permissions["section"][$v["section_id"]]["delete"] == "1")? "checked": ""?> <?=  $disabled["delete"]?>/></td>
+                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_create" <?= (isset($permissions["section"][$v["section_id"]]) && $permissions["section"][$v["section_id"]]["create"] == "1")? "checked": ""?> <?=   $disabled["create"]?>/></td>
+                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_read"   <?=   (isset($permissions["section"][$v["section_id"]]) && $permissions["section"][$v["section_id"]]["read"] == "1")? "checked": ""?>/></td>
+                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_update" <?= (isset($permissions["section"][$v["section_id"]]) && $permissions["section"][$v["section_id"]]["update"] == "1")? "checked": ""?> <?=   $disabled["update"]?>/></td>
+                        <td style="width: 15%;"><input type="checkbox" value="1" name="<?= $v["section_id"]?>_delete" <?= (isset($permissions["section"][$v["section_id"]]) &&  $permissions["section"][$v["section_id"]]["delete"] == "1")? "checked": ""?> <?=  $disabled["delete"]?>/></td>
                     </tr>
                 <?php } ?>
             
@@ -374,7 +375,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                 <td class="action" colspan="4">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
-                        <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
+                        <input type="button" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./users.php"><?= $label["Cancelar"]?></a>
                 </td>
@@ -405,5 +406,6 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
           }
       </style>
     <?php } ?>
-   <?= my_footer() ?>
+    <?= include('common/dialog.php'); ?>
+    <?= my_footer() ?>
 </html>

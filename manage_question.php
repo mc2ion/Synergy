@@ -28,14 +28,13 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
                     if ($_POST[$v["COLUMN_NAME"]] == "") {
                         $error =  1;
                         $missing[$v["COLUMN_NAME"]] = 1;
-                    }else $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                    }else $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                 }else{
-                    $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                    $en[$v["COLUMN_NAME"]] =  $backend->clean($_POST[$v["COLUMN_NAME"]]);
                 }
                 //Respuesta
                 foreach ($_POST["value_option"] as $k=>$v){
                     $options[$k+1]["optionDesc"] =  $v;
-                    $options[$k+1]["position"]   =  $_POST["position_option"][$k];
                     if ($v == "") $error = 1;
                     $missing["options"]  = 1;
                 }
@@ -45,20 +44,12 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
    if (!$error){
        if (isset($_POST["add"])){
             //1. Agregar pregunta
-           if ($en["position"] == "")  $en["position"] = 1;
             $questionId = $backend->insertRow("survey_question", $en);
-            if ($en["position"] == ""){
-                $count = @$backend->select("survey_question", "COUNT(*) as count", "event_id = '{$eventId}'","event_id");
-                $en["position"] = $count[1]["count"];
-                $backend->updateRow("survey_question", $en, "question_id = '$questionId'");
-            }
             if ($questionId){
                 //2. Agregar las respuestas 
                 foreach($_POST["value_option"] as $k=>$v){
                     $option["question_id"]          = $questionId;
                     $option["optionDesc"]           = $v;
-                    $option["position"]             = $_POST["position_option"][$k];
-                    if ($option["position"] == "") $option["position"] = $k+1;
                     $id = $backend->insertRow("question_option", $option);
                     if ($id < 0) $errorQ = 1;
                }
@@ -87,9 +78,7 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
            foreach($_POST["value_option"] as $k=>$v){
                 $option["question_id"]          = $questionId;
                 $option["optionDesc"]           = $v;
-                $option["position"]             = $_POST["position_option"][$k];
                 $active                         = $_POST["active"][$k];
-                if ($option["position"] == "") $option["position"] = $k+1;
                 //Modificadas
                 if ($active != ""){
                     $id = $backend->updateRow("question_option", $option, " option_id = '{$active}' ");
@@ -100,11 +89,6 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
                 }
            }
            
-           if ($en["position"] == ""){
-                $count = @$backend->select("survey_question", "COUNT(*) as count", "event_id = '{$eventId}'","event_id");
-                $en["position"] = $count[1]["count"];
-                $backend->updateRow("survey_question", $en, "question_id = '$questionId'");
-            }
            $id = $backend->updateRow("survey_question", $en, " question_id = '$questionId' ");
            if ($id > 0) { 
                 $_SESSION["message"]  = "<div class='succ'>".$label["Pregunta editada exitosamente"] ."</div>";
@@ -123,8 +107,13 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
 if (isset($_POST["delete"])){
    $id              = $backend->clean($_POST["id"]);
    $en["active"]    = "0";
-   $id = $backend->updateRow("survey_question", $en, " question_id = '$id' ");
-   if ($id > 0) { 
+   $idR = $backend->updateRow("survey_question", $en, " question_id = '$id' ");
+
+    //Borrar respuestas asociadas
+   $enA["active"]   = "0";
+   $backend->updateRow("question_option", $enA, " question_id = '$id' ");
+
+    if ($idR > 0) {
         $_SESSION["message"] = "<div class='succ'>".$label["Pregunta borrada exitosamente"] ."</div>";
         header("Location: ./surveys.php");
    }else{
@@ -148,7 +137,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
 }else{
     $title = $label["Crear Pregunta"];
     $action = "add";
-    $options = array("1"=>array("optionDesc"=>"", "position"=>""));    
+    $options = array("1"=>array("optionDesc"=>""));
 }
 
 
@@ -157,7 +146,7 @@ $clients                        = $backend->getClientList(array(), "1");
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
      <?= my_header()?>
   </head>
@@ -232,17 +221,12 @@ $clients                        = $backend->getClientList(array(), "1");
                     <div class="add-opt"><a href="javascript:void(0)"><?= $label["Agregar nueva"]?></a></div>
                     <?php foreach ((array)$options as $mk=>$mv){
                         $value      = $mv["optionDesc"];
-                        $position   = $mv["position"];
                         $optId = (isset($mv["option_id"])) ? $mv["option_id"]: "";
                     ?>
                         <div class="option">
                             <div class="opt-desc">
                                 <div class="label"><?= $label["Opción"]?> <?=$mandatory?>:</div>
                                 <div class="value"><textarea name="value_option[]"><?= $value?></textarea></div>
-                            </div>
-                             <div class="opt-position">
-                                <div class="label"><?= $label["position"]?>:</div>
-                                <div class="value"><input type="text" name="position_option[]" value="<?= $position ?>"/></div>
                             </div>
                             <div class="delete-opt i<?= $mk - 1 ?>"><a href="javascript:void(0)"><?= $label["Eliminar"]?></a></div>
                             <div class="hidden"><input type="hidden" name="active[]" value="<?= $optId?>"/></div>
@@ -260,7 +244,7 @@ $clients                        = $backend->getClientList(array(), "1");
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
-                    <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
+                        <input type="button" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./surveys.php"><?= $label["Volver"]?></a>
                 </td>
@@ -270,6 +254,7 @@ $clients                        = $backend->getClientList(array(), "1");
             
         </form>
     </div>
+     <?= include('common/dialog.php'); ?>
      <?= my_footer() ?>
   </body>
 </html>

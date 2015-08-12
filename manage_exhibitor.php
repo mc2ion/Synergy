@@ -73,7 +73,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                             $missing[$v["COLUMN_NAME"]] = 1;
                         }else{
                             if ($v["COLUMN_NAME"] != "image_path" ){
-                                $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
+                                $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
                             }
                         }
                     }else if ($v["COLUMN_NAME"] != "image_path" ){
@@ -87,6 +87,15 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
             }
        }
    }
+
+
+    if (!$error){
+        //Verificar que no exista un expositor (nombre empresa) ya creado
+        if ($en["company_name"] != ""){
+            $created = $backend->getExhibitorByName($en["company_name"], @$_POST["id"]);
+            if (count($created) > 0 ){ $error = 1; $message = "<div class='error'>".$label["El nombre de expositor proporcionado ya existe"]. "</div>"; }
+        }
+    }
    
    if (!$error){
         if ($en["position"] == "")      unset($en["position"]);
@@ -186,7 +195,7 @@ $label["position"]  = "Posición en el mapa";
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
      <script>
         var types = <?php echo json_encode($types); ?>;
@@ -284,7 +293,7 @@ $label["position"]  = "Posición en el mapa";
                 <td class="action">
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
-                    <input type="submit" class="important" name="delete" value="<?= $label["Borrar"]?>" />
+                        <input type="button" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./exhibitors.php"><?= $label["Volver"]?></a>
                 </td>
@@ -293,7 +302,7 @@ $label["position"]  = "Posición en el mapa";
             </table>
         </form>
     </div>
+     <?= include('common/dialog.php'); ?>
      <?= my_footer() ?>
-   
   </body>
 </html>
