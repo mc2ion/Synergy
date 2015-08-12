@@ -22,7 +22,7 @@ function send_email($subject, $name, $newPass, $to, $bodyKey="password"){
             $body .= "<tr><td>Hemos recibido una solicitud para reestablecer la contraseña de su cuenta.</td></tr>";
             $body .= "<tr><td style='padding:10px 0px;'>Su nueva contraseña es: <b>$newPass</b></td></tr>";
             $body .= "<tr><td>Recuerde cambiar su contraseña una vez que ingresa al sistema, dándole clic
-                              en su usuario (barra superior derecha) - \"Cambiar contraseña\".</td></tr>";
+                              en su usuario (barra superior derecha) - \"Perfil de usuario\" -  \"Cambiar contraseña\". </td></tr>";
             $body .= "</table>";
      }
 

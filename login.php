@@ -46,7 +46,7 @@ if (isset($_POST["forgot"])){
         $user = $backend->getUserInfoByEmail($email);
         if ($user){
             $name               = $user["first_name"] . " " . $user["last_name"];
-            $newPass            = $backend->randomPassword();
+            $newPass            = randomPassword();
             //Actualizar usuario
             $en["password"]     = md5($newPass);
             $backend->updateRow("user", $en, "user_id = '{$user["user_id"]}'");

@@ -144,7 +144,7 @@ class backend extends db{
             $query = "SELECT * from $this->schema.client WHERE active = '1' order by client_id asc";
             $q      = $this->dbQuery($query);
         }else{ 
-            $q      = @$this->select("client","*", "active='1' $extraCond", "client_id", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+            $q      = @$this->select("client","*", "active='1' $extraCond", "client_id", 0, $this->app["perPage"], "");
         }$out    = "";
         if ($menu) return $q;
         if ($menu == "0" && $q){
@@ -178,7 +178,7 @@ class backend extends db{
         if ($all == "1")
             $q      = @$this->dbQuery("SELECT * from $this->schema.event WHERE active='1' AND client_id = '$clientId'");
         else
-            $q      = @$this->select("event", "*", "active='1' AND client_id = '$clientId'", "client_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+            $q      = @$this->select("event", "*", "active='1' AND client_id = '$clientId'", "client_id asc", 0, $this->app["perPage"], "");
         
         $out    = "";
         if ($q){
@@ -247,7 +247,7 @@ class backend extends db{
             $q     = $this->dbQuery($query);
         }
         else{
-            $q      = @$this->select("room", "*", "active='1' AND event_id ='$eventId'", "room_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+            $q      = @$this->select("room", "*", "active='1' AND event_id ='$eventId'", "room_id asc", 0, $this->app["perPage"], "");
         }
         $out    = "";
         if ($q){
@@ -287,7 +287,7 @@ class backend extends db{
             $q     = $this->dbQuery($query);
         }
         else{
-            $q      = @$this->select("session t1 left join room t2 on t1.room_id = t2.room_id", "t1.*, t2.name", "t1.active='1' AND t1.event_id ='$eventId'", "t1.session_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+            $q      = @$this->select("session t1 left join room t2 on t1.room_id = t2.room_id", "t1.*, t2.name", "t1.active='1' AND t1.event_id ='$eventId'", "t1.session_id asc", 0, $this->app["perPage"], "");
         }
         $out    = "";
         if ($simple == "0"){
@@ -339,7 +339,7 @@ class backend extends db{
          if ($user == "cliente-administrador"){
              $extraCond = "AND client_id = '{$_SESSION["data"]["cliente"]}' AND type != 'Super Usuario'";
          }
-        $q      = @$this->select("user", "*", "user_id != '{$_SESSION["app-user"]["user"]["1"]["user_id"]}' $extraCond", "user_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+        $q      = @$this->select("user", "*", "user_id != '{$_SESSION["app-user"]["user"]["1"]["user_id"]}' $extraCond", "user_id asc", 0, $this->app["perPage"], "");
         $out    = "";
         if ($q){
             foreach($q as $k=>$v){
@@ -378,7 +378,7 @@ class backend extends db{
     }
     
     function getSpeakerList($noShow){
-        $q      = @$this->select("speaker", "*", "active = '1'", "speaker_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+        $q      = @$this->select("speaker", "*", "active = '1'", "speaker_id asc", 0, $this->app["perPage"], "");
         $out    = "";
         if ($q){
             foreach($q as $k=>$v){
@@ -416,7 +416,7 @@ class backend extends db{
     }
     
     function getExhibitorList($noShow){
-        $q      = @$this->select("exhibitor t1 left join category t2 on t1.category_id = t2.category_id", "t2.name as category,t1.* ", "t1.active = '1'", "exhibitor_id asc", 0, $this->app["perPage"], "", $_GET["fireUI"]);
+        $q      = @$this->select("exhibitor t1 left join category t2 on t1.category_id = t2.category_id", "t2.name as category,t1.* ", "t1.active = '1'", "exhibitor_id asc", 0, $this->app["perPage"], "");
         $out    = "";
         if ($q){
             foreach($q as $k=>$v){
@@ -601,44 +601,11 @@ class backend extends db{
         return $out;
         
     }
-    function select($table, $fields="*", $where="", $order="id asc", $from=0, $size=10, $group="", $fireUI=""){
+    function select($table, $fields="*", $where="", $order="id asc", $from=0, $size=10, $group=""){
         if($order=="") $order = "id asc";
         $filter = "";
-        if(is_array($fireUI)){
-            if ($fireUI["orderBy"]["field"] == "category")  $fireUI["orderBy"]["field"] = "t2.name";
-            if($fireUI["orderBy"]["field"]!="") {$dir[0] = "asc"; $dir[1] = "desc"; $order = "{$fireUI["orderBy"]["field"]} {$dir[$fireUI["orderBy"]["direction"]]}";}
-            if($fireUI["filter"])               {foreach($fireUI["filter"] as $k=>$v){ if ($v == "category") $v = "t2.name"; $filter .= " AND `$k` LIKE '%".$this->clean($v)."%'";}}
-            if($fireUI["currentPage"]!="")      {$from = ($fireUI["currentPage"]-1) * $size; }
-            
-        }
-        
         $where = trim($where)==""? "1=1":$where;
-        $query = "select $fields from $table where $where $filter $group order by $order limit $from, $size";
-        $count = "select count(*) as count from $table where $where $filter $group order by $order";
-        $q  = @$this->dbQuery($query);
-        $r  = @$this->dbQuery($count);
-        $this->app["count"] = $r["1"]["count"];
-        return $q;
-    }
-    
-    /*function selectExhibitor($table, $fields="*", $where="", $order="id asc", $from=0, $size=10, $group="", $fireUI=""){
-        if($order=="") $order = "id asc";
-        $filter = "";
-        if(is_array($fireUI)){
-            if ($fireUI["orderBy"]["field"] == "category")  $fireUI["orderBy"]["field"] = "name";
-            if($fireUI["orderBy"]["field"]!="") {$dir[0] = "asc"; $dir[1] = "desc"; $order = "{$fireUI["orderBy"]["field"]} {$dir[$fireUI["orderBy"]["direction"]]}";}
-            if($fireUI["filter"])               {
-                foreach($fireUI["filter"] as $k=>$v){
-                    if ($k == "category") {$k = "name"; }
-                    $filter .= " AND `$k` LIKE '%".$this->clean($v)."%'";
-                }
-            }
-            if($fireUI["currentPage"]!="")      {$from = ($fireUI["currentPage"]-1) * $size; }
-
-        }
-
-        $where = trim($where)==""? "1=1":$where;
-        $query = "select $fields from $table where $where $filter $group order by $order limit $from, $size";
+        $query = "select $fields from $table where $where $filter $group order by $order";
         $count = "select count(*) as count from $table where $where $filter $group order by $order";
         $q  = @$this->dbQuery($query);
         $r  = @$this->dbQuery($count);
@@ -646,30 +613,6 @@ class backend extends db{
         return $q;
     }
 
-    function selectSession($table, $fields="*", $where="", $order="id asc", $from=0, $size=10, $group="", $fireUI=""){
-        if($order=="") $order = "id asc";
-        if(is_array($fireUI)){
-            //if ($fireUI["orderBy"]["field"] == "category")  $fireUI["orderBy"]["field"] = "name";
-            if($fireUI["orderBy"]["field"]!="") {$dir[0] = "asc"; $dir[1] = "desc"; $order = "{$fireUI["orderBy"]["field"]} {$dir[$fireUI["orderBy"]["direction"]]}";}
-            if($fireUI["filter"])               {
-                foreach($fireUI["filter"] as $k=>$v){ 
-                    if ($k == "room_id") {$k = "t2.name"; }
-                    $filter .= " AND $k LIKE '%".$this->clean($v)."%'";
-                }
-            }
-            if($fireUI["currentPage"]!="")      {$from = ($fireUI["currentPage"]-1) * $size; }
-            
-        }
-        
-        $where = trim($where)==""? "1=1":$where;
-        $query = "select $fields from $table where $where $filter $group order by $order limit $from, $size";
-        $count = "select count(*) as count from $table where $where $filter $group order by $order";
-        $q  = @$this->dbQuery($query);
-        $r  = @$this->dbQuery($count);
-        $this->app["count"] = $r["1"]["count"];
-        return $q;
-    }
-*/
     function insertRow($table, $data){
         return $this->dbInsert($this->schema.".".$table, $data);
     }
@@ -688,16 +631,7 @@ class backend extends db{
         return $this->dbQuery($query);
     }
     
-    function randomPassword() {
-        $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
-        $pass = array();
-        $alphaLength = strlen($alphabet) - 1; 
-        for ($i = 0; $i < 8; $i++) {
-            $n = rand(0, $alphaLength);
-            $pass[] = $alphabet[$n];
-        }
-        return implode($pass); 
-    }
+
 }
 
 ?>
