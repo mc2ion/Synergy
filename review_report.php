@@ -1,7 +1,7 @@
 <?php
 /*
     Author: Marion Carambula
-    SecciÃ³n de eventos
+    Sección de evaluaciones
 */
 include ("./common/common-include.php");
 //Verificar que el usuario tiene  permisos

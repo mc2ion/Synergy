@@ -152,7 +152,7 @@ img.information { cursor: pointer;    position: absolute;    right: 0px; top: -2
 table th span { margin-right: 5px;}
 ul.sesList{margin-left: 35px;}
 .ui-dialog p {    margin: 0px 0px 10px 0px;}
-.darrow-menu{position: absolute;top:18px;right: 10px; font-size:10px;}
+.darrow-menu{position: absolute;top:14px;right: 10px; font-size:10px;}
 .back{color:black;}
 /* Login */
 .login .error{text-align: center;}

@@ -1,7 +1,7 @@
 <?php
 /*
     Author: Marion Carambula
-    Sección de usuarios
+    Sección de eventos
 */
 include ("./common/common-include.php");
 

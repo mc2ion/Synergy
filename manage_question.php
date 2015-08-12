@@ -1,7 +1,7 @@
 <?php
 /*
     Author: Marion Carambula
-    Sección de usuarios
+    Manejo de preguntas (encuestas)
 */
 include ("./common/common-include.php");
 //Verificar que el usuario tiene  permisos

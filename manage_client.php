@@ -1,7 +1,7 @@
 <?php
 /*
     Author: Marion Carambula
-    Sección de usuarios
+    Sección de clientes
 */
 include ("./common/common-include.php");
 include ("./common/country.php");

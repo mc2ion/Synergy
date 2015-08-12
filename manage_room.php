@@ -1,7 +1,7 @@
 <?php
 /*
     Author: Marion Carambula
-    Sección de usuarios
+    Sección de salas
 */
 include ("./common/common-include.php");
 //Verificar que el usuario tiene  permisos
