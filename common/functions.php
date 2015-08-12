@@ -168,13 +168,13 @@ function menuCLiente($user, $selected="", $label, $clientList){
                             $sel  = ''; if ($selected == $v["name"]) $sel = "class='selected'";
                             if (isset($submenu[$v["section_id"]])){ 
                                  if ($event != ""){
-                                      $out .= "<li class='{$v["name"]}'>
+                                      $out .= "<li class='{$v["name"]} sub'>
                                             <a href='{$v["file"]}' $sel>".ucfirst($t). "<span class=\"darrow-menu\">▼</span></a>";
                                      $out .= "<ul class='submenu'>";
                                        foreach($submenu[$v["section_id"]] as $sk =>$sv){
                                             $continue = 1;
                                             if ($sv["name"] != "salas"){
-                                                if (!isset($permission[$sv["section_id"]]) || $permission[$sv["section_id"]]["read"] != "1"){
+                                                if (isset($permission[$sv["section_id"]]) && $permission[$sv["section_id"]]["read"] != "1"){
                                                     $continue = 0;
                                                 }
                                             }

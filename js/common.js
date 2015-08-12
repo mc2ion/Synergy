@@ -13,7 +13,13 @@ $( document ).ready(function() {
         $(".delete").show();
         $(".delete:first").hide();
     })
-    
+
+    //Ocultar/mostrar submenu
+    /*$(".darrow-menu").click(function(event){
+        event.preventDefault();
+        $(".submenu").toggle("fast");
+    })*/
+
     //Eliminar dinamicamente una rede social.
     $("body").on('click', '.delete a', function() {
         $(this).closest(".networks").remove();

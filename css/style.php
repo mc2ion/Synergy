@@ -6,7 +6,7 @@
     $top_menu               = "#fbe336";
     $button                 = "#e8b113";
     $main_menu_axu          = "#333333";
-    $submenu                = "#161616";
+    $submenu                = "#0A0A0A";
     $font_main_menu         = "#ffffff";
     $font_top_menu          = "#000000";
 
@@ -152,7 +152,7 @@ img.information { cursor: pointer;    position: absolute;    right: 0px; top: -2
 table th span { margin-right: 5px;}
 ul.sesList{margin-left: 35px;}
 .ui-dialog p {    margin: 0px 0px 10px 0px;}
-.darrow-menu{position: absolute;top:14px;right: 10px; font-size:10px;}
+.darrow-menu{position: absolute;top:0px;right: 0px; font-size:10px; padding:14px 8px;}
 .back{color:black;}
 /* Login */
 .login .error{text-align: center;}
