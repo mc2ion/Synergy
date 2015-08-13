@@ -15,7 +15,7 @@ $section    = "event";
 $columns    = $backend->getColumnsTable($section);
 $id         =  $message      =  $error   =  $alert  = "";
 //Creamos un array vacio para que aparezca un box inicial
-$socials    = array("0"=>array("type"=>"", "value"=>"", "title"=>""));
+$socials    = array("0"=>array("type"=>"", "url"=>"", "title"=>""));
 $organizers = array("0"=>array("name"=>"", "description"=>"", "url"=>""));
 $client     = $_SESSION["data"]["cliente"];
 
@@ -77,7 +77,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                             }else{
                                 foreach($_POST["network"] as $k=>$v){
                                     $network[$k]["type"]  =  $v;
-                                    $network[$k]["value"] =  addhttp($_POST["value"][$k]);
+                                    $network[$k]["u"] =  addhttp($_POST["value"][$k]);
                                     $network[$k]["title"] =  $_POST["title"][$k];
                                     if ($network[$k]["value"] == "" || $network[$k]["type"]  == "" || $network[$k]["title"]  == ""){
                                         $error = 1;
@@ -111,10 +111,10 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                         if ($v["COLUMN_NAME"] == "social_networks"){
                             foreach($_POST["network"] as $k=>$v){
                                 $network[$k]["type"]  = $v;
-                                $network[$k]["value"] =  addhttp($_POST["value"][$k]);
+                                $network[$k]["url"] =  addhttp($_POST["url"][$k]);
                                 $network[$k]["title"] =  $_POST["title"][$k];
                                 $errorT = $errorV = $errorTT = "";
-                                if ($network[$k]["value"] == "") { $errorV = 1;}
+                                if ($network[$k]["url"] == "") { $errorV = 1;}
                                 if ($network[$k]["type"]  == "") { $errorT = 1;}
                                 if ($network[$k]["title"] == "") { $errorTT = 1;}
                                 if ($errorT != $errorV && $errorV!= $errorTT){
@@ -260,7 +260,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
         }
         //Redes sociales del evento
         $socials = json_decode($event["social_networks"], true);
-        if (!$socials) $socials = array("0"=>array("type"=>"", "value"=>"", "title"=>""));
+        if (!$socials) $socials = array("0"=>array("type"=>"", "url"=>"", "title"=>""));
         //Organizadores
         $organizers = json_decode($event["organizers"], true);
         if (!$organizers) $organizers = array("0"=>array("name"=>"", "description"=>"", "url"=>""));
@@ -379,7 +379,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                     ?>
                             <div class="add-e"><a href="javascript:void(0)"><?= $label["Agregar nueva"]?></a></div>
                             <?php foreach ($socials as $mk=>$mv){
-                                $valueNetwork   = $mv["value"];
+                                $valueNetwork   = $mv["url"];
                                 $titleNetwork   = $mv["title"];
                                 ?>
                             <div class="networks">
@@ -398,7 +398,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                                     <input name="title[]" type="text" placeholder="Nombre" value="<?= $titleNetwork?>"/>
                                 </div>
                                 <div>
-                                    <input style="margin-top:5px; clear: both" name="value[]" type="text" class='url_sn'  placeholder="URL completo de la red social" value="<?= $valueNetwork?>"/>
+                                    <input style="margin-top:5px; clear: both" name="url[]" type="text" class='url_sn'  placeholder="URL completo de la red social" value="<?= $valueNetwork?>"/>
                                 </div>
                                 <div class="delete i<?= $mk ?>"><a href="javascript:void(0)"><?= $label["Eliminar"]?></a></div>
                             </div>

@@ -83,7 +83,7 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
       $en["font_top_menu_color"]   = getFontColor(@$en["top_menu_color"]);
 
       //Agregar el codigo del pais
-      $en["contact_phone"] = "(".$_POST["contact_phone_code"] . ")". $en["contact_phone"];
+      $en["contact_phone"] = "(".$_POST["contact_phone_code"] . ") ". $en["contact_phone"];
 
       //Pais
       $en["country"]      = $country[$en["country"]];
