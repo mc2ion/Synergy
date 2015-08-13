@@ -300,6 +300,7 @@ class backend extends db{
                             if ($sk == "image_path"){
                                 $out[$k][$sk] = "<img src='{$sv}' alt='Logo' class='logo-company'/>";
                             }else $out[$k][$sk] = $sv;
+                            $out[$k]["date"]    = $v["date"] . " " . $formatted = date("g:i a", strtotime($v["time_ini"])) . " - " .  $formatted = date("g:i a", strtotime($v["time_end"])) ;
                             $out[$k]["room_id"] = $name;
                         }
                     }

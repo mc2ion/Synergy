@@ -100,6 +100,8 @@ if (isset($_POST["forgot"])){
     </form>
      <?= my_footer() ?>
     </div>
-
+    <footer  class="site-footer">
+        <img src="./images/bySynergy.png" class="bySynergy"/>
+    </footer>
   </body>
 </html>

@@ -22,10 +22,10 @@
 ?>/* Generales */
 *{ font-family: "Trebuchet MS", Helvetica, sans-serif; font-size: 13px;}
 html, body {height: 100%;}
-.page-wrap {min-height: 100%; margin-bottom: -55px;}
+.page-wrap {min-height: 100%; margin-bottom: -57px;}
 .page-wrap:after {content: "";display: block;}
 .site-footer, .page-wrap:after {height: 35px;}
-.site-footer {background: #333333;}
+.site-footer {background: #333333; text-align:center; box-shadow: 0px -2px 1px #BFBFBF; border: 1px solid gray;}
 body{ background: white;  margin: 0; padding: 0;  }
 body.login {background: #E9E9E9;  margin: 0; padding: 0; }
 ul {padding-left:0px;}
@@ -174,3 +174,4 @@ input.code {width: 14% !Important;float: left;margin-right: 1%;}
 input.phone {float: left;width: 85% !important;}
 footer{background-color: #333333;padding: 10px 0px;color: white;}
 .tutorial{text-align:center;}
+.bySynergy{width:160px; position:relative; margin-top:7px;}

@@ -195,7 +195,7 @@ function loadEventList(client){
 $(document).ready( function () {
     $('.fireUI-table').DataTable(
         {
-            "aLengthMenu"  : 7,
+            "iDisplayLength": '7',
             "bLengthChange": false,
             "bInfo": false,
             aoColumnDefs: [

@@ -13,9 +13,10 @@ a almacenar las imagenes entre otros.
 
 $general["client"]["image_folder"]                      = "files/client/";
 $general["client"]["image_format"]                      = array("png", "jpg"); //Aqui van definidos todos los tipo de imagenes permitidos para la sección correspondiente
-$general["client"]["image_size"]                        = "50000"; //Aqui van definido el tamaño maximo permitido para la imagen en Bytes
-$general["client"]["image_width"]                       = "300";   //Aqui van definido el ancho maximo permitido para la imagen en px
-$general["client"]["image_height"]                      = "300";   //Aqui van definido la altura maxima permitido para la imagen en px
+$general["client"]["image_size"]                        = "400000"; //Aqui van definido el tamaño maximo permitido para la imagen en Bytes
+$general["client"]["image_width"]                       = "1000";   //Aqui van definido el ancho maximo permitido para la imagen en px
+$general["client"]["image_height"]                      = "1000";   //Aqui van definido la altura maxima permitido para la imagen en px
+$general["client"]["image_type"]                        = "rectangle"; // Si es cuadrada no hace falta indicarlo
 
 $general["event"]["image_folder"]                       = "files/event/";
 $general["event"]["image_format"]                       = array("png", "jpg");
