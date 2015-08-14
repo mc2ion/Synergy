@@ -175,3 +175,4 @@ input.phone {float: left;width: 85% !important;}
 footer{background-color: #333333;padding: 10px 0px;color: white;}
 .tutorial{text-align:center;}
 .bySynergy{width:160px; position:relative; margin-top:7px;}
+.tutorial{position:relative; margin-top:40px;}

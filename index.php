@@ -9,15 +9,13 @@ include ("./common/common-include.php");
 <!DOCTYPE html>
 <html lang="es">
   <head>
-        <?= my_header()?>
+      <?= my_header()?>
   </head>
   <body>
     <?= menu(); ?>
     <div class="content">
         <div class="title"><?= $label["Bienvenido"]?></div>
-        <div class="tutorial">
-            <img src="./images/test.png?v=01" alt="Tutorial"/>
-        </div>
+        <div><p>Escoje en el menú lateral la sección sobre la cual deseas trabajar.<p></div>
     </div>
      <?= my_footer() ?>
   </body>

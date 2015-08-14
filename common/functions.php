@@ -66,9 +66,9 @@ function menu($selected=""){
     $out  = top_bar($user);
     $out .= '<div class="menu">';
     if ($typeUser[$user["type"]] == "administrador"){
-        $out .= "<a href='./index.php'><img src='./images/logo.png' alt='Logo' class='logo'></a>";
+        $out .= "<a href='./help.php'><img src='./images/logo.png' alt='Logo' class='logo'></a>";
     }else{
-        $out .= "<a href='./index.php'><img src='{$user["logo_path"]}' alt='Logo' class='logo'></a>";
+        $out .= "<a href='./help.php'><img src='{$user["logo_path"]}' alt='Logo' class='logo'></a>";
     }
     //Menu exclusivo de administradores
     $out .= menuAdministrator($user, $selected, $label);

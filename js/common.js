@@ -136,10 +136,11 @@ $( document ).ready(function() {
         if ($(this).is(':checked')){
            name = $(this).attr("name");
            id   = name.substring(0,1);
-           if (name.substring(2) == "delete" || name.substring(2) == "update"){
+           if (name.substring(2) == "delete"  ||  name.substring(2) == "create" || name.substring(2) == "update"){
                 aux = id + "_read";
                 $("input[name='"+aux+"']").prop('checked', true);
-           }else if(name.substring(2) == "create"){
+           }
+            if(name.substring(2) == "create"){
                aux = id + "_update";
                $("input[name='"+aux+"']").prop('checked', true);
            }

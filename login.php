@@ -32,7 +32,7 @@ if (isset($_POST["login"])){
                 unset($user["user"]["1"]["password"]);
                 unset($user["user"]["1"]["email"]);
                 $_SESSION["app-user"]       = $user;
-                header("Location: ./index.php");
+                header("Location: ./help.php");
                 exit();
             }
         }
