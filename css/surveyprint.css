@@ -1,8 +1,11 @@
 /* Generales */
 .menu{display: none;}
 .top-bar { display: none;}
-.content {margin: 0px;}
+.content {margin: 0px; padding: 0px;}
 .actions{display: none;}
-.ttq td.title { -webkit-print-color-adjust: exact; background: #545454;  padding: 5px;  border: 1px solid; color:white;}
+.ttq td.title { -webkit-print-color-adjust: exact; background: #545454;  padding: 5px;  border: 1px solid; color:white; width: 100%;}
 .comments td.cmments { -webkit-print-color-adjust: exact; background: #F7F7F7;  padding: 5px;  border: none;}
 .action {display: none;}
+.footer{ -webkit-print-color-adjust: exact; width: 100%; background: #545454; color:white; display: inline-table !important; bottom: 0px !important;}
+.client_logo img {width: inherit !important;}
+.right{text-align: right !important;}

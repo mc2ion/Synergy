@@ -514,9 +514,9 @@ class backend extends db{
     function getSurveyReport($eventId){
         $query  =   "select s.*, count(qr.user_id) as result
                     from
-                    (select e.name as event_name, sq.question_id, sq.question, qo.option_id, qo.optionDesc
-                    from event e, survey_question sq, question_option qo
-                    where e.event_id = {$eventId} and e.event_id = sq.event_id and sq.question_id = qo.question_id and sq.active = 1 and qo.active = 1
+                    (select c.logo_path, e.name as event_name, sq.question_id, sq.question, qo.option_id, qo.optionDesc
+                    from event e, survey_question sq, question_option qo, client c
+                    where c.client_id = e.client_id and e.event_id = {$eventId} and e.event_id = sq.event_id and sq.question_id = qo.question_id and sq.active = 1 and qo.active = 1
                     order by sq.question_id, qo.option_id) as s
                     left join question_result qr
                     on s.question_id = qr.question_id and s.option_id = qr.option_id
@@ -526,10 +526,11 @@ class backend extends db{
         if ($q){
             $id = 0;
             foreach($q as $k=>$v){
-                $aux[$v["question_id"]]["event"]    = $v["event_name"];
-                $aux[$v["question_id"]]["question"] = $v["question"];
-                $aux[$v["question_id"]]["option"][$v["option_id"]]["option"]   = $v["optionDesc"];
-                $aux[$v["question_id"]]["option"][$v["option_id"]]["result"]   = $v["result"];
+                $aux["logo_path"]                   = $v["logo_path"];
+                $aux["survey"][$v["question_id"]]["event"]    = $v["event_name"];
+                $aux["survey"][$v["question_id"]]["question"] = $v["question"];
+                $aux["survey"][$v["question_id"]]["option"][$v["option_id"]]["option"]   = $v["optionDesc"];
+                $aux["survey"][$v["question_id"]]["option"][$v["option_id"]]["result"]   = $v["result"];
             }
         }
         return $aux;

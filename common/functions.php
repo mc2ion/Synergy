@@ -292,4 +292,14 @@ function randomPassword() {
     return implode($pass);
 }
 
+function footer_report(){
+    $out = "<table class='footer' >";
+    $out .= "<tr>
+                <td style=' width: 50%;'><div class='eventosplus'><img src='./images/logo200.png'></div></td>
+                <td class='right' align='right'; style='color:white; width: 50%;'><img src='./images/bySynergy200.png' class='report-logo'> | www.synergy-gb.com</td>
+             </tr>";
+    $out .= "</table>";
+    return $out;
+}
+
 ?>
