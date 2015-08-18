@@ -12,14 +12,15 @@ class db {
     var $schema;
     
     function __construct($setnames=true) {
-        $this->dbhost    = 'localhost';     //Cambiar este dato si la bd esta en otro servidor, por el IP correcto
-        $this->dbname    = 'eventosplusdb'; //Poner los datos correctos
-        $this->dbuser    = 'root';        //Poner los datos correctos
-        $this->dbpass    = 'administrator';    //Poner los datos correctos
-        $this->schema    = $this->dbname;
-        
-        $this->conn     = mysql_connect($this->dbhost, $this->dbuser, $this->dbpass,true) or die("Error en la conexion de base de datos");
-        $this->dbconn   = mysql_select_db($this->dbname, $this->conn) or die('El usuario no tiene permisos suficientes');
+        $this->dbhost       = '172.16.16.122';     //Cambiar este dato si la bd esta en otro servidor, por el IP correcto
+        $this->port         = "3306";
+        $this->dbname       = 'eventosplusdb';         //Poner los datos correctos
+        $this->dbuser       = 'root';                  //Poner los datos correctos
+        $this->dbpass       = 'r00tp@ss';              //Poner los datos correctos
+        $this->schema       = $this->dbname;
+        $this->dbFullHost   = $this->dbhost.":".$this->port;
+        $this->conn         = mysql_connect($this->dbFullHost, $this->dbuser, $this->dbpass,true) or die("Error en la conexion de base de datos");
+        $this->dbconn       = mysql_select_db($this->dbname, $this->conn) or die('El usuario no tiene permisos suficientes');
     }
 
     function __destruct() {
