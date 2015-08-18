@@ -6,8 +6,11 @@
 .ttq td.title { -webkit-print-color-adjust: exact; background: #545454;  padding: 5px;  border: 1px solid; color:white; width: 100%;}
 .comments td.cmments { -webkit-print-color-adjust: exact; background: #F7F7F7;  padding: 5px;  border: none;}
 .action {display: none;}
-.footer{ -webkit-print-color-adjust: exact; width: 100%; background: #545454; color:white; display: inline-table !important; bottom: 0px !important;}
+.footer{ -webkit-print-color-adjust: exact; width: 100%; background: #989898; color:white; display: inline-table !important;}
 .client_logo img {width: inherit !important;}
-.right{text-align: right !important;}
+.right{ text-align: right !important;}
 table { page-break-inside:auto !important; }
-tr    { page-break-inside:avoid; page-break-after:auto !important; }
+tr    { page-break-inside:avoid !important; page-break-after:auto !important; }
+td    { page-break-inside: avoid !important; page-break-after:auto !important; }
+.comments td{display: inline-block; width:100%; padding: 10px 0px !important; margin-bottom: 0px !important; margin-top: 0px !important;}
+.comments tr{ margin-top: 0px !important; }

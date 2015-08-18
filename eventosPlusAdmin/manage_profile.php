@@ -35,7 +35,7 @@ if (isset($_POST["edit"])){
         );
         if ($resultUpload["result"] == "0"){
             $error   = 1;
-            $message = "<div class='error'>{$resultUpload["message"]}</div>";
+            if(isset($resultUpload["message"])) $message = "<div class='error'>{$resultUpload["message"]}</div>";
         }else{
             $_SESSION["user"]["photo_path"] =  $path;
             $en["photo_path"]               =  $path ;
