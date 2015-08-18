@@ -25,8 +25,6 @@ if (isset($_POST["pdf"])&& $review){
         $htmlString = utf8_decode(getReport($title, "", "1"));
         $dompdf = new DOMPDF();
         $dompdf->set_paper("letter", "portrait");
-        //echo $htmlString;
-        //exit();
         $dompdf->load_html($htmlString);
         $dompdf->render();
         $dompdf->stream($title.".pdf");
@@ -105,8 +103,7 @@ function getReport($title, $excel="0", $pdf=""){
                    .client_logo img {max-width: 120px; max-height: 90px; width: 120px;}
                    .eventosplus img{width: 100px;}
                    .div-title {display: inline-block; font-size:18px; font-weight:normal;}
-                    .footer { background: #545454; color:white; padding: 5px 0px; position:fixed; width: 100%; bottom:40px;}
-                    .comments tr, .comments td {display: block;}
+                    .footer { background: #989898; color:white; width: 100%; margin-bottom: 30px;}
             ';
         if ($pdf == ""){
             $out .= ".footer {display:none;}";
@@ -114,6 +111,7 @@ function getReport($title, $excel="0", $pdf=""){
         }
         $out .= '</style>';
         if ($review){
+            $out  .= footer_report();
             $out .= '<table class="ttq-logo">';
             $out .= "<tr>
                         <td><div class='client_logo'><img src='{$review["logo_path"]}' alt='Logo cliente'/></div></td>
@@ -185,7 +183,6 @@ function getReport($title, $excel="0", $pdf=""){
                 
             }         
             $out .= '</table>';
-            $out  .= footer_report();
         }else{
             $out .= '-- '. $label["Esta encuesta no posee resultados aún"]. ' --';
         }
