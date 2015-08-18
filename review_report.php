@@ -15,15 +15,14 @@ if (!isset($_GET["id"]) ||  $_GET["id"] < 0) {
 
 $out            = "";
 $review         = $backend->getReviewReport($_GET["id"]);
-$label["name"]  = "Sala";
-//echo (empty($review));
-$title      = $review["details"]["1"]["session_title"];
+if ($review["details"] != "") $title          = $review["details"]["1"]["session_title"];
+else {  header("Location: ./reviews.php"); exit();}
 
 
 if (isset($_POST["pdf"])&& $review){
         require_once("./backend/dompdf/dompdf_config.inc.php");
         $htmlString = '';
-        $htmlString = utf8_decode(getReport($title));
+        $htmlString = utf8_decode(getReport($title, "", "1"));
         $dompdf = new DOMPDF();
         $dompdf->set_paper("letter", "portrait");
         //echo $htmlString;
@@ -83,7 +82,7 @@ if (isset($_POST["cvs"])&& $review){
     exit;
 }
 
-function getReport($title, $excel="0"){
+function getReport($title, $excel="0", $pdf=""){
         global $review, $label;
         $out = '
                 <style>
@@ -101,9 +100,26 @@ function getReport($title, $excel="0"){
                     .rnk {display: block;text-align: right;}
                     img.ssm {width: 12px; margin-left:1px;}
                     .td_comment { border-bottom:1px solid #848484; padding-bottom:8px;}
-                </style>';
+                    .report-logo{vertical-align:middle; width: 100px; position: relative;  top: 2px;}
+                   .client_logo{vertical-align: middle; display: inline-block; margin-right: 10px;}
+                   .client_logo img {max-width: 120px; max-height: 90px; width: 120px;}
+                   .eventosplus img{width: 100px;}
+                   .div-title {display: inline-block; font-size:18px; font-weight:normal;}
+                    .footer { background: #545454; color:white; padding: 5px 0px; position:fixed; width: 100%; bottom:40px;}
+                    .comments tr, .comments td {display: block;}
+            ';
+        if ($pdf == ""){
+            $out .= ".footer {display:none;}";
+            $out .= ".client_logo img{ width: inherit !important; }";
+        }
+        $out .= '</style>';
         if ($review){
-            $out .= '<div class="title">'. $label["Resultado evaluacion"].' - '. $title.'</div>';
+            $out .= '<table class="ttq-logo">';
+            $out .= "<tr>
+                        <td><div class='client_logo'><img src='{$review["logo_path"]}' alt='Logo cliente'/></div></td>
+                        <td><div class='div-title'> {$label["Resultado evaluacion"]}</div></td>
+                     </tr>";
+            $out .= '</table>';
             $out .= '<table class="dtails">';
             foreach ($review["details"][1] as $k=>$v){
                 if ($k != "reviewers" && $k != "ranking" ){
@@ -168,8 +184,8 @@ function getReport($title, $excel="0"){
                 }
                 
             }         
-            $out .= '</table>'; 
-            
+            $out .= '</table>';
+            $out  .= footer_report();
         }else{
             $out .= '-- '. $label["Esta encuesta no posee resultados aún"]. ' --';
         }

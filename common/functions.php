@@ -182,7 +182,6 @@ function menuCLiente($user, $selected="", $label, $clientList){
                                             if ($sv["name"] == "evaluaciones"){
                                                $continue = 0;
                                             }
-
                                             if ($continue){
                                                 $ts  = isset($label[$sv["name"]]) ? $label[$sv["name"]]: $sv["name"];
                                                 $selAux  = ''; if ($selected == $sv["name"]) $selAux = "class='selected'";

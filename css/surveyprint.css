@@ -9,3 +9,5 @@
 .footer{ -webkit-print-color-adjust: exact; width: 100%; background: #545454; color:white; display: inline-table !important; bottom: 0px !important;}
 .client_logo img {width: inherit !important;}
 .right{text-align: right !important;}
+table { page-break-inside:auto !important; }
+tr    { page-break-inside:avoid; page-break-after:auto !important; }

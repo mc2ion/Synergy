@@ -202,7 +202,7 @@ $label["Cantidad de votaciones"]                                            = "C
 $label["Valoracion Total"]                                                  = "Valoración Total";
 $label["Ranking"]                                                           = "Ranking";
 $label["Cantidad"]                                                          = "Cantidad";
-$label["Resultado evaluacion"]                                              = "Resultado evaluación";
+$label["Resultado evaluacion"]                                              = "Resultados de evaluaciones";
 $label["Valoracion"]                                                        = "Valoración";
 $label["Datos incorrectos"]                                                 = "La dirección de correo electrónico y la contraseña que ha introducido no coinciden.";
 $label["Seleccionar cliente"]                                               = "Seleccionar cliente";
@@ -232,4 +232,6 @@ $label["Por favor ingrese al menos un permiso"]                             = "P
 $label["Perfil de usuario editado exitosamente"]                            = "Perfil de usuario editado exitosamente.";
 $label["URL"]                                                               = "URL";
 $label["¿Esta acción es irreversible, está seguro que desea proceder?"]     = "Esta acción es irreversible, ¿Está seguro que desea proceder?";
+$label["resultados"]                                                        = "resultados";
+$label["Resultado de encuestas"]                                            = "Resultados de encuestas";
 ?>

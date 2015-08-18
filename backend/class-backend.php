@@ -540,16 +540,20 @@ class backend extends db{
     
     function getReviewReport($sessionId){
         //Obtener detalles de la sesion
-        $query = "SELECT S.title AS session_title, R.name, S.date AS date, S.speaker AS speaker,
+        $query = "SELECT c.logo_path, S.title AS session_title, R.name, S.date AS date, S.speaker AS speaker,
                 S.time_ini AS time_ini, S.time_end as time_end,
                 COUNT(RE.review_id) AS reviewers, SUM(RE.ranking)/COUNT(RE.review_id) AS ranking
-                FROM session S, room R, review RE
-                WHERE S.session_id = '$sessionId' AND S.active = 1 AND S.room_id = R.room_id AND S.session_id = RE.session_id";
+                FROM session S, client c, event e, room R, review RE
+                WHERE S.session_id = '$sessionId' AND S.active = 1 AND S.room_id = R.room_id AND S.session_id = RE.session_id
+                AND c.client_id = e.client_id AND e.event_id = s.event_id
+                ";
         $q["details"]      = $this->dbQuery($query);
         if (!empty($q["details"][1]["name"])){
+            $q["logo_path"]    =  $q["details"]["1"]["logo_path"];
             foreach($q["details"] as $k=>$v){
                 unset($q["details"][$k]["time_ini"]);
                 unset($q["details"][$k]["time_end"]);
+                unset($q["details"][$k]["logo_path"]);
                 $q["details"][$k]["time"] = date("g:i  a", strtotime($v["time_ini"])) . " - ".date("g:i  a", strtotime($v["time_end"])) ;
                 //$q["details"][$k]["time_end"] = date("g:i  a", strtotime($v["time_end"]));
             }
