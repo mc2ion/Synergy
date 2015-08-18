@@ -42,13 +42,13 @@ include ("./common/common-include.php");
             <div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 800px; height: 398px; margin: 0 auto; padding-bottom:40px; background:#F9E347;">
                 <!-- Slides Container -->
                 <div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 800px; height: 398px;">
-                    <div><img u="image" src="./images/tutorial/clientes.png" /></div>
-                    <div><img u="image" src="./images/tutorial/usuarios.png" /></div>
-                    <div><img u="image" src="./images/tutorial/eventos.png" /></div>
-                    <div><img u="image" src="./images/tutorial/sesiones.png" /></div>
-                    <div><img u="image" src="./images/tutorial/salas.png" /></div>
-                    <div><img u="image" src="./images/tutorial/expositores.png" /></div>
-                    <div><img u="image" src="./images/tutorial/speakers.png" /></div>
+                    <div><img u="image" src="./images/Tutorial/clientes.png" /></div>
+                    <div><img u="image" src="./images/Tutorial/usuarios.png" /></div>
+                    <div><img u="image" src="./images/Tutorial/eventos.png" /></div>
+                    <div><img u="image" src="./images/Tutorial/sesiones.png" /></div>
+                    <div><img u="image" src="./images/Tutorial/salas.png" /></div>
+                    <div><img u="image" src="./images/Tutorial/expositores.png" /></div>
+                    <div><img u="image" src="./images/Tutorial/speakers.png" /></div>
                 </div>
                 <div u="navigator" class="jssorb01" style="bottom: 16px; right: 10px;">
                     <!-- bullet navigator item prototype -->
