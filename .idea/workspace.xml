@@ -2,13 +2,463 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2f899c89-1ed1-43d3-bf6f-df8f1baecfb4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/class-backend.php" afterPath="$PROJECT_DIR$/backend/class-backend.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common/functions.php" afterPath="$PROJECT_DIR$/common/functions.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/common/labels.php" afterPath="$PROJECT_DIR$/common/labels.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/dompdf/lib/fonts/log.htm" afterPath="$PROJECT_DIR$/backend/dompdf/lib/fonts/log.htm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/review_report.php" afterPath="$PROJECT_DIR$/review_report.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/survey-report.php" afterPath="$PROJECT_DIR$/survey-report.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/surveyprint.css" afterPath="$PROJECT_DIR$/css/surveyprint.css" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\.gitattributes" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\class.phpmailer.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\class.pop3.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\class.smtp.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\docs.ini" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-ar.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-br.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-ca.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-ch.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-cz.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-de.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-dk.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-es.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-et.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-fi.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-fo.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-fr.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-hu.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-it.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-ja.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-nl.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-no.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-pl.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-ro.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-ru.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-se.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-tr.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-zh.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\PHPMailer\language\phpmailer.lang-zh_cn.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\class-backend.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\class-db-conn.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\LICENSE.LGPL" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\changelog.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\docblox.dist.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\dompdf.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\dompdf_config.custom.inc.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\dompdf_config.inc.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\absolute_positioner.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\abstract_renderer.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\attribute_translator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\autoload.inc.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\block_frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\block_frame_reflower.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\block_positioner.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\block_renderer.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\cached_pdf_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\canvas.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\canvas_factory.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\cellmap.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\cpdf_adapter.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\css_color.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\dompdf.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\dompdf_exception.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\dompdf_image_exception.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\file.skel" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\fixed_positioner.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\font_metrics.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\frame.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\frame_factory.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\frame_reflower.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\frame_tree.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\functions.inc.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\gd_adapter.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\image_cache.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\image_frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\image_frame_reflower.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\image_renderer.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\inline_frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\inline_frame_reflower.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\inline_positioner.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\inline_renderer.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\javascript_embedder.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\line_box.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\list_bullet_frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\list_bullet_frame_reflower.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\list_bullet_image_frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\list_bullet_positioner.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\list_bullet_renderer.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\null_frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\null_frame_reflower.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\null_positioner.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\page_cache.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\page_frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\page_frame_reflower.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\pdflib_adapter.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\php_evaluator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\positioner.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\renderer.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\style.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\stylesheet.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\table_cell_frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\table_cell_frame_reflower.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\table_cell_positioner.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\table_cell_renderer.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\table_frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\table_frame_reflower.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\table_row_frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\table_row_frame_reflower.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\table_row_group_frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\table_row_group_frame_reflower.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\table_row_group_renderer.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\table_row_positioner.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\tcpdf_adapter.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\text_frame_decorator.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\text_frame_reflower.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\include\text_renderer.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\index.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\class.pdf.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Courier-Bold.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Courier-BoldOblique.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Courier-Oblique.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Courier.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSans-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSans-Bold.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSans-BoldOblique.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSans-BoldOblique.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSans-ExtraLight.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSans-ExtraLight.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSans-Oblique.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSans-Oblique.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSans.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSans.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansCondensed-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansCondensed-Bold.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansCondensed-BoldOblique.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansCondensed-BoldOblique.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansCondensed-Oblique.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansCondensed-Oblique.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansCondensed.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansCondensed.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansMono-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansMono-Bold.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansMono-BoldOblique.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansMono-BoldOblique.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansMono-Oblique.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansMono-Oblique.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansMono.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSansMono.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerif-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerif-Bold.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerif-BoldItalic.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerif-BoldItalic.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerif-Italic.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerif-Italic.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerif.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerif.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerifCondensed-Bold.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerifCondensed-Bold.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerifCondensed-BoldItalic.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerifCondensed-BoldItalic.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerifCondensed-Italic.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerifCondensed-Italic.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerifCondensed.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\DejaVuSerifCondensed.ufm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Helvetica-Bold.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Helvetica-BoldOblique.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Helvetica-Oblique.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Helvetica.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Symbol.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Times-Bold.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Times-Bold.afm.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Times-BoldItalic.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Times-Italic.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Times-Roman.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\Times-Roman.afm.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\ZapfDingbats.afm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\dompdf_font_family_cache.dist.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\log.htm" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\fonts\mustRead.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\html5lib\Data.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\html5lib\InputStream.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\html5lib\Parser.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\html5lib\Tokenizer.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\html5lib\TreeBuilder.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\html5lib\named-character-references.ser" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\.htaccess" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\adobe_font_metrics.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\encoding_map.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_binary_stream.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_eot.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_header.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_opentype.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_opentype_table_directory_entry.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_cmap.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_directory_entry.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_glyf.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_head.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_hhea.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_hmtx.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_kern.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_loca.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_maxp.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_name.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_name_record.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_os2.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_table_post.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_truetype.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_truetype_collection.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_truetype_header.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_truetype_table_directory_entry.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_woff.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_woff_header.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\classes\font_woff_table_directory_entry.cls.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\adobe-standard-encoding.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\cp1250.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\cp1251.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\cp1252.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\cp1253.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\cp1254.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\cp1255.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\cp1257.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\cp1258.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\cp874.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\iso-8859-1.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\iso-8859-11.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\iso-8859-15.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\iso-8859-16.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\iso-8859-2.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\iso-8859-4.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\iso-8859-5.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\iso-8859-7.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\iso-8859-9.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\koi8-r.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\php-font-lib\maps\koi8-u.map" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\res\broken_image.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\lib\res\html.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\load_font.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\readme.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\controller.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\cssSandpaper\css\reset.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\cssSandpaper\js\EventHelpers.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\cssSandpaper\js\cssQuery-p.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\cssSandpaper\js\cssSandpaper.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\cssSandpaper\js\jcoglan.com\sylvester.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\debugger.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\demo.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\examples.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\fonts.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\foot.inc" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\functions.inc.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\head.inc" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\arrow_01.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\arrow_02.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\arrow_03.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\arrow_04.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\arrow_05.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\arrow_06.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\css2.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\dompdf_simple.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\favicon.ico" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\favicon.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\h_bar.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\left_arrow.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\logo.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\logo.xcf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\php5-power-micro.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\small_logo.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\star_01.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\star_02.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\star_03.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\star_04.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\star_05.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\title.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\v_bar.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\images\xhtml10.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\index.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\jquery-1.4.2.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\setup.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\dompdf\www\style.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\events_ajax.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\backend\send_email.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\bd.sql" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\clients.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\common\class-ui.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\common\common-include.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\common\conf.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\common\country.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\common\dialog.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\common\functions.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\common\labels.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\common\phoneCode.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\css\slider.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\css\style.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\css\surveyprint.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\events.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\exhibitors.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\client\55cb5c9b164cd_55b52eea57ec2_1434584130_plugin.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\client\55cb9ad3c17fa_55be472359a2a_1434164009_group.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\client\55d212e6e3b49_logo_grupo_cerca.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\event\1855cb613b85194_1555c9082aaa07e_mapa.jpg" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\event\1855cb6167564ed_1555c9082aaa07e_mapa.jpg" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\event\1855cb6184d90d8_1555c9082aaa07e_mapa.jpg" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\event\1955cb9b7f1dce5_1555c9082aaa07e_mapa.jpg" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\event\1955ccd8407fe7d_1555c9082aaa07e_mapa.jpg" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\exhibitor\182855cb661bb7198_1155c01f7f5d595_1434593493_wordpress.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\exhibitor\182855cb666b21ce6_71755ba9b15c9b52_1434655199_CinemaMac.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\exhibitor\182855cb66e39081f_71755ba9b15c9b52_1434655199_CinemaMac.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\exhibitor\182855cb66f759a16_71755b59719d4f62_1434496634_computer.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\session\182855cb64e658cbb_132355bea091611a2_1434576812_man.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\session\182855cb657aaf6f8_1155c01f7f5d595_1434593493_wordpress.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\session\192955cb9bb410125_Icono_App_Eventos+.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\speaker\182855cb689e1c958_132355bea091611a2_1434576812_man.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\speaker\182855cb68aae1c4e_132355bea091611a2_1434576812_man.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\speaker\182855cb68e370d18_132355bea091611a2_1434576812_man.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\speaker\182855cb69507e6eb_132355bea091611a2_1434576812_man.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\files\user\55cb5f3694850_55a1eba091399_1434575257_profle.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\help.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\Tutorial\clientes.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\Tutorial\encuestas.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\Tutorial\eventos.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\Tutorial\expositores.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\Tutorial\perfil.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\Tutorial\salas.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\Tutorial\sesiones.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\Tutorial\speakers.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\Tutorial\usuarios.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\background.jpg" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\bySynergy.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\bySynergy200.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\calendar.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\expand.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\favicon.ico" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\filter.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\info.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\logo.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\logo200.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\mandatory.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\search.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\settings.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\star_empty.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\star_filled.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\images\stars.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\index.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\colorPicker\arrow.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\colorPicker\cross.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\colorPicker\demo.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\colorPicker\hs.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\colorPicker\hv.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\colorPicker\jscolor.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\common.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\css\jquery.dataTables.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\css\jquery.dataTables.min.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\css\jquery.dataTables_themeroller.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\images\Sorting icons.psd" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\images\favicon.ico" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\images\sort_asc.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\images\sort_asc_disabled.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\images\sort_both.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\images\sort_desc.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\images\sort_desc_disabled.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\js\jquery.dataTables.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\js\jquery.dataTables.min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\datatable\js\jquery.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\external\jquery\jquery.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_diagonals-thick_18_b81900_40x40.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_diagonals-thick_20_666666_40x40.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_flat_0_aaaaaa_40x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_flat_100_ffffff_40x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_flat_10_000000_40x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_flat_70_eeeeee_40x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_flat_75_005999_40x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_flat_75_aaaaaa_40x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_flat_75_ffffff_40x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_glass_100_f5f0e5_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_glass_100_f6f6f6_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_glass_100_fdf5ce_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_glass_25_FBE336_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_glass_55_ffffff_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_glass_65_ffffff_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_glass_75_2c9233_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_glass_95_fef1ec_1x400.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_gloss-wave_35_f6a828_500x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_highlight-hard_65_fee4bd_1x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_highlight-hard_75_f5f5b5_1x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_highlight-soft_75_ecebeb_1x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-bg_inset-soft_100_ffffff_1x100.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_222222_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_228ef1_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_28862E_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_333333_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_454545_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_888888_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_c47a23_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_cb672b_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_cd0a0a_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_ef8c08_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_f08000_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_f35f07_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_ff7519_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_ffd27a_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\images\ui-icons_ffffff_256x240.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\jquery-ui.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\jquery-ui.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\jquery-ui.min.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\jquery-ui.min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\jquery-ui.structure.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\jquery-ui.structure.min.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\jquery-ui.theme.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\jquery-ui.theme.min.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\jquery.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\jquery.validate.min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\jssor.slider.min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\timepicker\css\bootstrap-theme.min.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\timepicker\css\bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\timepicker\css\style.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\timepicker\css\timepicki.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\timepicker\images\arrow.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\timepicker\images\top_arr.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\timepicker\js\bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\timepicker\js\jquery.min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\timepicker\js\timepicki.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\timepicker\timepicki.jquery.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\langs\readme.md" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\license.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\content.inline.min.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\content.min.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\fonts\tinymce-small.eot" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\fonts\tinymce-small.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\fonts\tinymce-small.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\fonts\tinymce-small.woff" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\fonts\tinymce.eot" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\fonts\tinymce.svg" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\fonts\tinymce.ttf" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\fonts\tinymce.woff" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\img\anchor.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\img\loader.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\img\object.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\img\trans.gif" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\skin.ie7.min.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\skins\lightgray\skin.min.css" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\themes\modern\theme.min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\js\tinymce\tinymce.min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\login.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\manage_client.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\manage_event.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\manage_exhibitor.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\manage_password.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\manage_profile.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\manage_question.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\manage_room.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\manage_session.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\manage_speaker.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\manage_user.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\review_report.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\reviews.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\rooms.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\sessions.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\speakers.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\survey-report.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\surveys.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\synergy\users.php" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="synergy.iws" />
@@ -30,59 +480,7 @@
     <favorites_list name="synergy" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="functions.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/common/functions.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-119.65385">
-              <caret line="183" column="45" selection-start-line="183" selection-start-column="45" selection-end-line="183" selection-end-column="45" />
-              <folding>
-                <marker date="1439850284447" expanded="true" signature="1279:1315" placeholder="..." />
-                <marker date="1439850284447" expanded="true" signature="1698:1971" placeholder="..." />
-                <marker date="1439850284447" expanded="true" signature="1785:1948" placeholder="..." />
-                <marker date="1439850284447" expanded="true" signature="5027:5037" placeholder="..." />
-                <marker date="1439850284447" expanded="true" signature="5565:5590" placeholder="..." />
-                <marker date="1439850284447" expanded="true" signature="6773:6798" placeholder="..." />
-                <marker date="1439850284447" expanded="true" signature="7641:7770" placeholder="..." />
-                <marker date="1439850284447" expanded="true" signature="12407:12702" placeholder="..." />
-                <marker date="1439850284447" expanded="false" signature="12436:12448" placeholder="..." />
-                <marker date="1439850284447" expanded="false" signature="12575:12599" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="review_report.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/review_report.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42123893">
-              <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
-              <folding>
-                <marker date="1439850492065" expanded="true" signature="3019:4729" placeholder="..." />
-                <marker date="1439850492065" expanded="true" signature="5007:5249" placeholder="..." />
-                <marker date="1439850492065" expanded="true" signature="5490:5502" placeholder="..." />
-                <marker date="1439850492065" expanded="true" signature="5725:5941" placeholder="..." />
-                <marker date="1439850492065" expanded="false" signature="5975:5985" placeholder="..." />
-                <marker date="1439850492065" expanded="true" signature="6096:6304" placeholder="..." />
-                <marker date="1439850492065" expanded="true" signature="8775:8786" placeholder="..." />
-                <marker date="1439850492065" expanded="true" signature="8838:9025" placeholder="..." />
-                <marker date="1439850492065" expanded="true" signature="8903:8991" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="surveyprint.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/surveyprint.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="37" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -130,10 +528,10 @@
         <option value="$PROJECT_DIR$/css/slider.css" />
         <option value="$PROJECT_DIR$/common/labels.php" />
         <option value="$PROJECT_DIR$/backend/class-backend.php" />
-        <option value="$PROJECT_DIR$/survey-report.php" />
         <option value="$PROJECT_DIR$/common/functions.php" />
-        <option value="$PROJECT_DIR$/review_report.php" />
         <option value="$PROJECT_DIR$/css/surveyprint.css" />
+        <option value="$PROJECT_DIR$/review_report.php" />
+        <option value="$PROJECT_DIR$/survey-report.php" />
       </list>
     </option>
   </component>
@@ -193,39 +591,15 @@
               <option name="myItemId" value="synergy" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="synergy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="synergy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="synergy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="synergy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
+              <option name="myItemId" value="eventosPlusAdmin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -285,9 +659,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1368" height="728" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20044379" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20044379" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -613,7 +987,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
           <caret line="17" column="47" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -621,7 +994,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="85" column="67" selection-start-line="85" selection-start-column="67" selection-end-line="85" selection-end-column="67" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -657,7 +1029,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.16582064">
           <caret line="33" column="36" selection-start-line="33" selection-start-column="36" selection-end-line="33" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -673,50 +1044,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-17.038462">
           <caret line="555" column="50" selection-start-line="555" selection-start-column="50" selection-end-line="555" selection-end-column="50" />
-          <folding>
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT t1.*,..user..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..permission..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..user..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT t1.*,..user..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..permission..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT `COLU..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT sq.*,..survey_question..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT name ..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT t1.*,..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="select s.*, ..name..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="select e.nam..event..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT S.tit..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT c.log..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT R.ran..review..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT R.ran..review..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT t1.se..review..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="select ${$fi..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="select count..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="DELETE from ..." />
-            <marker date="1439840008080" expanded="true" signature="-1:-1" placeholder="SELECT * fro..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -725,37 +1053,6 @@
         <state vertical-scroll-proportion="-4.423077">
           <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/survey-report.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.709091">
-          <caret line="67" column="74" selection-start-line="67" selection-start-column="74" selection-end-line="67" selection-end-column="74" />
-          <folding>
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439840088359" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -769,38 +1066,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/common/functions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-119.65385">
+        <state vertical-scroll-proportion="0.0">
           <caret line="183" column="45" selection-start-line="183" selection-start-column="45" selection-end-line="183" selection-end-column="45" />
-          <folding>
-            <marker date="1439850284447" expanded="true" signature="1279:1315" placeholder="..." />
-            <marker date="1439850284447" expanded="true" signature="1698:1971" placeholder="..." />
-            <marker date="1439850284447" expanded="true" signature="1785:1948" placeholder="..." />
-            <marker date="1439850284447" expanded="true" signature="5027:5037" placeholder="..." />
-            <marker date="1439850284447" expanded="true" signature="5565:5590" placeholder="..." />
-            <marker date="1439850284447" expanded="true" signature="6773:6798" placeholder="..." />
-            <marker date="1439850284447" expanded="true" signature="7641:7770" placeholder="..." />
-            <marker date="1439850284447" expanded="true" signature="12407:12702" placeholder="..." />
-            <marker date="1439850284447" expanded="false" signature="12436:12448" placeholder="..." />
-            <marker date="1439850284447" expanded="false" signature="12575:12599" placeholder="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/review_report.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42123893">
-          <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
-          <folding>
-            <marker date="1439850492065" expanded="true" signature="3019:4729" placeholder="..." />
-            <marker date="1439850492065" expanded="true" signature="5007:5249" placeholder="..." />
-            <marker date="1439850492065" expanded="true" signature="5490:5502" placeholder="..." />
-            <marker date="1439850492065" expanded="true" signature="5725:5941" placeholder="..." />
-            <marker date="1439850492065" expanded="false" signature="5975:5985" placeholder="..." />
-            <marker date="1439850492065" expanded="true" signature="6096:6304" placeholder="..." />
-            <marker date="1439850492065" expanded="true" signature="8775:8786" placeholder="..." />
-            <marker date="1439850492065" expanded="true" signature="8838:9025" placeholder="..." />
-            <marker date="1439850492065" expanded="true" signature="8903:8991" placeholder="..." />
-          </folding>
+        <state vertical-scroll-proportion="0.8123894">
+          <caret line="107" column="94" selection-start-line="107" selection-start-column="94" selection-end-line="107" selection-end-column="94" />
+          <folding />
         </state>
       </provider>
     </entry>
