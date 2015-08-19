@@ -28,7 +28,6 @@ class db {
         $this->schema       = $this->dbname;
         $this->dbFullHost   = $this->dbhost;*/
 
-
         $this->conn         = mysql_connect($this->dbFullHost, $this->dbuser, $this->dbpass,true) or die("Error en la conexion de base de datos");
         $this->dbconn       = mysql_select_db($this->dbname, $this->conn) or die('El usuario no tiene permisos suficientes');
     }
