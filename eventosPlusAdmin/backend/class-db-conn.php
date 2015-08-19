@@ -12,7 +12,7 @@ class db {
     var $schema;
     
     function __construct($setnames=true) {
-        $this->dbhost       = '172.16.16.122';     //Cambiar este dato si la bd esta en otro servidor, por el IP correcto
+        $ $this->dbhost       = '172.16.16.122';     //Cambiar este dato si la bd esta en otro servidor, por el IP correcto
         $this->port         = "3306";
         $this->dbname       = 'eventosplusdb';         //Poner los datos correctos
         $this->dbuser       = 'root';                  //Poner los datos correctos
@@ -20,7 +20,7 @@ class db {
         $this->schema       = $this->dbname;
         $this->dbFullHost   = $this->dbhost.":".$this->port;
 
-       /* $this->dbhost       = 'localhost';     //Cambiar este dato si la bd esta en otro servidor, por el IP correcto
+        /* $this->dbhost       = 'localhost';     //Cambiar este dato si la bd esta en otro servidor, por el IP correcto
         //$this->port         = "3306";
         $this->dbname       = 'eventosplusdb';         //Poner los datos correctos
         $this->dbuser       = 'root';                  //Poner los datos correctos
@@ -67,6 +67,7 @@ class db {
         $valueList = substr($valueList, 1);
         $query = "Insert Into $tableName ($fieldList) values ($valueList)";
 
+        mysql_query("SET NAMES UTF8");
         if (mysql_query($query, $this->conn)) {
             return mysql_insert_id($this->conn);
         } else {
@@ -91,10 +92,12 @@ class db {
 
         $qr = substr($qr, 0, -1);
         $query = "Update $table set $qr where $where";
+        mysql_query("SET NAMES UTF8");
         return mysql_query($query, $this->conn);
     }
 
     function cQuery($query) {
+        mysql_query("SET NAMES UTF8");
         $q = mysql_query($query, $this->conn);
         return $q;
     }
