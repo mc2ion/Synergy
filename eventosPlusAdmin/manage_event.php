@@ -158,7 +158,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
 
     if (!$error){
        //Agregar el codigo del pais
-       $en["phone"] = "(".$_POST["phone_code"] . ")". $en["phone"];
+       $en["phone"] = "(".$_POST["phone_code"] . ") ". $en["phone"];
 
         //Agregar http en caso necesario
         $en["website"] = addhttp($en["website"]);
@@ -251,7 +251,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
             header("Location: ./events.php");
             exit();
         }
-        $limiter = explode(")", $event["phone"]);
+        $limiter = explode(") ", $event["phone"]);
         if (count($limiter) > 1){
             $event["phone_code"]    = substr($limiter[0],1);
             $event["phone"]         = $limiter[1];

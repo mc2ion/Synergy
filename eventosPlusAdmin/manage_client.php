@@ -149,7 +149,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
             header("Location: ./clients.php");
             exit();
         }
-        $limiter = explode(")", $client["contact_phone"]);
+        $limiter = explode(") ", $client["contact_phone"]);
         if (count($limiter) > 1){
             $client["contact_phone_code"]    = substr($limiter[0],1);
             $client["contact_phone"]         = $limiter[1];
