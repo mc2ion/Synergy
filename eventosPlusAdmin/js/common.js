@@ -194,7 +194,20 @@ function loadEventList(client){
 
 //Tablas
 $(document).ready( function () {
-    $('.fireUI-table').DataTable(
+    $.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings ) {
+        return {
+            "iStart":         oSettings._iDisplayStart,
+            "iEnd":           oSettings.fnDisplayEnd(),
+            "iLength":        oSettings._iDisplayLength,
+            "iTotal":         oSettings.fnRecordsTotal(),
+            "iFilteredTotal": oSettings.fnRecordsDisplay(),
+            "iPage":          Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
+            "iTotalPages":    Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
+        };
+    }
+
+
+    $('.fireUI-table').dataTable(
         {
             "iDisplayLength": '7',
             "bLengthChange": false,
@@ -206,10 +219,13 @@ $(document).ready( function () {
                 }
             ],
             "fnDrawCallback":function(){
-                if($(".fireUI-table").find("tr:not(.ui-widget-header)").length <= 7){
-                    $('.dataTables_wrapper div.dataTables_paginate').hide();
-                } else {
-                    $('.dataTables_wrapper div.dataTables_paginate').show();
+                var currentPage= this.fnPagingInfo().iPage;
+                if (currentPage == 0){
+                    if($(".fireUI-table").find("tr:not(.ui-widget-header)").length <= 7){
+                        $('div.dataTables_paginate').hide();
+                    } else {
+                        $('div.dataTables_paginate').show();
+                    }
                 }
             },
             "language":
