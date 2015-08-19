@@ -83,7 +83,7 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
       $en["font_top_menu_color"]   = getFontColor(@$en["top_menu_color"]);
 
       //Agregar el codigo del pais
-      $en["contact_phone"] = "(".$_POST["contact_phone_code"] . ") ". $en["contact_phone"];
+      $en["contact_phone"] = "(".$_POST["contact_phone_code"] . ") ". trim($en["contact_phone"]);
 
       //Pais
       $en["country"]      = $country[$en["country"]];
@@ -152,7 +152,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
         $limiter = explode(") ", $client["contact_phone"]);
         if (count($limiter) > 1){
             $client["contact_phone_code"]    = substr($limiter[0],1);
-            $client["contact_phone"]         = $limiter[1];
+            $client["contact_phone"]         = trim($limiter[1]);
         }else{
             $client["contact_phone"]         = $limiter[0];
         }
