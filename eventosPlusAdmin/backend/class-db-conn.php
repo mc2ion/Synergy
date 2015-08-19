@@ -12,7 +12,7 @@ class db {
     var $schema;
     
     function __construct($setnames=true) {
-        $ $this->dbhost       = '172.16.16.122';     //Cambiar este dato si la bd esta en otro servidor, por el IP correcto
+        $this->dbhost       = '172.16.16.122';     //Cambiar este dato si la bd esta en otro servidor, por el IP correcto
         $this->port         = "3306";
         $this->dbname       = 'eventosplusdb';         //Poner los datos correctos
         $this->dbuser       = 'root';                  //Poner los datos correctos
@@ -39,6 +39,7 @@ class db {
     function dbQuery($query) {
         $dbTemp = array() ;
         $i      = 0;
+        mysql_query("SET NAMES UTF8");
         $q = mysql_query($query, $this->conn);
         if (!$q) {
             $this->displayError();
