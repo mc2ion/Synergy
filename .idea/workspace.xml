@@ -3,17 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2f899c89-1ed1-43d3-bf6f-df8f1baecfb4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eventosPlusAdmin/backend/class-db-conn.php" afterPath="$PROJECT_DIR$/eventosPlusAdmin/backend/class-db-conn.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eventosPlusAdmin/clients.php" afterPath="$PROJECT_DIR$/eventosPlusAdmin/clients.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eventosPlusAdmin/js/common.js" afterPath="$PROJECT_DIR$/eventosPlusAdmin/js/common.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eventosPlusAdmin/events.php" afterPath="$PROJECT_DIR$/eventosPlusAdmin/events.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eventosPlusAdmin/exhibitors.php" afterPath="$PROJECT_DIR$/eventosPlusAdmin/exhibitors.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eventosPlusAdmin/backend/dompdf/lib/fonts/log.htm" afterPath="$PROJECT_DIR$/eventosPlusAdmin/backend/dompdf/lib/fonts/log.htm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eventosPlusAdmin/rooms.php" afterPath="$PROJECT_DIR$/eventosPlusAdmin/rooms.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eventosPlusAdmin/speakers.php" afterPath="$PROJECT_DIR$/eventosPlusAdmin/speakers.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eventosPlusAdmin/survey-report.php" afterPath="$PROJECT_DIR$/eventosPlusAdmin/survey-report.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eventosPlusAdmin/surveys.php" afterPath="$PROJECT_DIR$/eventosPlusAdmin/surveys.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="synergy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,109 +26,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="common.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/js/common.js">
+      <file leaf-file-name="class-db-conn.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/backend/class-db-conn.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="282" column="3" selection-start-line="282" selection-start-column="3" selection-end-line="282" selection-end-column="3" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="send_email.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/backend/send_email.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.48141593">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding>
-                <marker date="1439930448606" expanded="true" signature="686:698" placeholder="..." />
-                <marker date="1439930448606" expanded="true" signature="728:798" placeholder="..." />
-                <marker date="1439930448606" expanded="true" signature="772:793" placeholder="..." />
-                <marker date="1439930448606" expanded="true" signature="956:973" placeholder="..." />
-                <marker date="1439930448606" expanded="true" signature="1052:1262" placeholder="..." />
-                <marker date="1439930448606" expanded="true" signature="1056:1257" placeholder="..." />
+                <marker date="1440002029810" expanded="true" signature="2418:2473" placeholder="Insert Into ..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="exhibitors.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/exhibitors.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.961538">
-              <caret line="26" column="72" selection-start-line="26" selection-start-column="72" selection-end-line="26" selection-end-column="72" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/index.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="manage_client.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/manage_client.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="143.84616">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="manage_question.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/manage_question.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="rooms.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/rooms.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.538462">
-              <caret line="32" column="59" selection-start-line="32" selection-start-column="59" selection-end-line="32" selection-end-column="59" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sessions.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/sessions.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.57876104">
-              <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="events.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/events.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.961538">
-              <caret line="26" column="67" selection-start-line="26" selection-start-column="67" selection-end-line="26" selection-end-column="67" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="clients.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/clients.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.6923075">
-              <caret line="27" column="64" selection-start-line="27" selection-start-column="64" selection-end-line="27" selection-end-column="64" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -199,8 +95,8 @@
         <option value="$PROJECT_DIR$/eventosPlusAdmin/clients.php" />
         <option value="$PROJECT_DIR$/eventosPlusAdmin/events.php" />
         <option value="$PROJECT_DIR$/eventosPlusAdmin/exhibitors.php" />
-        <option value="$PROJECT_DIR$/eventosPlusAdmin/backend/class-db-conn.php" />
         <option value="$PROJECT_DIR$/eventosPlusAdmin/js/common.js" />
+        <option value="$PROJECT_DIR$/eventosPlusAdmin/backend/class-db-conn.php" />
       </list>
     </option>
   </component>
@@ -273,6 +169,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="eventosPlusAdmin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="synergy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="synergy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eventosPlusAdmin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backend" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -509,7 +423,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="51" selection-start-line="17" selection-start-column="51" selection-end-line="17" selection-end-column="51" />
           <folding>
-            <marker date="1440000345698" expanded="true" signature="-1:-1" placeholder="Insert Into ..." />
+            <marker date="1440002029810" expanded="true" signature="2418:2473" placeholder="Insert Into ..." />
           </folding>
         </state>
       </provider>
@@ -617,7 +531,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1440000345698" expanded="true" signature="-1:-1" placeholder="Insert Into ..." />
+            <marker date="1440002029810" expanded="true" signature="2418:2473" placeholder="Insert Into ..." />
           </folding>
         </state>
       </provider>
@@ -736,16 +650,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/backend/class-db-conn.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.307692">
-          <caret line="28" column="44" selection-start-line="28" selection-start-column="44" selection-end-line="28" selection-end-column="44" />
-          <folding>
-            <marker date="1440000345698" expanded="true" signature="-1:-1" placeholder="Insert Into ..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/js/common.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -759,12 +663,12 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1439930448606" expanded="true" signature="686:698" placeholder="..." />
-            <marker date="1439930448606" expanded="true" signature="728:798" placeholder="..." />
-            <marker date="1439930448606" expanded="true" signature="772:793" placeholder="..." />
-            <marker date="1439930448606" expanded="true" signature="956:973" placeholder="..." />
-            <marker date="1439930448606" expanded="true" signature="1052:1262" placeholder="..." />
-            <marker date="1439930448606" expanded="true" signature="1056:1257" placeholder="..." />
+            <marker date="1439930448606" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439930448606" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439930448606" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439930448606" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439930448606" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439930448606" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -779,7 +683,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/events.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.961538">
+        <state vertical-scroll-proportion="0.45840707">
           <caret line="26" column="67" selection-start-line="26" selection-start-column="67" selection-end-line="26" selection-end-column="67" />
           <folding />
         </state>
@@ -787,7 +691,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/clients.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.6923075">
+        <state vertical-scroll-proportion="0.3079646">
           <caret line="27" column="64" selection-start-line="27" selection-start-column="64" selection-end-line="27" selection-end-column="64" />
           <folding />
         </state>
@@ -830,6 +734,16 @@
         <state vertical-scroll-proportion="0.57876104">
           <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eventosPlusAdmin/backend/class-db-conn.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48141593">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding>
+            <marker date="1440002029810" expanded="true" signature="2418:2473" placeholder="Insert Into ..." />
+          </folding>
         </state>
       </provider>
     </entry>
