@@ -4,6 +4,14 @@
     Archivo inicial del administrador web
 */
 include ("./common/common-include.php");
+
+$client = @$_SESSION["data"]["cliente"] ;
+$event  = @$_SESSION["data"]["evento"] ;
+
+//Verify is we can show another script
+if ($client != "" && $event != "" ) {header("Location: ./sessions.php"); exit();}
+else if ($client != "" && $event == "") {header("Location: ./events.php"); exit();}
+
 ?>
 
 <!DOCTYPE html>

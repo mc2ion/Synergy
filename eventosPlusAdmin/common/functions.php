@@ -72,6 +72,7 @@ function menu($selected=""){
     }
     //Menu exclusivo de administradores
     $out .= menuAdministrator($user, $selected, $label);
+
     $out .= "<form action='./index.php' method='post'>";
     $showEventList = 0;
     
