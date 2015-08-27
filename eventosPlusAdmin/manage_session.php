@@ -8,14 +8,20 @@ include ("./common/common-include.php");
 $sectionId = "4";
 $event     = $_SESSION["data"]["evento"];
 $client    = $_SESSION["data"]["cliente"];
-if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
+$read      = 0;
 
+$read       = verify_permissions($sectionId, "sessions.php");
 
 //Obtener las columnas a editar/crear
-$section    = "session"; 
-$columns    = $backend->getColumnsTable($section);
-$rooms      = $backend->getRoomList($_SESSION["data"]["evento"], array(), "1");
-$id         = $message  = $error    = "";
+$section        = "session"; 
+$columns        = $backend->getColumnsTable($section);
+$rooms          = $backend->getRoomList($_SESSION["data"]["evento"], array(), "1");
+$id             = $message  = $error    = "";
+$speakers       = array("1"=>"");
+$exhibitors     = array("1"=>"");
+$listSpeakers   = $backend->getSpeakerList($_SESSION["data"]["evento"]);
+$listExhibitors = $backend->getExhibitorList($_SESSION["data"]["evento"]);
+
 
 
 //Agregar nuevo evento
@@ -49,7 +55,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
         $error = 1;
         $missing["image_path"] = 1;
    }
-   //Guardar en bd el evento
+   //Guardar en bd la sesion
    foreach ($columns as $k=>$v) {
         if (isset($input[$section]["manage"]["mandatory"])){
             //Verifico  únicamente los campos visibles
@@ -72,7 +78,24 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
             }
        }
    }
-
+   
+   $errorInterno = 0;
+   //Speakers asociados
+    foreach($_POST["speaker"] as $k=>$v){
+        $in[$k]["speaker_id"] = $v;
+        $speakers[$k+1]["speaker_id"] = $v;
+        if ($v == ""){ $errorInterno = 1;}
+    }
+    
+    //Expositores asociados
+    foreach($_POST["exhibitor"] as $k=>$v){
+        $in[$k]["exhibitor_id"] = $v;
+        $exhibitors[$k+1]["exhibitor_id"] = $v;
+        if ($v == ""){ $errorInterno = 1;}
+    }
+      
+    if ($errorInterno) {$error = "1";  $message = "<div class='error'>Debe agregar al menos un speaker o expositor</div>"; }
+    
     //Debo darle formato al time.
     $timeEnd = $timeIni = "";
     if (!$error){
@@ -118,6 +141,22 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
 
         if (isset($_POST["add"])){
             $id = $backend->insertRow($section, $en);
+            foreach($in as $k=>$v){
+                unset($in);
+                $sp = @$v["speaker_id"];
+                $xh = @$v["exhibitor_id"];
+                if ($sp != ""){
+                    $in["session_id"]   = $id;
+                    $in["speaker_id"]   = $sp;
+                    $backend->insertRow("session_speaker", $in);
+                }
+                unset($in);
+                if ($xh != ""){
+                    $in["session_id"]       = $id;
+                    $in["exhibitor_id"]     = $xh;
+                    $backend->insertRow("session_speaker", $in);
+                }
+            }
            if ($id > 0) { 
                 unset($_SESSION["session"]["image_path"]);
                 $_SESSION["message"] = "<div class='succ'>".$label["Sesión creada exitosamente"]. "</div>";
@@ -127,8 +166,64 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                 $message = "<div class='error'>".$label["Hubo un problema con la creación"]. "</div>";
            }
        }else{
-           $id             = $backend->clean($_POST["id"]);
-           $id = $backend->updateRow($section, $en, " session_id = '$id' ");
+           $sid            = $backend->clean($_POST["id"]);
+           $id             = $backend->updateRow($section, $en, " session_id = '$sid' ");
+           
+           $speakers       = $backend->getSpeakers($sid);
+           $exhibitors     = $backend->getExhibitors($sid);
+           $activeSpk      = $_POST["activeSpk"];
+           foreach($activeSpk as $k=>$v){
+                 $spk_id[$v] = $v;
+           }
+           $activeExh      = $_POST["activeExh"];
+           foreach($activeExh as $k=>$v){
+                 $exh_id[$v] = $v;
+           }
+           
+           //2. Eliminadas
+           foreach($speakers as $k=>$v){
+                if (!in_array($v["session_speaker_id"], $spk_id)) {
+                    $backend->deleteRow("session_speaker", " session_speaker_id = '{$v["session_speaker_id"]}' ");
+                }
+           }
+           foreach($exhibitors as $k=>$v){
+                if (!in_array($v["session_speaker_id"], $exh_id)) {
+                    $backend->deleteRow("session_speaker", " session_speaker_id = '{$v["session_speaker_id"]}' ");
+                    echo "borrar " . $v["session_speaker_id"];
+                }
+           }
+           
+           //3. Modificadas  y creadas 
+           foreach($_POST["speaker"] as $k=>$v){
+                unset($inA);
+                $inA["session_id"]   = $sid;
+                $inA["speaker_id"]   = $v;
+                $active              = $_POST["activeSpk"][$k];
+                //Modificadas
+                if ($active != ""){
+                    $backend->updateRow("session_speaker", $inA, " session_speaker_id = '{$active}' ");
+                }
+                //Creadas
+                else{
+                   $backend->insertRow("session_speaker", $inA);
+                }
+           }
+           
+           //3. Modificadas  y creadas 
+           foreach($_POST["exhibitor"] as $k=>$v){
+                unset($inA);
+                $inA["session_id"]      = $sid;
+                $inA["exhibitor_id"]    = $v;
+                $active                 = $_POST["activeExh"][$k];
+                //Modificadas
+                if ($active != ""){
+                    $backend->updateRow("session_speaker", $inA, " session_speaker_id = '{$active}' ");
+                }
+                //Creadas
+                else{
+                   $backend->insertRow("session_speaker", $inA);
+                }
+           }
            if ($id > 0) { 
                 unset($_SESSION["session"]["image_path"]);
                 $_SESSION["message"] = "<div class='succ'>".$label["Sesión editada exitosamente"] ."</div>";
@@ -147,14 +242,17 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
 
 //Borrar Evento
 if (isset($_POST["delete"])){
-   $id              = $backend->clean($_POST["id"]);
+   $idS             = $backend->clean($_POST["id"]);
    $en["active"]    = "0";
    //1. Borrar entrada
-   $id = $backend->updateRow($section, $en, " session_id = '$id' ");
+   $id = $backend->updateRow($section, $en, " session_id = '$idS' ");
    
    //2. Borrar imagen asociada
    @unlink($_POST["img"]);
-  
+   
+   //3. Borrar speakers/expositores asociados
+   $backend->deleteRow("session_speaker", " session_id = '$idS' ");
+   
    if ($id > 0) { 
         $_SESSION["message"] = "<div class='succ'>".$label["Sesión borrada exitosamente"] ."</div>";
         header("Location: ./sessions.php");
@@ -169,8 +267,17 @@ if (isset($_POST["delete"])){
 //Si el parametro id esta definido, estamos editando la entrada
 if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $id             = $backend->clean($_GET["id"]);
-    $title          = $label["Editar Sesión"];
+    if ($read)      $title          = $label["Ver Sesión"];
+    else            $title          = $label["Editar Sesión"];
     $action         = "edit";
+    
+
+    //Obtener informacion de los speakers asociados
+    $speakers    = $backend->getSpeakers($id);
+    if (empty($speakers)) $speakers = array("1"=>"");
+    $exhibitors  = $backend->getExhibitors($id);
+    if (empty($exhibitors)) $exhibitors = array("1"=>"");
+    
     if (!$error)    {
         $session        = $backend->getSession($_GET["id"]);
         if (!$session){
@@ -224,8 +331,9 @@ $endDate   = $eventInfo["date_end"];
             <?php } ?>
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
-                    $mandatory = $classMand = "" ;
+                    $mandatory = $classMand =  $readOnly = "" ;
                     if (!in_array($v["COLUMN_NAME"],$input["session"]["manage"]["no-show"])){
+                        if ($read) $readOnly = "disabled";
                         $type  = (isset($input["session"]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input["session"]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
                         $value = (isset($session[$v["COLUMN_NAME"]])) ? $session[$v["COLUMN_NAME"]] : "";
                         if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
@@ -239,29 +347,31 @@ $endDate   = $eventInfo["date_end"];
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" <?= $classMand ?>/>
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" <?= $classMand ?> <?= $readOnly ?>/>
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ( $type == "file") { ?>
                         <?php if ($value != "") {?>
                             <img class='manage-image' src='./<?=$value?>'/>
                         <?php } ?>
-                        <img src="./images/info.png" class="information" alt="Información" />
-                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" />
-                        <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
+                        <?php if (!$read) { ?>
+                            <img src="./images/info.png" class="information" alt="Información" />
+                            <input type="file" name="<?= $v["COLUMN_NAME"]?>" />
+                            <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
+                        <?php } ?>
                  <?php // Tipo textarea. Se muestra un textarea ?>
                  <?php } else if ($type == "textarea") { ?>
-                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?>><?=$value?></textarea>
+                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?> <?= $readOnly?>><?=$value?></textarea>
                  <?php // Tipo date. Se muestra un text pero especial para tener el date picker ?>
                  <?php } else if ($type == "time") { ?>
-                       <input type="text" class="timepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                       <input type="text" class="timepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off"  <?= $readOnly?>/>
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  
                  <?php } else if ($type == "date") { ?>
-                        <input type="text" class="datepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                        <input type="text" class="datepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" <?= $readOnly?> />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  <?php } else if ($type == "select") { ?>
                             <?php if ($v["COLUMN_NAME"] == "room_id"){?>
-                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?>>
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?> <?= $readOnly?>>
                                 <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($rooms as $sk=>$sv){
                                      $sel = ""; if ($sv["room_id"] == $value) $sel = "selected";
@@ -270,7 +380,7 @@ $endDate   = $eventInfo["date_end"];
                                 <?php }?>
                                 </select>
                             <?php }else{ ?>
-                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?>>
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?> <?= $readOnly?>>
                                     <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($input["session"]["manage"][$v["COLUMN_NAME"]]["options"] as $sk=>$sv){?>
                                     <option value="<?=$sk?>"><?= $sv?></option>
@@ -289,10 +399,87 @@ $endDate   = $eventInfo["date_end"];
                     }
                 }
             ?>
+            <?php $readOnly = ""; if ($read) $readOnly = "disabled"; ?>
+            <tr class="organizers-name">
+                <td colspan="2" class="options-title"><?= $label["Presentadores"]?></td>
+            </tr>
+            <tr>
+                <td class="speakers-td" colspan="2">
+                    <?php if (!$read) {?>
+                        <div class="add-spk"><a href="javascript:void(0)"><?= $label["Agregar nueva"]?></a></div>
+                    <?php } ?>
+                    <?php foreach ((array)$speakers as $mk=>$mv){
+                    ?>
+                        <div class="speaker">
+                            <div class="opt-desc">
+                                <div class="label"><?= $label["Nombre"]?> <?=$mandatory?>:</div>
+                                <div class="value">
+                                    <select name="speaker[]" <?= $readOnly?> > 
+                                        <option value=""><?= $label["Seleccionar"]?></option>
+                                        <?php foreach ($listSpeakers as $x=>$y){ 
+                                            $selected = ""; if ($y["speaker_id"] == @$mv["speaker_id"]) $selected = "selected";
+                                            ?>
+                                            <option value="<?= $y["speaker_id"]?>" <?=$selected?>><?= $y["name"]?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php if (!$read) {?>
+                            <div class="delete-spk i<?= ($mk) - 1 ?>"><a href="javascript:void(0)"><?= $label["Eliminar"]?></a></div>
+                            <?php } ?>
+                            <div class="hidden"><input type="hidden" name="activeSpk[]" value="<?= @$mv["session_speaker_id"]?>"/></div>
+                        </div>
+                    <?php } ?>
+                    <div class="missing-error">
+                    <?php if (isset($missing["options"])) { ?>
+                                <?= $label["Este campo es obligatorio"]?>
+                    <?php } ?>
+                    </div>
+               </td>
+            </tr>
+            <tr class="organizers-name">
+                <td colspan="2" class="options-title"><?= $label["Expositores"]?></td>
+            </tr>
+            <tr>
+                <td class="exhibitors-td" colspan="2">
+                    <?php if (!$read) {?>
+                        <div class="add-exh"><a href="javascript:void(0)"><?= $label["Agregar nueva"]?></a></div>
+                    <?php } ?>
+                    <?php foreach ((array)$exhibitors as $mk=>$mv){
+                    ?>
+                        <div class="exhibitor">
+                            <div class="opt-desc">
+                                <div class="label"><?= $label["Empresa"]?> <?=$mandatory?>:</div>
+                                <div class="value">
+                                    <select name="exhibitor[]" <?= $readOnly?> > 
+                                        <option value=""><?= $label["Seleccionar"]?></option>
+                                        <?php foreach ($listExhibitors as $x=>$y){ 
+                                           $selected = ""; if ($y["exhibitor_id"] == $mv["exhibitor_id"]) $selected = "selected";
+                                        ?>
+                                            <option value="<?= $y["exhibitor_id"]?>" <?= $selected?>><?= $y["company_name"]?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php if (!$read) {?>
+                            <div class="delete-exh i<?= $mk - 1 ?>"><a href="javascript:void(0)"><?= $label["Eliminar"]?></a></div>
+                            <?php } ?>
+                            <div class="hidden"><input type="hidden" name="activeExh[]" value="<?= @$mv["session_speaker_id"]?>"/></div>
+                        </div>
+                    <?php } ?>
+                    <div class="missing-error">
+                    <?php if (isset($missing["options"])) { ?>
+                                <?= $label["Este campo es obligatorio"]?>
+                    <?php } ?>
+                    </div>
+               </td>
+            </tr>
             <tr>
                 <td></td>
                 <td class="action">
-                    <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
+                    <?php if (!$read){ ?>
+                        <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
+                    <?php } ?>
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente"|| $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
                         <input type="button" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>

@@ -7,8 +7,9 @@ include ("./common/common-include.php");
 
 //Verificar que el usuario tiene  permisos
 $sectionId = 3;
-if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
+$read      = 0;
 
+$read       = verify_permissions($sectionId, "events.php");
 
 //Obtener las columnas a editar/crear
 $section    = "event";
@@ -18,7 +19,6 @@ $id         =  $message      =  $error   =  $alert  = "";
 $socials    = array("0"=>array("type"=>"", "url"=>"", "title"=>""));
 $organizers = array("0"=>array("name"=>"", "description"=>"", "url"=>""));
 $client     = $_SESSION["data"]["cliente"];
-
 
 //Agregar nuevo evento
 if (isset($_POST["add"]) ||  isset($_POST["edit"])){
@@ -242,7 +242,8 @@ if (isset($_POST["delete"])){
 //Si el parametro id esta definido, estamos editando la entrada
 if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $id             = $backend->clean($_GET["id"]);
-    $title          = $label["Editar Evento"];
+    if ($read)      $title          = $label["Ver Evento"];
+    else            $title          = $label["Editar Evento"];
     $action         = "edit";
     if (!$error){
         $event          = $backend->getEvent($id);
@@ -323,8 +324,9 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
             <?php } ?>
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
-                    $mandatory = ""; $classMand = "";
+                    $mandatory = ""; $classMand = $readOnly = ""; 
                     if (!in_array($v["COLUMN_NAME"],$input["event"]["manage"]["no-show"])){
+                        if ($read) $readOnly = "disabled";
                         $type       = (isset($input["event"]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input["event"]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
                         $value      = (isset($event[$v["COLUMN_NAME"]])) ? $event[$v["COLUMN_NAME"]] : "";
                         if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
@@ -342,30 +344,32 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                     <?php if ($v["COLUMN_NAME"] == "phone"){
                             $valueCode = (isset($event[$v["COLUMN_NAME"]."_code"])) ? $event[$v["COLUMN_NAME"]."_code"] : "";
                     ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>_code" value="<?= $valueCode ?>" class="code" readOnly="true" />
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" class="phone" />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>_code" value="<?= $valueCode ?>" class="code" readOnly="true" <?= $readOnly?> />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" class="phone" <?= $readOnly?> />
                     <?php  }else{ ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?= $classMand?>  />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value ?>" <?= $classMand?> <?= $readOnly?> />
                     <?php } ?>
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ( $type == "file") { ?>
                         <?php if ($value != "") {?>
                             <img class='manage-image' src='./<?=$value?>'/>
                         <?php } ?>
-                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>/>
-                        <img src="./images/info.png" class="information" alt="Información" />
-                        <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
+                        <?php if (!$read){ ?>
+                            <input type="file" name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>/>
+                            <img src="./images/info.png" class="information" alt="Información" />
+                            <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
+                        <?php  } ?>
                  <?php // Tipo textarea. Se muestra un textarea ?>
                  <?php } else if ($type == "textarea") { ?>
-                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>><?=$value?></textarea>
+                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?> <?= $readOnly?>><?=$value?></textarea>
                  <?php // Tipo date. Se muestra un text pero especial para tener el date picker ?>
                  <?php } else if ($type == "date") { ?>
-                        <input type="text"  class="datepicker <?=substr($classMand,7, 9) ?> " name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                        <input type="text"  class="datepicker <?=substr($classMand,7, 9) ?> " name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" <?= $readOnly?> />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  <?php } else if ($type == "select") { 
-                        $options = $input["event"]["manage"][$v["COLUMN_NAME"]]["options"];
+                        $options = $input[$section]["manage"][$v["COLUMN_NAME"]]["options"];
                     ?>
-                            <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>>
+                            <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?> <?= $readOnly?>>
                                 <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($options as $sk=>$sv){
                                     $selected=""; if($value == $sv) $selected = "selected";
@@ -377,14 +381,16 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                             $options = $input["event"]["manage"]["social_networks"]["options"];
                             
                     ?>
-                            <div class="add-e"><a href="javascript:void(0)"><?= $label["Agregar nueva"]?></a></div>
+                            <?php if (!$read) {?>
+                                <div class="add-e"><a href="javascript:void(0)"><?= $label["Agregar nueva"]?></a></div>
+                            <?php } ?>
                             <?php foreach ($socials as $mk=>$mv){
                                 $valueNetwork   = $mv["url"];
                                 $titleNetwork   = $mv["title"];
                                 ?>
                             <div class="networks">
                                 <div class="c2 left">
-                                    <select name="network[]">
+                                    <select name="network[]" <?= $readOnly?>>
                                         <option value=""><?= $label["Seleccionar"]?></option>
                                         <?php foreach((array)$options as $sk=>$sv){ 
                                             $selected=""; if($mv["type"] == $sk) $selected = "selected";
@@ -395,10 +401,10 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                                     </select>
                                 </div>
                                 <div class="c2 right">
-                                    <input name="title[]" type="text" placeholder="Nombre" value="<?= $titleNetwork?>"/>
+                                    <input name="title[]" type="text" placeholder="Nombre" value="<?= $titleNetwork?>" <?= $readOnly?>/>
                                 </div>
                                 <div>
-                                    <input style="margin-top:5px; clear: both" name="url[]" type="text" class='url_sn'  placeholder="URL completo de la red social" value="<?= $valueNetwork?>"/>
+                                    <input style="margin-top:5px; clear: both" name="url[]" type="text" class='url_sn'  placeholder="URL completo de la red social" value="<?= $valueNetwork?>" <?= $readOnly?>/>
                                 </div>
                                 <div class="delete i<?= $mk ?>"><a href="javascript:void(0)"><?= $label["Eliminar"]?></a></div>
                             </div>
@@ -408,7 +414,9 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                     </tr>
                     <tr class="organizers-name">
                             <td colspan="2" class="organizer-td">
-                            <div class="add-org"><a href="javascript:void(0)"><?=$label["Agregar nuevo"] ?></a></div>
+                            <?php if (!$read) { ?>
+                                <div class="add-org"><a href="javascript:void(0)"><?=$label["Agregar nuevo"] ?></a></div>
+                            <?php } ?>
                             <?php foreach((array)$organizers as $sk=>$sv){
                             $name = $sv["name"];
                             $desc = $sv["description"];
@@ -416,18 +424,20 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
                             ?>
                                 <div class="organizer">
                                     <div class="org-name">
-                                        <div class="label"><?= $label["Nombre"]?> (<img src='images/mandatory.png' class='mandatory'>):</div>
-                                        <div class="value"><input type="text" name="name_organizer[]" value="<?= $name?>"/></div>
+                                        <div class="label"><?= $label["Nombre"]?> (<img src='images/mandatory.png' class='mandatory'/>):</div>
+                                        <div class="value"><input type="text" name="name_organizer[]" value="<?= $name?>" <?= $readOnly?>/></div>
                                     </div>
                                     <div class="org-url">
-                                        <div class="label"><?= $label["URL"]?> (<img src='images/mandatory.png' class='mandatory'>):</div>
-                                        <div class="value"><input type="text" class='url_organizer' name="url_organizer[]" value="<?= $url?>"/></div>
+                                        <div class="label"><?= $label["URL"]?> (<img src='images/mandatory.png' class='mandatory'/>):</div>
+                                        <div class="value"><input type="text" class='url_organizer' name="url_organizer[]" value="<?= $url?>" <?= $readOnly?>/></div>
                                     </div>
                                     <div class="org-desc">
-                                        <div class="label"><?= $label["Descripción"]?> (<img src='images/mandatory.png' class='mandatory'>):</div>
-                                        <div class="value"><textarea name="desc_organizer[]"><?= $desc?></textarea></div>
+                                        <div class="label"><?= $label["Descripción"]?> (<img src='images/mandatory.png' class='mandatory'/>):</div>
+                                        <div class="value"><textarea name="desc_organizer[]" <?= $readOnly?>><?= $desc?></textarea></div>
                                     </div>
-                                    <div class="delete-org i<?= $sk ?>"><a href="javascript:void(0)"><?= $label["Eliminar"]?></a></div>
+                                    <?php if (!$read) { ?>
+                                        <div class="delete-org i<?= $sk ?>"><a href="javascript:void(0)"><?= $label["Eliminar"]?></a></div>
+                                    <?php } ?>
                                 </div>
                             <?php  } ?>
                  <?php } ?>
@@ -444,10 +454,12 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
             <tr>
                 <td></td>
                 <td class="action">
-                    <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
+                    <?php if (!$read) { ?>
+                        <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
+                    <?php } ?>
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){
-                    ?>
-                            <input type="button" class="important dltP" name="delete"  value="<?= $label["Borrar"]?>" />
+                        ?>
+                        <input type="button" class="important dltP" name="delete"  value="<?= $label["Borrar"]?>" />
                     <?php } ?>
                     <a href="./events.php"><?= $label["Volver"]?></a>
                 </td>

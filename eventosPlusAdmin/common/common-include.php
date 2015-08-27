@@ -29,7 +29,6 @@ include ('__dir__'."/../backend/class-backend.php"); $backend = new backend($lab
 # Incluir Archivo de funciones frontend
 include ("functions.php");
 
-
 # Incluir Archivo de funcion UI 
 include ("class-ui.php"); $ui = new ui(); $ui->setLabel($label);
 
@@ -58,5 +57,6 @@ if (isset($_SESSION["message"])){
     $globalMessage = $_SESSION["message"];
     unset($_SESSION["message"]);
 }
+
 
 ?>

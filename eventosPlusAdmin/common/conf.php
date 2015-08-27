@@ -55,6 +55,13 @@ $general["exhibitor"]["image_size"]                     = "50000"; //Bytes
 $general["exhibitor"]["image_width"]                    = "300";  //px
 $general["exhibitor"]["image_height"]                   = "300"; 
 
+$general["site"]["image_folder"]                        = "files/site/";
+$general["site"]["image_format"]                        = array("png", "jpg"); //Aqui van definidos todos los tipo de imagenes permitidos para la sección correspondiente
+$general["site"]["image_size"]                          = "50000"; //Aqui van definido el tamaño maximo permitido para la imagen en Bytes
+$general["site"]["image_width"]                         = "300";   //Aqui van definido el ancho maximo permitido para la imagen en px
+$general["site"]["image_height"]                        = "300";   //Aqui van definido la altura maxima permitido para la imagen en px
+
+
 /* Para todas las secciones se debe definir los campos obligatorios. Si todos los campos lo son se puede colocar
    $input[section]["manage"]["mandatory"]                = "*"; si sólo algunos campos lo son, hay que definirlos en un arreglo.
    
@@ -139,12 +146,12 @@ $input["session"]["manage"]["room_id"]["type"]          = "select";
 
 /* Speakers */
 $input["speaker"]["manage"]["mandatory"]                = array("name", "company_name", "description", "image_path", "time");
-$input["speaker"]["manage"]["no-show"]                  = array("speaker_id", "event_id","active");
+$input["speaker"]["manage"]["no-show"]                  = array("speaker_id", "event_id","active", "presentation_path");
 $input["speaker"]["manage"]["other"]["type"]            = "textarea";
+$input["speaker"]["manage"]["show_in_app"]["type"]      = "checkbox";
 $input["speaker"]["manage"]["description"]["type"]      = "textarea";
-$input["speaker"]["list"]["no-show"]                    = array("speaker_id","event_id", "session_title", "other", "active");
+$input["speaker"]["list"]["no-show"]                    = array("speaker_id","event_id", "other", "active", "show_in_app", "presentation_path");
 $input["speaker"]["manage"]["image_path"]["type"]       = "file";
-$input["speaker"]["manage"]["session_title"]["type"]    = "select";
 
 /* Expositores */
 $input["exhibitor"]["manage"]["mandatory"]              = array("name", "company_name", "description", "image_path", "time", "category_id");
@@ -154,6 +161,19 @@ $input["exhibitor"]["manage"]["category_id"]["type"]    = "select";
 $input["exhibitor"]["manage"]["description"]["type"]    = "textarea";
 $input["exhibitor"]["manage"]["other"]["type"]          = "textarea";
 $input["exhibitor"]["manage"]["image_path"]["type"]     = "file";
-$input["exhibitor"]["manage"]["session_title"]["type"]  = "select";
+
+
+/* Categorias */
+$input["category"]["list"]["no-show"]                  = array("client_id","active", "category_id");
+$input["category"]["manage"]["no-show"]                = array("client_id", "active","category_id");
+$input["category"]["manage"]["mandatory"]              = "*";
+$input["category"]["manage"]["type"]["type"]           = "select";
+$input["category"]["manage"]["type"]["options"]        = array("contenido"=>"contenido","grid"=>"grid");
+
+/* Sitios de interés */
+$input["site"]["list"]["no-show"]                       = array("site_id","event_id", "active");
+$input["site"]["manage"]["no-show"]                     = array("site_id", "event_id", "active");
+$input["site"]["manage"]["mandatory"]                   = "*";
+$input["site"]["manage"]["image_path"]["type"]          = "file";
 
 ?>

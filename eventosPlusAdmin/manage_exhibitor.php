@@ -6,8 +6,9 @@
 include ("./common/common-include.php");
 //Verificar que el usuario tiene  permisos
 $sectionId = "7";
-if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
+$read      = 0;
 
+$read       = verify_permissions($sectionId, "exhibitors.php");
 
 //Obtener las columnas a editar/crear
 $section    = "exhibitor"; 
@@ -17,8 +18,6 @@ $eventId    = $_SESSION["data"]["evento"];
 $clientId   = $_SESSION["data"]["cliente"];
 
 $id         = $message  = $error    = $categoryExh =  "";
-
-
 
 //Agregar nuevo speaker
 if (isset($_POST["add"]) ||  isset($_POST["edit"])){
@@ -80,8 +79,15 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
                         $en[$v["COLUMN_NAME"]] = $_POST[$v["COLUMN_NAME"]];
                     }
                 }else{
-                    if ($v["COLUMN_NAME"] != "image_path" && $v["COLUMN_NAME"] != "category_id" ){
+                    if ($v["COLUMN_NAME"] != "image_path" && $v["COLUMN_NAME"] != "category_id" && $v["COLUMN_NAME"] != "company_name" ){
                         $en[$v["COLUMN_NAME"]] = "";
+                    }else if ($v["COLUMN_NAME"] == "company_name"){
+                        if ($_POST[$v["COLUMN_NAME"]] == "") {
+                            $error =  1;
+                            $missing[$v["COLUMN_NAME"]] = 1;
+                        }else{
+                            $en[$v["COLUMN_NAME"]] = $backend->clean($_POST[$v["COLUMN_NAME"]]);
+                        }
                     }
                 }
             }
@@ -155,7 +161,8 @@ if (isset($_POST["delete"])){
 //Si el parametro id esta definido, estamos editando la entrada
 if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $id             = $backend->clean($_GET["id"]);
-    $title          = $label["Editar Expositor"];
+    if ($read)      $title          = $label["Ver Expositor"];
+    else            $title          = $label["Editar Expositor"];
     $action         = "edit";
     if (!$error)   { 
         $exhibitor        = $backend->getExhibitor($_GET["id"]);
@@ -171,7 +178,7 @@ if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $action = "add";    
 }
 
-$category   = $backend->getCategoryList();
+$category   = $backend->getCategoryList($clientId);
 $types       = array();
 foreach ($category as $k=>$v){
     $types[$v["category_id"]] = $v["type"];
@@ -203,7 +210,6 @@ $label["position"]  = "Posición en el mapa";
      <?= my_header()?>
       <style>
     <?php if ( $categoryExh && $categoryExh["type"] == "grid" || @$types[$en["category_id"]]  == "grid") {?>
-        .tr_company_name{display:none;}
         .tr_description{display:none;}
         .tr_position{display:none;}
         .tr_other{display:none;}
@@ -223,8 +229,9 @@ $label["position"]  = "Posición en el mapa";
             <?php } ?>
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
-                    $mandatory = ""; $classMand = "";
+                    $mandatory = $classMand = $readOnly = ""; 
                     if (!in_array($v["COLUMN_NAME"],$input[$section]["manage"]["no-show"])){
+                        if ($read) $readOnly = "disabled";
                         $type  = (isset($input[$section]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input[$section]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
                         $value = (isset($exhibitor[$v["COLUMN_NAME"]])) ? $exhibitor[$v["COLUMN_NAME"]] : "";
                         if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
@@ -238,29 +245,31 @@ $label["position"]  = "Posición en el mapa";
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" <?= $classMand?> />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" <?= $classMand?>  <?= $readOnly?>/>
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ( $type == "file") { ?>
                         <?php if ($value != "") {?>
                             <img class='manage-image' src='./<?=$value?>'/>
                         <?php } ?>
-                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" />
-                        <img src="./images/info.png" class="information" alt="Información" />
-                        <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
+                        <?php if (!$read) { ?>
+                            <input type="file" name="<?= $v["COLUMN_NAME"]?>" />
+                            <img src="./images/info.png" class="information" alt="Información" />
+                            <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
+                        <?php } ?>
                  <?php // Tipo textarea. Se muestra un textarea ?>
                  <?php } else if ($type == "textarea") { ?>
-                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>><?=$value?></textarea>
+                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?> <?= $readOnly?>><?=$value?></textarea>
                  <?php // Tipo date. Se muestra un text pero especial para tener el date picker ?>
                  <?php } else if ($type == "time") { ?>
-                       <input type="text" class="timepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                       <input type="text" class="timepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" <?= $readOnly?> />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  
                  <?php } else if ($type == "date") { ?>
-                        <input type="text" class="datepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                        <input type="text" class="datepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" <?= $readOnly?> />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  <?php } else if ($type == "select") { ?>
                             <?php if ($v["COLUMN_NAME"] == "category_id"){?>
-                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>>
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?> <?= $readOnly?>>
                                 <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($category as $sk=>$sv){
                                      $sel = ""; if ($sv["category_id"] == $value) $sel = "selected";
@@ -269,7 +278,7 @@ $label["position"]  = "Posición en el mapa";
                                 <?php }?>
                                 </select>
                             <?php }else{ ?>
-                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?>>
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand?> <?= $readOnly?>>
                                     <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($input[$section]["manage"][$v["COLUMN_NAME"]]["options"] as $sk=>$sv){?>
                                     <option value="<?=$sk?>"><?= $sv?></option>
@@ -291,7 +300,9 @@ $label["position"]  = "Posición en el mapa";
             <tr class="tr_actions"> 
                 <td></td>
                 <td class="action">
-                    <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
+                    <?php if (!$read) { ?>
+                        <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
+                    <?php } ?>
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
                         <input type="button" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>

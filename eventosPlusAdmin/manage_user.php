@@ -158,7 +158,7 @@ if (isset($_POST["add"]) || isset($_POST["edit"])){
                     foreach ($p["section"] as $k=>$v){
                         $v["user_id"] = $id;
                         //Si es cliente hay que editar permisos anteriormente (si los tiene)
-                        if ($permissions != ""){
+                        if (isset($permissions["section"][$v["section_id"]])){
                             $backend->updateRow("permission", $v, " section_id = '{$v["section_id"]}' AND user_id='$id'");
                         }
                         //Sino tiene permisos asociados, crearlos

@@ -6,13 +6,12 @@
 include ("./common/common-include.php");
 
 //Verificar que el usuario tiene  permisos
-$sectionId = "8";
-if ($_SESSION["app-user"]["user"][1]["type"] == "client" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
+$sectionId = "8"; $read = 0;
 
+$read       = verify_permissions($sectionId, "speakers.php");
 
 $eventId    = $_SESSION["data"]["evento"];
 $clientId   = $_SESSION["data"]["cliente"];
-
 
 //Obtener las columnas a editar/crear
 $section    = "speaker"; 
@@ -29,6 +28,7 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
    if (isset($_SESSION["speaker"]["image_path"] )) $en["image_path"] = $_SESSION["speaker"]["image_path"] ;
    else if ($speaker)  $en["image_path"]    = $speaker["image_path"] ;
    
+   if (!isset($_POST["show_in_app"])) $_POST["show_in_app"] = "0";
    
    // Verificar únicamente que la imagen no sea vacía, en el caso en el que no tenga ninguna imagen asociada
    if (isset($_FILES["image_path"]) && $_FILES["image_path"]["name"]  != "" ){
@@ -47,10 +47,12 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
             $_SESSION["speaker"]["image_path"] =  $path;
             $en["image_path"] =  $path ;
         }
-   }else if ((!isset($speaker["image_path"]) ||  $speaker["image_path"] == "")  && !isset($_SESSION["speaker"]["image_path"] )){
+   }else if ((!isset($speaker["image_path"]) ||  $speaker["image_path"] == "")  && !isset($_SESSION["speaker"]["image_path"] ) && $_POST["show_in_app"] == "1" ){
         $error = 1;
         $missing["image_path"] = 1;
    }
+   //Si el checkbox esta deseleccionado solo esperar el nombre
+   if ($_POST["show_in_app"] == "0") $input[$section]["manage"]["mandatory"] = array("name", "company_name");
    //Guardar en bd el speaker
    foreach ($columns as $k=>$v) {
         if (isset($input[$section]["manage"]["mandatory"])){
@@ -81,9 +83,15 @@ if (isset($_POST["add"]) ||  isset($_POST["edit"])){
             $error = 1;
             $message = "<div class='error'>".$label["Disculpe, el nombre del speaker proporcionado ya existe"]. "</div>";
         }
-    }
+     }
 
    if (!$error){
+        if ($_POST["show_in_app"] == "0"){
+            $en["image_path"]           = "";
+            $en["description"]          = "";
+            $en["other"]                = "";
+            $en["presentation_path"]    = "";
+        }
         if (isset($_POST["add"])){
             $id = $backend->insertRow($section, $en);
            if ($id > 0) { 
@@ -135,7 +143,8 @@ if (isset($_POST["delete"])){
 //Si el parametro id esta definido, estamos editando la entrada
 if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $id             = $backend->clean($_GET["id"]);
-    $title          = $label["Editar Presentador"];
+    if ($read)    $title          = $label["Ver Presentador"];
+    else          $title          = $label["Editar Presentador"];
     $action         = "edit";
     if (!$error)   { 
         $speaker        = $backend->getSpeaker($_GET["id"]);
@@ -166,6 +175,7 @@ $imageW = "Peso máximo permitido: <b>". $s ."KB</b>" ;
 
 $label["session_title"] = "Sesión";
 
+
 ?>
 
 <!DOCTYPE html>
@@ -185,12 +195,14 @@ $label["session_title"] = "Sesión";
             <?php } ?>
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
-                    $mandatory = $classMand = "";
+                    $mandatory = $classMand =  $readOnly = "";
                     if (!in_array($v["COLUMN_NAME"],$input[$section]["manage"]["no-show"])){
+                        if ($read) $readOnly = "disabled";
                         $type  = (isset($input[$section]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input[$section]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
                         $value = (isset($speaker[$v["COLUMN_NAME"]])) ? $speaker[$v["COLUMN_NAME"]] : "";
                         if ($input[$section]["manage"]["mandatory"] == "*") {$classMand = "class='mandatory'"; $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";}
                         else if (in_array($v["COLUMN_NAME"], $input[$section]["manage"]["mandatory"])) { $classMand = "class='mandatory'"; $mandatory = "(<img src='./images/mandatory.png' class='mandatory'>)";}        
+                        if ($v["COLUMN_NAME"] != "show_in_app"){
                 ?>
                 <?php // Se hace la verificacion del tipo del input para cada columna ?>
                     <tr class="tr_<?=$v["COLUMN_NAME"]?>">
@@ -200,29 +212,32 @@ $label["session_title"] = "Sesión";
                 <?php   
                         if ($type == ""){ 
                 ?>
-                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" <?= $classMand ?> />
+                        <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" <?= $classMand ?> <?= $readOnly?>/>
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ( $type == "file") { ?>
                         <?php if ($value != "") {?>
                             <img class='manage-image' src='./<?=$value?>'/>
                         <?php } ?>
-                        <input type="file" name="<?= $v["COLUMN_NAME"]?>"  />
-                        <img src="./images/info.png" class="information" alt="Información" />
-                        <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
+                        <?php if (!$read) { ?>
+                            <input type="file" name="<?= $v["COLUMN_NAME"]?>"  />
+                            <img src="./images/info.png" class="information" alt="Información" />
+                            <div class="image_format"><?= $imageType?>. <?= $imageSize?>. <?= $imageW?></div>
+                        <?php } ?>
                  <?php // Tipo textarea. Se muestra un textarea ?>
                  <?php } else if ($type == "textarea") { ?>
-                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?>><?=$value?></textarea>
+                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?> <?= $readOnly?>><?=$value?></textarea>
                  <?php // Tipo date. Se muestra un text pero especial para tener el date picker ?>
+                 <?php // Tipo checkbox. Se muestra un checbox ?>
                  <?php } else if ($type == "time") { ?>
-                       <input type="text" class="timepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                       <input type="text" class="timepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off"  <?= $readOnly?>/>
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  
                  <?php } else if ($type == "date") { ?>
-                        <input type="text" class="datepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" />
+                        <input type="text" class="datepicker <?=substr($classMand,7, 9) ?>" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" autocomplete="off" <?= $readOnly?> />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  <?php } else if ($type == "select") { ?>
                             <?php if ($v["COLUMN_NAME"] == "session_title"){?>
-                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?>>
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?> <?= $readOnly?>>
                                 <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($sessions as $sk=>$sv){
                                      $sel = ""; if ($sv["title"] == $value) $sel = "selected";
@@ -231,14 +246,22 @@ $label["session_title"] = "Sesión";
                                 <?php }?>
                                 </select>
                             <?php }else{ ?>
-                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?>>
+                                <select name="<?= $v["COLUMN_NAME"]?>" <?= $classMand ?> <?= $readOnly?>>
                                     <option value=""><?= $label["Seleccionar"]?></option>
                                 <?php foreach ($input[$section]["manage"][$v["COLUMN_NAME"]]["options"] as $sk=>$sv){?>
                                     <option value="<?=$sk?>"><?= $sv?></option>
                                 <?php }?>
                                 </select>
                             <?php } ?>
-                 <?php }?>
+                 <?php }
+                 }else { 
+                    $checked = "";
+                    if ($value == "1" || $value == "")  $checked = "checked";
+                    ?>
+                    <tr class="tr_checkbx">
+                        <td colspan="2" class="checkbx"><label><input type="checkbox" name="<?= $v["COLUMN_NAME"]?>" value="1" <?= $classMand ?> <?= $readOnly?> <?= $checked ?>/><?= $label["show_in_app"] ?></label></td>
+                    </tr>
+                 <?php } ?>
                         <div class="missing-error">
                         <?php if (isset($missing[$v["COLUMN_NAME"]])) { ?>
                             <?= $label["Este campo es obligatorio"]?>
@@ -250,10 +273,12 @@ $label["session_title"] = "Sesión";
                     }
                 }
             ?>
-            <tr>
+            <tr class="tr_actions">
                 <td></td>
                 <td class="action">
-                    <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
+                    <?php if (!$read) {?>
+                        <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
+                    <?php } ?>
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
                         <input type="button" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>
@@ -266,6 +291,13 @@ $label["session_title"] = "Sesión";
         </form>
     </div>
     <?= include('common/dialog.php'); ?>
+    <?php if (isset($speaker) && $speaker["show_in_app"] == "0") { ?>
+    <style>
+        .tr_image_path   {display: none;}
+        .tr_description  {display: none;}
+        .tr_other        {display: none;}
+    </style>
+    <?php } ?>
     <?= my_footer() ?>
   </body>
 </html>

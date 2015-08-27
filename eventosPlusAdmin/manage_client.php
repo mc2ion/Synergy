@@ -8,6 +8,7 @@ include ("./common/country.php");
 
 //Verificar que el usuario tiene  permisos
 $sectionId = "1";
+
 if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente"){ header("Location: ./index.php"); exit();}
 
 //Evitar que un usuario tipo administrador ingrese a editar un cliente diferente

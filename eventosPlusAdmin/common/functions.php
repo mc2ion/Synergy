@@ -170,8 +170,11 @@ function menuCLiente($user, $selected="", $label, $clientList){
                             if (isset($submenu[$v["section_id"]])){ 
                                  if ($event != ""){
                                       $out .= "<li class='{$v["name"]} sub'>
-                                            <a href='{$v["file"]}' $sel>".ucfirst($t). "<span class=\"darrow-menu\">▼</span></a>";
-                                     $out .= "<ul class='submenu'>";
+                                            <a href='{$v["file"]}' $sel>".ucfirst($t);
+                                            
+                                     //. 
+                                     $outAux = "<ul class='submenu'>";
+                                     $subSection = 0;
                                        foreach($submenu[$v["section_id"]] as $sk =>$sv){
                                             $continue = 1;
                                             if ($sv["name"] != "salas"){
@@ -184,12 +187,15 @@ function menuCLiente($user, $selected="", $label, $clientList){
                                                $continue = 0;
                                             }
                                             if ($continue){
+                                                $subSection = 1;
                                                 $ts  = isset($label[$sv["name"]]) ? $label[$sv["name"]]: $sv["name"];
                                                 $selAux  = ''; if ($selected == $sv["name"]) $selAux = "class='selected'";
-                                                $out .= "<li><a href='{$sv["file"]}' $selAux>".ucfirst($ts)."</a></li>";
+                                                $outAux .= "<li><a href='{$sv["file"]}' $selAux>".ucfirst($ts)."</a></li>";
                                             }
                                        }
-                                       $out .= '</ul>';
+                                       $outAux .= '</ul>';
+                                       if ($subSection) $out .= "<span class=\"darrow-menu\">▼</span>";
+                                       $out .= "</a>".$outAux;
                                      $out .= "</li>";
                                 }
                             }
@@ -300,6 +306,21 @@ function footer_report(){
              </tr>";
     $out .= "</table>";
     return $out;
+}
+
+function verify_permissions($sectionId, $file){
+    global $typeUser;
+    $read = 0;
+    //Permisos para crear
+    if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && @$_SESSION["app-user"]["permission"][$sectionId]["create"] == "0" && (!isset($_GET["id"]) || $_GET["id"] == "" )) { header("Location: ./$file"); exit();}
+
+    //Permisos para editar, borrar o leer.
+    if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && @$_SESSION["app-user"]["permission"][$sectionId]["update"] == "0" && @$_SESSION["app-user"]["permission"][$sectionId]["delete"] == "0" && @$_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"  && isset($_GET["id"]) ) { header("Location: ./$file"); exit();}
+
+    //Verificar si sólo puede leer
+    if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && @$_SESSION["app-user"]["permission"][$sectionId]["update"] == "0" && isset($_GET["id"]) && $_GET["id"] != "" ) $read = 1;
+    
+    return $read;
 }
 
 ?>

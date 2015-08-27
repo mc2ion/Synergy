@@ -41,7 +41,7 @@ ul {padding-left:0px;}
 .top-bar{width: 100%; background-color: <?= $top_menu ?>; padding: 5px 0px;  text-align: right; font-size: 12px;margin-right: 0px;position: fixed;box-shadow: 0px 0px 4px gray;z-index: 1;height: 30px;}
 .logout {color: <?= $font_top_menu?>;margin-right: 0px;display: inline-block;margin-left: 5px;font-weight: bold;margin-left: 15px;margin-right: 10px;}
 .content {margin-left: 250px;padding: 60px 30px;}
-.topu{text-align: left; padding: 20px 0px;border-bottom: 1px solid #333333;}
+.topu{text-align: left; padding: 15px 0px 0px;border-bottom: 1px solid #333333;}
 .mng select{  width: 96%; padding: 5px !important;  margin: 10px auto;  display: block;}
 .user-info{display: inline-block;  position: relative;  top: 1px;  text-align: left;margin-right: 20px;line-height: 30px;}
 .img {display: inline-block;}
@@ -72,7 +72,7 @@ input[type="file"]{width: 270px;}
 tr.organizers-name td { padding-top: 10px;}
 .content table.manage-content td {  padding-bottom: 8px;   position: relative;}
 .content table.manage-content{width: 580px;}
-.content table.manage-content td.tdf {width: 215px;font-weight: 500;vertical-align: top;}
+.content table.manage-content td.tdf {width: 215px;font-weight: bold;vertical-align: top;}
 .content table.manage-content input[type="text"], .content table.manage-content input[type="password"] {   width: 100%;   padding: 6px 2px;    border: 1px solid rgb(182, 182, 182);   box-sizing: border-box;}
 .content table.manage-content input[type="submit"], .mng input[type=submit] {  border: none;  padding: 8px 15px;  color: <?=$font_top_menu?>; cursor: pointer;   border: 1px solid #848484;  background: <?= $top_menu ?>; /* Old browsers */  background: -moz-linear-gradient(top, <?= $top_menu ?> 0%, <?= $button ?> 100%); /* FF3.6+ */  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,<?= $top_menu ?>), color-stop(100%,<?= $button ?>)); /* Chrome,Safari4+ */  background: -webkit-linear-gradient(top, <?= $top_menu ?> 0%,<?= $button ?> 100%); /* Chrome10+,Safari5.1+ */  background: -o-linear-gradient(top, <?= $top_menu ?> 0%,<?= $button ?> 100%); /* Opera 11.10+ */  background: -ms-linear-gradient(top, <?= $top_menu ?> 0%,<?= $button ?> 100%); /* IE10+ */  background: linear-gradient(to bottom, <?= $top_menu ?> 0%,<?= $button ?> 100%); /* W3C */  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='<?= $top_menu ?>', endColorstr='<?= $button ?>',GradientType=0 ); /* IE6-9 */;  margin-right: 5px;}
 .content table.manage-content input[type="submit"]:hover { text-decoration: underline;}
@@ -88,17 +88,17 @@ color: white !important;}
 img.ui-datepicker-trigger {  position: absolute;  right: 3px;  top: 3px;  width: 22px;}
 .datepicker, .timepicker{cursor:pointer;}
 .org-desc, .org-url {margin-top: 10px;}
-.organizer, .option {background-color: rgb(244, 244, 244); padding: 7px 0px;    border-radius: 2px;    -moz-border-radius: 2px;    -webkit-border-radius: 2px;}
+.organizer, .option, .speaker, .exhibitor {background-color: rgb(244, 244, 244); padding: 7px 0px;    border-radius: 2px;    -moz-border-radius: 2px;    -webkit-border-radius: 2px;}
 .c2 {width: 49%; float: left;}
 .c2.left{margin-right: 1%;}
 .c2.right{margin-left: 1%;}
-.add-e, .add-org, .add-opt{position: absolute;  right: -95px;  top: 7px;}
-.add-e a, .add-org a, .add-opt a{color: rgb(68, 68, 68) !important;}
-.delete, .delete-org, .delete-opt{position: absolute;  right: -55px; top: 7px;}
-.delete a, .delete-org a, .delete-opt a{ color:rgb(185, 0, 28) !important;}
+.add-e, .add-org, .add-opt, .add-spk, .add-exh{position: absolute;  right: -95px;  top: 7px;}
+.add-e a, .add-org a, .add-opt a, .add-spk a, .add-exh a{color: rgb(68, 68, 68) !important;}
+.delete, .delete-org, .delete-opt, .delete-spk, .delete-exh{position: absolute;  right: -55px; top: 7px;}
+.delete a, .delete-org a, .delete-opt a, .delete-spk a, .delete-exh a{ color:rgb(185, 0, 28) !important;}
 .add-org {    top: 20px;}
-.delete.i0, .delete-org.i0, .delete-opt.i0 {display: none;}
-.networks, .organizer, .option {margin-bottom: 15px;display: inline-block;width: 100%; position: relative;}
+.delete.i0, .delete-org.i0, .delete-opt.i0, .delete-spk.i0, .delete-exh.i0 {display: none;}
+.networks, .organizer, .option, .speaker, .exhibitor {margin-bottom: 15px;display: inline-block;width: 100%; position: relative;}
 .manage-image{max-width: 200px; padding-bottom: 10px;}
 .succ{font-size: 20px;    margin-bottom: 25px;background-color: rgb(217, 249, 207);  padding: 6px 5px;color: #545454;}
 .center{text-align: center;}
@@ -176,3 +176,7 @@ footer{background-color: #333333;padding: 10px 0px;color: white;}
 .tutorial{text-align:center;}
 .bySynergy{width:160px; position:relative; margin-top:7px;}
 .tutorial{position:relative; margin-top:40px;}
+.edit-entry img,  .read-entry img {width: 20px;}
+.td-action {text-align:center;}
+.checkbx {padding-bottom:25px !important;}
+.checkbx label{width:100%;}

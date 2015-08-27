@@ -40,11 +40,13 @@ $label["La fecha de inicio no puede ser mayor que la fecha de fin"] = "La fecha 
 $label["Evento no encontrado"]              = "Evento no encontrado";
 $label["main_menu_color"]                   = "Color menú lateral";
 $label["top_menu_color"]                    = "Color menú superior";
+$label["Ver Evento"]                        = "Ver Evento";
 
 //Seccion de salas
 $label["Salas"]                             = "Salas";
 $label["Editar Sala"]                       = "Editar Sala";
 $label["Crear Sala"]                        = "Crear Sala";
+$label["Ver Sala"]                          = "Ver Sala";
 $label["Sala editada exitosamente"]         = "Sala editada exitosamente.";
 $label["Sala creada exitosamente"]          = "Sala creada exitosamente.";
 $label["Sala borrada exitosamente"]         = "Sala borrada exitosamente.";
@@ -76,6 +78,7 @@ $label["Pregunta editada exitosamente"]     = "Pregunta editada exitosamente.";
 $label["Pregunta borrada exitosamente"]     = "Pregunta borrada exitosamente.";
 $label["No hay preguntas disponibles"]      = "No hay preguntas disponibles.";
 $label["El nombre de expositor proporcionado ya existe"]    = "Disculpe, el nombre del expositor proporcionado ya existe.";
+$label["Ver Pregunta"]                      = "Ver Pregunta";
 
 //Sección sesion
 $label["Sesiones"]                                                          = "Sesiones";
@@ -89,6 +92,8 @@ $label["Sesión no encontrada"]                                              = "
 $label["La hora de inicio y fin proporcionada no pueden ser iguales"]       = "La hora de inicio y fin proporcionada no pueden ser iguales.";
 $label["La hora de inicio debe ser menor a la hora fin"]                    = "La hora de inicio debe ser menor a la hora fin.";
 $label["Disculpe, ya existe una sesión creada para dicha sala, fecha y hora"]   = "Disculpe, ya existe una sesión creada para dicha sala, fecha y hora.";
+$label["Ver Sesión"]                                                        = "Ver Sesión";
+
 //Sección usuarios
 $label["first_name"]                        = "Nombre";
 $label["last_name"]                         = "Apellido";
@@ -106,7 +111,6 @@ $label["Usuario borrado exitosamente"]      = "Usuario borrado exitosamente.";
 $label["Usuario creado exitosamente"]       = "Usuario creado exitosamente.";
 $label["Permisologia"]                      = "Permisología";
 $label["Crear"]                             = "Crear";
-$label["Editar"]                            = "Editar";
 $label["Leer"]                              = "Leer";
 $label["Borrar"]                            = "Borrar";
 $label["El correo ingresado ya existe"]     = "Disculpe, ya existe un usuario con la dirección de correo electrónico proporcionada.";
@@ -114,9 +118,9 @@ $label["Usuario no encontrado"]             = "Usuario no encontrado";
 $label["No hay usuarios disponibles"]       = "No hay usuarios disponibles";
 $label["Usuarios"]                          = "Usuarios";
 
- 
 /*Expositores*/
 $label["Expositores"]                       = "Expositores";
+$label["Expositor"]                         = "Expositor";
 $label["No hay expositores disponibles"]    = "No hay expositores disponibles";
 $label["Expositor creado exitosamente"]     = "Expositor creado exitosamente";
 $label["Expositor editado exitosamente"]    = "Expositor editado exitosamente";
@@ -126,7 +130,8 @@ $label["Crear Expositor"]                   = "Crear Expositor";
 $label["category_id"]                       = "Categoría";
 $label["category"]                          = "Categoría";
 $label["Expositor no encontrado"]           = "Expositor no encontrado";
-
+$label["Ver Expositor"]                     = "Ver Expositor";      
+$label["Empresa"]                           = "Empresa";
 
 /*Speakers */
 $label["Presentadores"]                     = "Speakers";
@@ -140,13 +145,16 @@ $label["Presentador creado exitosamente"]   = "Speaker creado exitosamente";
 $label["Presentador editado exitosamente"]  = "Speaker editado exitosamente";
 $label["Presentador borrado exitosamente"]  = "Speaker borrado exitosamente";
 $label["Presentador no encontrado"]         = "Presentador no encontrado";
+$label["Ver Presentador"]                   = "Ver Speaker";
+$label["Presentador"]                       = "Speaker";
+$label["Nombre"]                            = "Nombre";
+$label["show_in_app"]                       = "Mostrar en la sección de speakers en la aplicación móvil";
 
 /*Evaluaciones */
 $label["Evaluaciones"]                      = "Evaluaciones";
 $label["Ver Resultados"]                    = "Ver Resultados";
 $label["No hay evaluaciones disponibles"]   = "No hay evaluaciones disponibles.";
 $label["Evaluación no encontrada"]          = "Evaluación no encontrada";
-
 
 /* Generales */
 $label["Bienvenido"]                        = "Bienvenido";
@@ -234,4 +242,29 @@ $label["URL"]                                                               = "U
 $label["¿Esta acción es irreversible, está seguro que desea proceder?"]     = "Esta acción es irreversible, ¿Está seguro que desea proceder?";
 $label["resultados"]                                                        = "resultados";
 $label["Resultado de encuestas"]                                            = "Resultados de encuestas";
+
+/* Categorias */
+$label["categorias"]                                                        = "Categorías";
+$label["Categorias"]                                                        = "Categorías";
+$label["No hay categorias disponibles"]                                     = "No hay categorias disponibles";
+$label["Crear categoria"]                                                   = "Crear categoría";
+$label["Editar categoria"]                                                  = "Editar categoría";
+$label["Categoria no encontrada"]                                           = "Categoría no encontrada";
+$label["Ya existe una categoria con este nombre"]                           = "Ya existe una categoría con este nombre";
+$label["Categoria creada exitosamente"]                                     = "Categoría creada exitosamente";
+$label["Categoria editada exitosamente"]                                    = "Categoria editada exitosamente";
+$label["Categoria borrada exitosamente"]                                    = "Categoría borrada exitosamente";
+$label["Ver categoria"]                                                     = "Ver categoría";
+
+
+//Sitios de interes
+$label["sitios de interes"]                                                 = "Sitios de interés";
+$label["Sitios de interes"]                                                 = "Sitios de interés";
+$label["No hay sitios de interes disponibles"]                              = "No hay sitios de interés disponibles";
+$label["Ver sitio de interes"]                                              = "Ver sitio de interés";
+$label["Editar sitio de interes"]                                           = "Editar sitio de interés";
+$label["Crear sitio de interes"]                                            = "Crear sitio de interés";
+$label["Sitio de interes creado exitosamente"]                              = "Sitio de interés creado exitosamente";
+$label["Sitio de interes editado exitosamente"]                             = "Sitio de interés editado exitosamente";
 ?>
+

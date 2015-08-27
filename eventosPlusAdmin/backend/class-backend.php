@@ -83,7 +83,7 @@ class backend extends db{
         if ($all == "1"){
             $cond = " type = 'cliente' AND name != 'salas'";
         }
-        $query = "SELECT * from $this->schema.section WHERE $cond ";
+        $query = "SELECT * from $this->schema.section WHERE $cond ORDER BY priority asc";
         $q     = $this->dbQuery($query);
         $out   = $q;
         if ($q && $typeMenu == "submenu"){
@@ -96,7 +96,7 @@ class backend extends db{
     }
     
     function getSubsections(){
-        $query = "SELECT * from $this->schema.subsection";
+        $query = "SELECT * from $this->schema.subsection ORDER BY priority asc";
         $q     = $this->dbQuery($query);
         $out   = array();
         if ($q){
@@ -156,8 +156,11 @@ class backend extends db{
                         }else $out[$k][$sk] = $sv;
                     } 
                 }
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["2"]["update"] == "1"){
-                    $out[$k]["action"] = "<a href='./manage_client.php?id={$v["client_id"]}'>{$this->label["Editar"]}</a>";
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["2"]["update"] == "1"){
+                    $out[$k]["action"] = "<a class='edit-entry' href='manage_client.php?id={$v["client_id"]}'><img src='./images/edit.png' alt='Editar'/></a>";
+                }
+                else if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["2"]["read"] == "1"){
+                    $out[$k]["action"] = "<a class='read-entry' href='manage_client.php?id={$v["client_id"]}'><img src='./images/read.png' alt='Ver'/></a>";
                 }
             }
         }
@@ -191,7 +194,10 @@ class backend extends db{
                     } 
                 }
                 if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["3"]["update"] == "1"){
-                    $out[$k]["action"] = "<a href='./manage_event.php?id={$v["event_id"]}'>{$this->label["Editar"]}</a>";
+                    $out[$k]["action"] = "<a class='edit-entry' href='./manage_event.php?id={$v["event_id"]}''><img src='./images/edit.png' alt='Editar'/></a>";
+                }
+                else if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["3"]["read"] == "1"){
+                    $out[$k]["action"] = "<a class='read-entry' href='./manage_event.php?id={$v["event_id"]}'><img src='./images/read.png' alt='Ver'/></a>";
                 }
             }
         }
@@ -219,8 +225,11 @@ class backend extends db{
                        $out[$k][$sk] = $sv; 
                     }
                 }
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["9"]["update"] == "1"){
-                    $out[$k]["action"] = "<a href='./manage_question.php?id={$v["question_id"]}'>{$this->label["Editar"]}</a>";
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["9"]["update"] == "1"){
+                    $out[$k]["action"] = "<a class='edit-entry' href='./manage_question.php?id={$v["question_id"]}'><img src='./images/edit.png' alt='Editar'/></a>";
+                }
+                else if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["9"]["read"] == "1"){
+                    $out[$k]["action"] = "<a class='edit-entry' href='./manage_question.php?id={$v["question_id"]}'><img src='./images/read.png' alt='Ver'/></a>";
                 }
             }
         }
@@ -242,13 +251,8 @@ class backend extends db{
     
     /** Seccion rooms **/
     function getRoomList($eventId, $noshow=array(), $all="0"){
-        if ($all == "1"){
-            $query  = "SELECT * from $this->schema.room WHERE event_id ='$eventId' AND active='1' order by room_id asc";
-            $q     = $this->dbQuery($query);
-        }
-        else{
-            $q      = @$this->select("room", "*", "active='1' AND event_id ='$eventId'", "room_id asc", 0, $this->app["perPage"], "");
-        }
+        $query  = "SELECT * from $this->schema.room WHERE event_id ='$eventId' AND active='1' order by room_id asc";
+        $q      = $this->dbQuery($query);
         $out    = "";
         if ($q){
             foreach($q as $k=>$v){
@@ -257,8 +261,10 @@ class backend extends db{
                         $out[$k][$sk] = $sv;
                     } 
                 }
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["4"]["update"] == "1"){
-                    $out[$k]["action"] = "<a href='./manage_room.php?id={$v["room_id"]}'>{$this->label["Editar"]}</a>";
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["4"]["update"] == "1"){
+                    $out[$k]["action"] = "<a class='edit-entry' href='./manage_room.php?id={$v["room_id"]}'><img src='./images/edit.png' alt='Editar'/></a>";
+                }if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["4"]["read"] == "1"){
+                    $out[$k]["action"] = "<a class='read-entry' href='./manage_room.php?id={$v["room_id"]}'><img src='./images/read.png' alt='Ver'/></a>";
                 }
             }
         }
@@ -304,8 +310,10 @@ class backend extends db{
                             $out[$k]["room_id"] = $name;
                         }
                     }
-                    if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["4"]["update"] == "1"){
-                        $out[$k]["action"] = "<a href='./manage_session.php?id={$v["session_id"]}'>{$this->label["Editar"]}</a>";
+                    if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["4"]["update"] == "1"){
+                        $out[$k]["action"] = "<a class='edit-entry' href='./manage_session.php?id={$v["session_id"]}'><img src='./images/edit.png' alt='Editar'/></a>";
+                    }else  if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["4"]["read"] == "1"){
+                        $out[$k]["action"] = "<a class='read-entry' href='./manage_session.php?id={$v["session_id"]}'><img src='./images/read.png' alt='Ver'/></a>";
                     }
                 }
             }   
@@ -352,7 +360,9 @@ class backend extends db{
                 unset( $out[$k]["client_id"]);
                 //Verificar que el usuario puede ver la seccion
                 if ($this->app["typeUser"][$_SESSION["app-user"]["user"]["1"]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["1"]["update"] == "1"){
-                    $out[$k]["action"] = "<a href='./manage_user.php?id={$v["user_id"]}'>{$this->label["Editar"]}</a>";
+                    $out[$k]["action"] = "<a class='edit-entry' href='./manage_user.php?id={$v["user_id"]}'><img src='./images/edit.png' alt='Editar'/></a>";
+                }else if ($this->app["typeUser"][$_SESSION["app-user"]["user"]["1"]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["1"]["read"] == "1"){
+                    $out[$k]["action"] = "<a class='read-entry' href='./manage_user.php?id={$v["user_id"]}'><img src='./images/read.png' alt='Ver'/></a>";
                 }
             }
         }   
@@ -378,24 +388,40 @@ class backend extends db{
         return $q;
     }
     
-    function getSpeakerList($noShow){
-        $q      = @$this->select("speaker", "*", "active = '1'", "speaker_id asc", 0, $this->app["perPage"], "");
+    function getSpeakerList($eventId="", $noShow=array()){
+        $q      = @$this->select("speaker", "*", "active = '1' and event_id='$eventId'", "speaker_id asc", 0, $this->app["perPage"], "");
         $out    = "";
         if ($q){
             foreach($q as $k=>$v){
                  foreach($v as $sk=>$sv){
                     if (!in_array($sk, $noShow)){
                         if ($sk == "image_path"){
-                            $out[$k][$sk] = "<img src='{$sv}' alt='Logo' class='logo-company'/>";
+                            if ($sv != "") $out[$k][$sk] = "<img src='{$sv}' alt='Logo' class='logo-company'/>";
+                            else  $out[$k][$sk] = "";
                         }else $out[$k][$sk] = $sv;
                     } 
                 }
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["8"]["update"] == "1"){
-                    $out[$k]["action"] = "<a href='./manage_speaker.php?id={$v["speaker_id"]}'>{$this->label["Editar"]}</a>";
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["8"]["update"] == "1"){
+                    $out[$k]["action"] = "<a class='edit-entry' href='./manage_speaker.php?id={$v["speaker_id"]}'><img src='./images/edit.png' alt='Editar'/></a>";
+                }else if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["8"]["read"] == "1"){
+                    $out[$k]["action"] = "<a class='read-entry' href='./manage_speaker.php?id={$v["speaker_id"]}'><img src='./images/read.png' alt='Ver'/></a>";
                 }
             }
         }   
         return $out;
+    }
+    
+    function getSpeakers($sessionId){
+        $query = "SELECT * from session_speaker where session_id = '$sessionId' and speaker_id is not null";
+        $q     = $this->dbQuery($query);
+        return $q;
+    }
+    
+        
+    function getExhibitors($sessionId){
+        $query = "SELECT * from session_speaker where session_id = '$sessionId' and exhibitor_id is not null";
+        $q     = $this->dbQuery($query);
+        return $q;
     }
     
       /** Seccion Expositores **/
@@ -416,8 +442,8 @@ class backend extends db{
         return $q;
     }
     
-    function getExhibitorList($noShow){
-        $q      = @$this->select("exhibitor t1 left join category t2 on t1.category_id = t2.category_id", "t2.name as category,t1.* ", "t1.active = '1'", "exhibitor_id asc", 0, $this->app["perPage"], "");
+    function getExhibitorList($eventId="",$noShow=array()){
+        $q      = @$this->select("exhibitor t1 left join category t2 on t1.category_id = t2.category_id", "t2.name as category,t1.* ", "t1.active = '1' and event_id = '$eventId'", "exhibitor_id asc", 0, $this->app["perPage"], "");
         $out    = "";
         if ($q){
             foreach($q as $k=>$v){
@@ -430,18 +456,46 @@ class backend extends db{
                 }
                 if ($out[$k]["category"] == "")  $out[$k]["category"] = "---";
                 unset($out[$k]["category_id"]);
-                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"]["7"]["update"] == "1"){
-                    $out[$k]["action"] = "<a href='./manage_exhibitor.php?id={$v["exhibitor_id"]}'>{$this->label["Editar"]}</a>";
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["7"]["update"] == "1"){
+                    $out[$k]["action"] = "<a class='edit-entry' href='./manage_exhibitor.php?id={$v["exhibitor_id"]}'><img src='./images/edit.png' alt='Editar'/></a>";
+                }else if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["7"]["read"] == "1"){
+                    $out[$k]["action"] = "<a class='read-entry' href='./manage_exhibitor.php?id={$v["exhibitor_id"]}'><img src='./images/read.png' alt='Ver'/></a>";
                 }
             }
         }   
         return $out;
     }
+     
+    function getCategoryList($clientId, $noshow=array()){
+        $query = "SELECT * from $this->schema.category WHERE (client_id ='$clientId') AND active='1' order by category_id asc";
+        $q     = $this->dbQuery($query);
+        $out   = "";
+        if ($q){
+            foreach($q as $k=>$v){
+                foreach($v as $sk=>$sv){
+                    if (!in_array($sk, $noshow)){
+                        $out[$k][$sk] = $sv;
+                    } 
+                }
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["10"]["update"] == "1"){
+                    $out[$k]["action"] = "<a class='edit-entry' href='./manage_category.php?id={$v["category_id"]}'><img src='./images/edit.png' alt='Editar'/></a>";
+                }
+                else if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["10"]["read"] == "1"){
+                    $out[$k]["action"] = "<a class='read-entry' href='./manage_category.php?id={$v["category_id"]}'><img src='./images/read.png' alt='Ver'/></a>";
+                }
+                
+            }
+        }
+        return $out;
+    }
     
-    function getCategoryList(){
-        $query  = "SELECT * from $this->schema.category where active = '1' order by category_id asc" ; 
-        $q      = $this->dbQuery($query);
-        return $q;
+    function existsCategory($name, $id=""){
+        $cond = "";
+        if ($id != "") $cond = "AND category_id != '$id'";
+        $query = "SELECT name from $this->schema.category WHERE name='$name' AND active='1' AND client_id = '{$_SESSION["data"]["cliente"]}' $cond ";
+        $q     = $this->dbQuery($query);
+        if ($q) return true;
+        return false;
     }
     
     function getCategory($id){
@@ -453,10 +507,46 @@ class backend extends db{
         return $q;
     }
     
+     function getSite($id){
+        $query = "SELECT * from $this->schema.site WHERE site_id='$id'";
+        $q     = $this->dbQuery($query);
+        if ($q){
+            return $q[1];
+        }
+        return $q;
+    }
+    
+    function getSitesList($eventId, $noShow=""){
+        $query  = "SELECT * from $this->schema.site WHERE active='1' AND event_id = '$eventId'";
+        $q      = @$this->dbQuery($query);
+        $out    = "";
+        if ($q){
+            foreach($q as $k=>$v){
+                 foreach($v as $sk=>$sv){
+                    if (!in_array($sk, $noShow)){
+                        if ($sk == "image_path"){
+                            $out[$k][$sk] = "<img src='{$sv}' alt='Logo' class='logo-company'/>";
+                        }else $out[$k][$sk] = $sv;
+                    } 
+                }
+                if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["11"]["update"] == "1"){
+                    $out[$k]["action"] = "<a class='edit-entry' href='./manage_site.php?id={$v["site_id"]}'><img src='./images/edit.png' alt='Editar'/></a>";
+                }else if ($this->app["typeUser"][$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || @$_SESSION["app-user"]["permission"]["11"]["read"] == "1"){
+                    $out[$k]["action"] = "<a class='read-entry' href='./manage_site.php?id={$v["site_id"]}'><img src='./images/read.png' alt='Ver'/></a>";
+                }
+            }
+        }   
+        return $out;
+    }
     
     function uploadImage($path, $input,$format_accepted, $size, $width, $height, $square=""){
         $uploadOk["result"] = 1;
         $target_file        = $path;
+        $dir                = explode("/", $target_file);
+        if (count($dir) > 2){
+            $dirPath    =   $dir["0"]."/".$dir["1"];
+            if (!file_exists($dirPath)) mkdir($dirPath);
+        }
         $imageFileType      = pathinfo($target_file,PATHINFO_EXTENSION);
         //Verificar el tamaño
         if ($_FILES[$input]["tmp_name"] != ""){
@@ -628,7 +718,7 @@ class backend extends db{
     }
     
     function deleteRow($table, $condition){
-        $query = "DELETE from $this->schema.$table WHERE $condition";
+        echo $query = "DELETE from $this->schema.$table WHERE $condition";
         return $this->dbQuery($query);
     }
     

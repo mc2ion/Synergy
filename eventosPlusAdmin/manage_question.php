@@ -5,9 +5,9 @@
 */
 include ("./common/common-include.php");
 //Verificar que el usuario tiene  permisos
-$sectionId = "9";
-if ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] == "cliente" && $_SESSION["app-user"]["permission"][$sectionId]["read"] == "0"){ header("Location: ./index.php"); exit();}
+$sectionId = "9"; $read = 0;
 
+$read       = verify_permissions($sectionId, "surveys.php");
 
 //Obtener las columnas a editar/crear
 $columns = $backend->getColumnsTable("survey_question");
@@ -126,7 +126,8 @@ if (isset($_POST["delete"])){
 //Si el parametro id esta definido, estamos editando la entrada
 if (isset($_GET["id"]) && $_GET["id"] > 0 ){
     $id             = $backend->clean($_GET["id"]);
-    $title          = $label["Editar Pregunta"];
+    if ($read)      $title          = $label["Ver Pregunta"];
+    else            $title          = $label["Editar Pregunta"];
     $action         = "edit";
     if (!$error){
         $survey         = $backend->getSurvey($id);
@@ -162,8 +163,9 @@ $clients                        = $backend->getClientList(array(), "1");
             <?php } ?>
             <table class="manage-content">
             <?php foreach ($columns as $k=>$v) {
-                    $mandatory = "";
+                    $mandatory =  $readOnly = "";
                     if (!in_array($v["COLUMN_NAME"],$input["$section"]["manage"]["no-show"])){
+                        if ($read) $readOnly = "disabled";
                         $type  = (isset($input["$section"]["manage"][$v["COLUMN_NAME"]]["type"])) ? $input["$section"]["manage"][$v["COLUMN_NAME"]]["type"] :  "";
                         $value = (isset($survey[$v["COLUMN_NAME"]])) ? $survey[$v["COLUMN_NAME"]] : "";
                         if ($input[$section]["manage"]["mandatory"] == "*") $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";
@@ -177,22 +179,24 @@ $clients                        = $backend->getClientList(array(), "1");
                 <?php   
                         if ($type == ""){ 
                 ?>
-                       <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" />
+                       <input type="text" name="<?= $v["COLUMN_NAME"]?>" value="<?= $value ?>" <?= $readOnly?> />
                  <?php // Tipo File. Se muestra un input file ?>
                  <?php } else if ( $type == "file") { ?>
                         <?php if ($value != "") {?>
                             <img class='manage-image' src='./<?=$value?>'/>
                         <?php } ?>
-                        <input type="file" name="<?= $v["COLUMN_NAME"]?>" />
+                        <?php if (!$read) { ?>
+                            <input type="file" name="<?= $v["COLUMN_NAME"]?>" />
+                        <?php  } ?>
                  <?php // Tipo textarea. Se muestra un textarea ?>
                  <?php } else if ($type == "textarea") { ?>
-                        <textarea name="<?= $v["COLUMN_NAME"]?>"><?=$value?></textarea>
+                        <textarea name="<?= $v["COLUMN_NAME"]?>" <?= $readOnly?> ><?=$value?></textarea>
                  <?php // Tipo date. Se muestra un text pero especial para tener el date picker ?>
                  <?php } else if ($type == "date") { ?>
-                        <input type="text" class="datepicker" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" />
+                        <input type="text" class="datepicker" name="<?= $v["COLUMN_NAME"]?>" value="<?=$value?>" <?= $readOnly?> />
                  <?php // Tipo select. Se muestra un select con sus opciones ?>
                  <?php } else if ($type == "select") { ?>
-                            <select name="<?= $v["COLUMN_NAME"]?>">
+                            <select name="<?= $v["COLUMN_NAME"]?>" <?= $readOnly?> >
                                 <?php foreach ($clients as $sk=>$sv){?>
                                     <option value="<?=$sv["client_id"]?>"><?= $sv["name"]?></option>
                                 <?php }?>
@@ -212,13 +216,16 @@ $clients                        = $backend->getClientList(array(), "1");
             ?>
             <?php //Añadir seccion de opciones  
             $mandatory = "(<img src='images/mandatory.png' class='mandatory'>)";
+            if ($read) $readOnly = "disabled";
             ?>
             <tr>
                 <td colspan="2" class="options-title"><?= $label["Respuestas"]?> <?= $mandatory?></td>
             </tr>
             <tr>
                 <td class="option-td" colspan="2">
-                    <div class="add-opt"><a href="javascript:void(0)"><?= $label["Agregar nueva"]?></a></div>
+                    <?php if (!$read) {?>
+                        <div class="add-opt"><a href="javascript:void(0)"><?= $label["Agregar nueva"]?></a></div>
+                    <?php } ?>
                     <?php foreach ((array)$options as $mk=>$mv){
                         $value      = $mv["optionDesc"];
                         $optId = (isset($mv["option_id"])) ? $mv["option_id"]: "";
@@ -226,9 +233,11 @@ $clients                        = $backend->getClientList(array(), "1");
                         <div class="option">
                             <div class="opt-desc">
                                 <div class="label"><?= $label["Opción"]?> <?=$mandatory?>:</div>
-                                <div class="value"><textarea name="value_option[]"><?= $value?></textarea></div>
+                                <div class="value"><textarea name="value_option[]" <?= $readOnly?> ><?= $value?></textarea></div>
                             </div>
+                            <?php if (!$read) {?>
                             <div class="delete-opt i<?= $mk - 1 ?>"><a href="javascript:void(0)"><?= $label["Eliminar"]?></a></div>
+                            <?php } ?>
                             <div class="hidden"><input type="hidden" name="active[]" value="<?= $optId?>"/></div>
                         </div>
                     <?php } ?>
@@ -242,7 +251,9 @@ $clients                        = $backend->getClientList(array(), "1");
             <tr>
                 <td></td>
                 <td class="action">
+                    <?php if (!$read) { ?>
                     <input type="submit" name="<?= $action?>" value="<?= $label["Guardar"]?>" />
+                    <?php } ?>
                     <?php if ($action == "edit" && ($typeUser[$_SESSION["app-user"]["user"][1]["type"]] != "cliente" || $_SESSION["app-user"]["permission"][$sectionId]["delete"] == "1")){?>
                         <input type="button" class="important dltP" name="delete" value="<?= $label["Borrar"]?>" />
                     <?php } ?>

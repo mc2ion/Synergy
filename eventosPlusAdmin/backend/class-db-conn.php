@@ -20,7 +20,7 @@ class db {
        $this->schema       = $this->dbname;
        $this->dbFullHost   = $this->dbhost.":".$this->port;
 
-        /* $this->dbhost       = 'localhost';     //Cambiar este dato si la bd esta en otro servidor, por el IP correcto
+       /*$this->dbhost       = 'localhost';     //Cambiar este dato si la bd esta en otro servidor, por el IP correcto
        //$this->port         = "3306";
        $this->dbname       = 'eventosplusdb';         //Poner los datos correctos
        $this->dbuser       = 'root';                  //Poner los datos correctos

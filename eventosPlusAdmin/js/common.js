@@ -20,6 +20,18 @@ $( document ).ready(function() {
         event.preventDefault();
         $(".submenu").toggle("fast");
     })*/
+    
+    $(".checkbx :checkbox").click(function() {
+        if ($(this).is(':checked')) {
+            $(".manage-content tr").show();
+        } else {
+            $(".manage-content tr").hide();
+            $(".tr_checkbx").show();
+            $(".tr_name").show();
+            $(".tr_company_name").show();
+            $('.tr_actions').show();
+        }
+    })
 
     //Eliminar dinamicamente una rede social.
     $("body").on('click', '.delete a', function() {
@@ -35,6 +47,34 @@ $( document ).ready(function() {
         $(".delete-org:first").hide();
         $(elem).find("label").remove();
         $(elem).find(".url_organizer").rules("add", { url: true});
+    })
+    
+    //Agregar dinamicamente los speakers de una sesión
+    $(".add-spk a").click(function(event){
+        var elem = $(this).closest(".speakers-td").find('.speaker:first').clone(true).appendTo(".speakers-td");
+        $(elem).find("select").val("");
+        $(elem).find("input").val("");
+        $(".delete-spk").show();
+        $(".delete-spk:first").hide();
+    })
+    
+    //Eliminar dinamicamente un speaker.
+    $("body").on('click', '.delete-spk a', function() {
+        $(this).closest(".speaker").remove();
+    })
+    
+     //Agregar dinamicamente los expositores de una sesión
+    $(".add-exh a").click(function(event){
+        var elem = $(this).closest(".exhibitors-td").find('.exhibitor:first').clone(true).appendTo(".exhibitors-td");
+        $(elem).find("select").val("");
+        $(elem).find("input").val("");
+        $(".delete-exh").show();
+        $(".delete-exh:first").hide();
+    })
+    
+    //Eliminar dinamicamente un speaker.
+    $("body").on('click', '.delete-exh a', function() {
+        $(this).closest(".exhibitor").remove();
     })
     
     //Eliminar dinamicamente un organizador.
@@ -91,6 +131,7 @@ $( document ).ready(function() {
             $('.manage-content tr').hide();
             $('.tr_image_path').show();
             $('.tr_actions').show();
+            $('.tr_company_name').show();
             $('.tr_category_id').show();
         }else{
             $('.manage-content tr').show();            
@@ -134,20 +175,22 @@ $( document ).ready(function() {
     //On click read
      $("input[type='checkbox']").click(function(event){
         if ($(this).is(':checked')){
-           name = $(this).attr("name");
-           id   = name.substring(0,1);
-           if (name.substring(2) == "delete"  ||  name.substring(2) == "create" || name.substring(2) == "update"){
+           name  = $(this).attr("name");
+           index = name.indexOf('_');
+           id    = name.substring(0,index);
+           if (name.substring(index + 1) == "delete"  ||  name.substring(index + 1) == "create" || name.substring(index + 1) == "update"){
                 aux = id + "_read";
                 $("input[name='"+aux+"']").prop('checked', true);
            }
-            if(name.substring(2) == "create"){
+            if(name.substring(index + 1) == "create"){
                aux = id + "_update";
                $("input[name='"+aux+"']").prop('checked', true);
            }
        }else{
-            name = $(this).attr("name");
-            id   = name.substring(0,1);
-            if (name.substring(2) == "read"){
+           name = $(this).attr("name");
+           index = name.indexOf('_');
+           id    = name.substring(0,index);
+           if (name.substring(index + 1) == "read"){
                 aux = id + "_delete";
                 $("input[name='"+aux+"']").prop('checked', false);
                 aux = id + "_create";
@@ -305,12 +348,14 @@ $.datepicker.setDefaults($.datepicker.regional['es']);
 $(function() {
     min =  0;
     max = "";
+    disabled = "";
     if (typeof startDate !== 'undefined') {
         min = startDate;
     }
     if (typeof endDate !== 'undefined') {
         max = endDate;
     }
+    disabled = $(".datepicker").prop('disabled');
     $( ".datepicker" ).datepicker({
       showOn: "both",
       buttonImage: "images/calendar.png",
@@ -318,6 +363,7 @@ $(function() {
       buttonText: "Fecha",
       minDate: min,
       maxDate: max,
+      disabled: disabled,
     });
     $('.timepicker').timepicki(); 
 });
